@@ -4,7 +4,7 @@
         <Layout_header />
 
         <!-- main slot -->
-        <div class="min-vh-100 py-4">
+        <div class="min-vh-100 pb-4">
             <RouterView />
         </div>
 
