@@ -78,7 +78,7 @@ body{
 }
 
 .offcanvas,
-.dropdown-menu,
+/* .dropdown-menu, */
 .card, .table>:not(caption)>*>* {
   background-color: var( --dynamic-bg-component);
 }
