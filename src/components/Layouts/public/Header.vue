@@ -37,13 +37,13 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/">Technology</router-link>
+                        <router-link class="nav-link" to="/technology">Technology</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/">Contact Us</router-link>
+                        <router-link class="nav-link" to="/contact-us">Contact Us</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/">Book a Demo</router-link>
+                        <router-link class="nav-link" to="/book-a-demo">Book a Demo</router-link>
                     </li>
 
 
@@ -86,21 +86,21 @@ onMounted(() => {
 
 // data
 const aboutUsLinks: { name: string, link: string }[] = [
-    { name: 'About Us', link: '/' },
-    { name: 'Who We Are', link: '/' },
-    { name: 'Core Values', link: '/' },
-    { name: 'Mission', link: '/' },
-    { name: 'Why Choose Us', link: '/' },
-    { name: 'Industry', link: '/' },
+    { name: 'About Us', link: '/about-us' },
+    { name: 'Who We Are', link: '/who-we-are' },
+    { name: 'Core Values', link: '/core-values' },
+    { name: 'Mission', link: '/mission' },
+    { name: 'Why Choose Us', link: '/why-choose-us' },
+    { name: 'Industry', link: '/industry' },
 ]
 
 const servicesLinks: { name: string, link: string }[] = [
-    { name: 'Employment Checks', link: '/' },
-    { name: 'Periodic KYC   ', link: '/' },
-    { name: 'Transaction', link: '/' },
-    { name: 'AML Solution', link: '/' },
-    { name: 'BPSS Clearance', link: '/' },
-    { name: 'BS7858 Vetting', link: '/' },
+    { name: 'Employment Checks', link: '/employment-checks' },
+    { name: 'Periodic KYC   ', link: '/periodic-kyc' },
+    { name: 'Transaction', link: '/transaction' },
+    { name: 'AML Solution', link: '/aml-solution' },
+    { name: 'BPSS Clearance', link: 'bpss-clearance' },
+    { name: 'BS7858 Vetting', link: '#' },
 
 ]
 

@@ -74,14 +74,14 @@ const slideItems: { upper: string, header: string, info: string, image: string }
         upper: `Digital Verifications`,
         header: `Background Checking Services`,
         info: `Comprehensive and Exceptional background checks, KYC & AML compliance Solutions`,
-        image: `/images/hero1.png`
+        image: `/images/landing/hero1.png`
     },
 
     {
         upper: `Digital Verifications`,
         header: `Background Checking Services`,
         info: `Comprehensive and Exceptional background checks, KYC & AML compliance Solutions`,
-        image: `/images/hero2.png`
+        image: `/images/landing/hero2.png`
     },
 
 ]

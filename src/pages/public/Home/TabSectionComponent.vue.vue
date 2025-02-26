@@ -48,14 +48,14 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <img src="/images/laptop.png" style="width: 100%;" alt="">
+                        <img src="/images/landing/laptop.png" style="width: 100%;" alt="">
                     </div>
                 </div>
             </div>
             <div class="tab-pane" id="tabTwo" role="tabpanel" aria-labelledby="tabTwo-tab">
                 <div class="row g-3">
                     <div class="col-lg-6">
-                        <img src="/images/laptop.png" style="width: 100%;" alt="">
+                        <img src="/images/landing/laptop.png" style="width: 100%;" alt="">
                     </div>
                     <div class="col-lg-6">
                         BS7858 VETTING
@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <img src="/images/laptop.png" style="width: 100%;" alt="">
+                        <img src="/images/landing/laptop.png" style="width: 100%;" alt="">
                     </div>
                 </div>
             </div>
