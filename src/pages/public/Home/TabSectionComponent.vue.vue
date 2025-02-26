@@ -123,12 +123,13 @@
     color: #111;
     border: none !important;
     font-weight: 500;
+    padding: 15px;
 }
 
 
 .nav-link.active {
     background-color: var(--bs-light);
     color: var(--theme-color) !important;
-    border-bottom: 2px solid var(--theme-color) !important;
+    /* border-bottom: 2px solid var(--theme-color) !important; */
 }
 </style>

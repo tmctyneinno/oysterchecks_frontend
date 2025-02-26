@@ -1,5 +1,5 @@
-import Layout from "@/views/public/Layout/Layout.vue"
-import Home from "@/views/public/Home/Home.vue"
+import Layout from "@/components/Layouts/public/Index.vue"
+import Home from "@/pages/public/Home/Home.vue"
 
 
 export default [
@@ -16,6 +16,6 @@ export default [
         path: '/:pathMatch(.*)*',
         name: '404',
         redirect: '/',
-        // component: () => import(/* webpackChunkName: "public" */ '../views/auth/Login.vue')
+        // component: () => import(/* webpackChunkName: "public" */ '../pages/auth/Login.vue')
     },
 ]

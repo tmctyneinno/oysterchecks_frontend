@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import Layout_menu from './Layout_menu.vue';
+import Layout_menu from './Menu.vue';
 
 
 

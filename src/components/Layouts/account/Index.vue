@@ -15,8 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import Layout_sidebar from './Layout_sidebar.vue';
-import Layout_navbar from './Layout_navbar.vue';
+import Layout_sidebar from './Sidebar.vue';
+import Layout_navbar from './Navbar.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()

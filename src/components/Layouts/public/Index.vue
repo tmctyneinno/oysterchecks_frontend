@@ -15,6 +15,6 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import Layout_Footer from './Layout_Footer.vue';
-import Layout_header from './Layout_header.vue';
+import Layout_Footer from './Footer.vue';
+import Layout_header from './Header.vue';
 </script>

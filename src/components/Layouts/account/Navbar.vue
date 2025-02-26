@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import ThemeToggler from '@/components/themeToggler.vue';
-import Layout_menu from './Layout_menu.vue';
+import Layout_menu from './Menu.vue';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
