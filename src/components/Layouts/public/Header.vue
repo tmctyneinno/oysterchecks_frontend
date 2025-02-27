@@ -5,9 +5,9 @@
                 <img src="/images/logo-white.png" alt="">
             </router-link>
 
-            <button class="navbar-toggler d-lg-none text-white border-0" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button ref="mobileToggler" class="navbar-toggler d-lg-none text-white border-0" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                aria-expanded="false" aria-label="Toggle navigation">
                 <i class=" bi bi-list"></i>
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -15,7 +15,7 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/">Home</router-link>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" :class="{ 'dropdown-closed': forceCloseDropdown }">
                         <a class="nav-link dropdown-toggle" href="#" id="aboutUsId" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">About Us</a>
                         <div class="dropdown-menu animate__animated animate__slideInUp animate__faster"
@@ -26,7 +26,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" :class="{ 'dropdown-closed': forceCloseDropdown }">
                         <a class="nav-link dropdown-toggle" href="#" id="servicesId" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">Services</a>
                         <div class="dropdown-menu animate__animated animate__slideInUp animate__faster"
@@ -64,8 +64,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useWindowSize } from '@vueuse/core'
+
 const headerDropped = ref<boolean>(false)
+const windowSize = useWindowSize()
+
+const route = useRoute()
+const forceCloseDropdown = ref(false);
+const mobileToggler = ref<any>(null)
+watch(() => route.path, () => {
+    // console.log(windowSize.width.value);
+
+    if (windowSize.width.value <= 576) mobileToggler.value?.click()
+
+
+    forceCloseDropdown.value = true;
+    setTimeout(() => {
+        forceCloseDropdown.value = false;
+    }, 300);
+})
 
 const customClass = computed(() => ({
     // 'animate__animated animate__slideInDown animate__faster': headerDropped.value,
@@ -180,6 +199,13 @@ const servicesLinks: { name: string, link: string }[] = [
         display: block;
     }
 }
+
+
+.dropdown-closed .dropdown-menu {
+    display: none !important;
+    /* Force hiding */
+}
+
 
 @media (max-width: 767px) {
     .navbar {

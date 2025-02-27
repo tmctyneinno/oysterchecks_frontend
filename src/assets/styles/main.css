@@ -1,7 +1,7 @@
 @import './base.css';
-@import './customized/easy-data-table.css';
-@import './customized/date_picker.css';
-@import './customized/v-select.css';
+@import './pluginsCustomized/easy-data-table.css';
+@import './pluginsCustomized/date_picker.css';
+@import './pluginsCustomized/v-select.css';
 
 
 
