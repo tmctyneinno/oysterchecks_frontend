@@ -1,9 +1,5 @@
 <template>
     <AboutUsTemplate>
-        <template #title>
-            Who We Are
-        </template>
-
         <template #body>
             <div class="row g-3 ">
                 <div class="col-md-4">

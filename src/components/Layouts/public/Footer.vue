@@ -14,13 +14,13 @@
                     <div class="mt-4">
                         <ul class="list-unstyled">
                             <li>
-                                <router-link to="/">Privacy Policy</router-link>
+                                <router-link to="/terms-of-use">Privacy Policy</router-link>
                             </li>
                             <li>
-                                <router-link to="/">About us</router-link>
+                                <router-link to="/about-us">About us</router-link>
                             </li>
                             <li>
-                                <router-link to="/">FAQ</router-link>
+                                <router-link to="/who-we-are">FAQ</router-link>
                             </li>
 
                         </ul>
@@ -34,13 +34,13 @@
                                 <router-link to="/">Home</router-link>
                             </li>
                             <li>
-                                <router-link to="/">Services</router-link>
+                                <router-link to="/services">Services</router-link>
                             </li>
                             <li>
-                                <router-link to="/">Industry</router-link>
+                                <router-link to="/industry">Industry</router-link>
                             </li>
                             <li>
-                                <router-link to="/">KYC</router-link>
+                                <router-link to="/periodic-kyc">KYC</router-link>
                             </li>
 
                         </ul>

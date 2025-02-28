@@ -1,9 +1,5 @@
 <template>
     <AboutUsTemplate>
-        <template #title>
-            Why Choose Us
-        </template>
-
         <template #body>
             <h1 class="text-center fw-600">
                 Why Choose Us

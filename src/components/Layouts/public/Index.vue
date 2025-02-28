@@ -1,14 +1,11 @@
 <template>
     <div>
-        <!-- header -->
         <Layout_header />
 
-        <!-- main slot -->
-        <div class="min-vh-100 pb-4">
+        <div class="min-vh-100" style="padding-bottom: 130px;">
             <RouterView />
         </div>
 
-        <!-- footer -->
         <Layout_Footer />
     </div>
 </template>
