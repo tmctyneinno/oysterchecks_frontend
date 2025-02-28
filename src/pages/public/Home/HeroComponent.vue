@@ -1,5 +1,5 @@
 <template>
-    <div class="min-vh-100 theme-bg hero">
+    <div class="min-vh-100 bg-theme hero">
         <Carousel v-bind="carouselConfig">
             <Slide v-for="({ upper, header, info, image }, index) in slideItems" :key="index">
                 <div class="container">
@@ -10,7 +10,7 @@
                             <div class="text-white">
                                 {{ info }}
                             </div>
-                            <button class="btn btn-light mt-3 rounded-4 py-2 theme-color hover-tiltX">
+                            <button class="btn btn-light mt-3 rounded-4 py-2 text-theme hover-tiltX">
                                 Get Started now!
                             </button>
                         </div>

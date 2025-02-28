@@ -50,7 +50,7 @@
 
                 </ul>
                 <div class="d-flex my-2 my-lg-0 gap-3">
-                    <button class="btn btn-light theme-color hover-tiltX">Register</button>
+                    <button class="btn btn-light text-theme hover-tiltX">Register</button>
                     <button class="btn btn-outline-light hover-tiltX">Login</button>
                     <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                         Search

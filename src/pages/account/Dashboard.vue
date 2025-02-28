@@ -17,7 +17,7 @@
       <div class="card h-100 animate__animated animate__slideInUp">
         <div class="card-header bg-transparent fw-bold border-0 py-3">
           Table
-          <button class="btn btn-sm btn-custom float-end hover-tiltY">
+          <button class="btn btn-sm btn-theme float-end hover-tiltY">
             Action
           </button>
         </div>

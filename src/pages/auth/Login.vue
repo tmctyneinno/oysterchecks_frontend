@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="col-12 mt-4">
-                      <router-link class="btn btn-custom btn-lg w-100 shadow" to="/account/dashboard">
+                      <router-link class="btn btn-theme btn-lg w-100 shadow" to="/account/dashboard">
                         LOGIN
                       </router-link>
                     </div>

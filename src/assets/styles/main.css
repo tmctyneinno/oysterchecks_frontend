@@ -92,22 +92,22 @@ body{
   color: var(--dynamic-color) !important;
 }
 
-.theme-color{
+.text-theme{
   color: var(--theme-color);
 }
 
-.theme-bg{
+.bg-theme{
   background-color: var(--theme-color);
 }
 
 
-.btn-custom {
+.btn-theme {
   background-color: var( --button-color);
   color: var(--vt-c-white) !important;
   border: none !important;
 }
 
-.btn-custom:hover {
+.btn-theme:hover {
   background-color: var(--theme-color);
 }
 
