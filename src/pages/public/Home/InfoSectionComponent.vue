@@ -12,7 +12,7 @@
 
         <div class="mt-5">
             <div class="row g-3">
-                <div v-for="({ title, info, link }, index) in screeningCards" :key="index" class="col-md-4">
+                <div v-for="({ title, info, link }, index) in screeningCards" :key="index" class="col-md-4" data-aos="zoom-out">
                     <div class="card h-100 shadow-sm" style="border-color: var(--theme-color);">
                         <div class="card-header fw-bolder bg-transparent border-0 ">
                             {{ title }}
@@ -34,6 +34,13 @@
 </template>
 
 <script setup lang="ts">
+// @ts-ignore
+import AOS from "aos";
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    AOS.init();
+})
 
 const screeningCards: { title: string, info: string, link?: string }[] = [
     { title: `PER Screening`, info: `Access our comprehensive data sets, which have been compiled from over 20,000 government sources, allow`, link: `/` },

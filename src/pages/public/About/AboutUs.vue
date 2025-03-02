@@ -9,7 +9,7 @@
                 as much influenced by the former as the latter.
             </div>
             <div class="row g-3 mt-5">
-                <div v-for="({ topic, text, icon }, key) in displayInfo" :key class="col-md-4">
+                <div v-for="({ topic, text, icon }, key) in displayInfo" :key class="col-md-4" data-aos="fade-up">
                     <h5 class="fw-bold">
                         <img :src="icon" alt="">
                         {{ topic }}
@@ -24,6 +24,13 @@
 
 <script setup lang="ts">
 import AboutUsTemplate from '@/components/Layouts/public/aboutUsTemplate.vue';
+// @ts-ignore
+import AOS from "aos";
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    AOS.init();
+})
 
 
 const displayInfo: { icon: string, topic: string, text: string }[] = [

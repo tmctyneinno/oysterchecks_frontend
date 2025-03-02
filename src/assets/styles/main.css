@@ -101,7 +101,7 @@ body{
 }
 
 
-.btn-theme {
+.btn-theme, .btn-theme:disabled {
   background-color: var( --button-color);
   color: var(--vt-c-white) !important;
   border: none !important;

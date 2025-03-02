@@ -1,5 +1,5 @@
 <template>
-    <section class="container mt-5 py-5">
+    <section class="container mt-5 py-5" data-aos="fade-up">
         <ul class="nav nav-tabs justify-content-center border-0" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="tabOne-tab" data-bs-toggle="tab" data-bs-target="#tabOne"
@@ -118,6 +118,18 @@
 
 
 </template>
+
+<script setup lang="ts">
+
+// @ts-ignore
+import AOS from "aos";
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    AOS.init();
+})
+</script>
+
 <style scoped>
 .nav-link {
     color: #111;
