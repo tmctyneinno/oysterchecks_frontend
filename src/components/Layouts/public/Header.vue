@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-sm sticky-top" :class="customClass">
+    <nav class="navbar navbar-expand-lg sticky-top" :class="customClass">
         <div class="container">
             <router-link class="navbar-brand" to="/">
                 <img src="/images/logo-white.png" alt="">
