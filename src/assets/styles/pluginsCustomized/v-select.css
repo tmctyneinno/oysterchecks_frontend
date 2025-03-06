@@ -1,5 +1,5 @@
 :root {
-  --vs-controls-color: var(--dynamic-color);
+  --vs-controls-color: var(--vt-c-white);
   --vs-border-color: var(--bs-border-color);
 
   --vs-dropdown-bg: var(--dynamic-bg-component);
@@ -7,7 +7,7 @@
   --vs-dropdown-option-color:var(--dynamic-color);
 
   --vs-selected-bg: var(--theme-color);
-  --vs-selected-color: var(--dynamic-color);
+  --vs-selected-color: var(--vt-c-white);
 
   --vs-search-input-color: var(--dynamic-color);
 
