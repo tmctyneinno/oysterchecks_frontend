@@ -166,8 +166,6 @@ const firstCards: { topic: string, text: string, hasReadMore?: boolean }[] = [
 
 
 
-
-
 const pricings: { name: string, price: string, list: string[], per: string, desc: string, buttonText: string }[] = [
     {
         name: 'BS7858 Vetting',

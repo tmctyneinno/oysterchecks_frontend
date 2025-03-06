@@ -1,11 +1,15 @@
 .dp__range_end,
 .dp__range_start,
-.dp__active_date,
-.dp__pm_am_button,
-.dp__action_select {
+.dp__active_date {
   background: var(--theme-color) !important;
   color: var(--dynamic-color) !important;
   border: none !important;
+}
+
+.dp__pm_am_button,
+.dp__action_select{
+  background: var(--theme-color) !important;
+  color: #fff !important;
 }
 
 .dp__overlay_cell_active {
@@ -59,16 +63,19 @@
 }
 
 .dp__range_between{
-  background-color: var(--theme-color) !important;
+  background-color: var(--bs-secondary-bg-subtle) !important;
+  /* border: none !important; */
   border-color: var(--bs-border-color) !important;
 }
 
 .dp__date_hover:hover{
   background-color: var(--theme-color) !important;
+  color: #fff !important;
 }
 
 .dp__btn:hover{
   background-color: var(--theme-color) !important;
+  color: #fff !important;
 }
 
 .dp__menu, .dp--preset-dates{
@@ -77,5 +84,9 @@
 
 .dp__calendar_header_separator{
 background: var(--bs-border-color) !important;
+}
+
+.dp__button_bottom{
+display: none !important;
 }
 

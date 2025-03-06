@@ -69,6 +69,16 @@ button:focus,
  
 }
 
+.form-check-input:checked {
+  background-color: var(--theme-color) !important;
+  border-color:  var(--theme-color);
+}
+
+.form-check-input[type=checkbox] {
+  width: 20px !important;
+  height: 20px !important;
+}
+
 .cursor-pointer{
     cursor: pointer;
 }

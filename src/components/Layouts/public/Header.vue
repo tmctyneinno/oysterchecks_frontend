@@ -50,8 +50,8 @@
 
                 </ul>
                 <div class="d-flex my-2 my-lg-0 gap-3">
-                    <button class="btn btn-light text-theme hover-tiltX">Register</button>
-                    <button class="btn btn-outline-light hover-tiltX">Login</button>
+                    <router-link to="/register" class="btn btn-light text-theme hover-tiltX">Register</router-link>
+                    <router-link to="login" class="btn btn-outline-light hover-tiltX">Login</router-link>
                     <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                         Search
                     </button> -->
