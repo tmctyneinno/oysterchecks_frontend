@@ -3,8 +3,6 @@
 @import './pluginsCustomized/date_picker.css';
 @import './pluginsCustomized/v-select.css';
 
-
-
 [data-bs-theme="dark"] {
   --dynamic-bg: var(--dark-mode-bg);
   --dynamic-bg-component: var(--dark-mode-component);
@@ -83,15 +81,14 @@ button:focus,
     cursor: pointer;
 }
 
-body{
+/* body{
   background-color: var( --dynamic-bg);
-}
+} */
 
-.offcanvas,
-/* .dropdown-menu, */
+/* .offcanvas,
 .card, .table>:not(caption)>*>* {
   background-color: var( --dynamic-bg-component);
-}
+} */
 
 .min-vh-50{
   min-height: 50vh;

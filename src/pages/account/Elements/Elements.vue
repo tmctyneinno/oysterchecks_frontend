@@ -21,6 +21,9 @@
         <div class="col-lg-8 animate__animated animate__fadeIn">
             <Element_inputOTP />
         </div>
+        <div class="col-lg-8 animate__animated animate__fadeIn">
+            <Element_dataTable />
+        </div>
 
 
     </div>
@@ -35,5 +38,7 @@ import Element_selectMultiple from './Element_selectMultiple.vue';
 
 import Element_inputDigits from './Element_inputDigits.vue';
 import Element_inputOTP from './Element_inputOTP.vue';
+
+import Element_dataTable from './Element_dataTable.vue';
 
 </script>

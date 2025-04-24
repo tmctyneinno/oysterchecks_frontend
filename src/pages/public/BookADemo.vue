@@ -112,13 +112,13 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <div class="d-md-flex align-items-md-center">
-                                        <div class="col-md-3">
-                                            <button class="btn btn-theme" disabled>
+                                    <div class="d-md-flex gap-3 align-items-md-center">
+                                        <div class="col">
+                                            <button class="btn btn-theme text-nowrap" disabled>
                                                 Book A Demo
                                             </button>
                                         </div>
-                                        <span>
+                                        <span class="small">
                                             By submitting this form, you agree to our Terms of Use and Privacy Policy
                                         </span>
                                     </div>

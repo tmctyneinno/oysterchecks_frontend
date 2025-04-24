@@ -11,10 +11,14 @@
   --button-color: #233c76;
   /* --theme-color: #95855E;  */
   --theme-color: #162e66; 
+  --theme-color-thick: #0E2554; 
   /* #162e66 */
   --dark-mode-bg: #131f40;
   --dark-mode-component: #1d2a4c;
   --dark-mode-bg-lighter: #263154;
+
+  --navbar-height : 60px;
+  --admin-bg: #EAF0F9
 }
 
 
@@ -60,4 +64,8 @@ font-weight: 700;
 
 .fw-800 {
 font-weight: 800;
+}
+
+.xsmall{
+  font-size: 11px;
 }

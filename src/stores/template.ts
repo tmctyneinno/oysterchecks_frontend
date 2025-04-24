@@ -12,21 +12,47 @@ export const useTemplateStore = defineStore('template', () => {
 
 
   // Data
-  const sidebarmenu = reactive([
-    { title: "Dashboard", icon: "<i class='bi bi-columns-gap'></i>", link: "/account/dashboard" },
-    { title: "Tables", icon: " <i class='bi bi-table'></i>", link: "/account/tables" },
-    { title: "Charts", icon: "<i class='bi bi-graph-up'></i>", link: "/account/charts" },
-    { title: "Elements", icon: "<i class='bi bi-diagram-2-fill'></i>", link: "/account/elements" },
-    { title: "Blank Page", icon: "<i class='bi bi-file-earmark'></i>", link: "/account/blank-page" },
+  const sidebarmenu = reactive<{ heading?: string, menu: { title: string, icon: string, link?: string, children?: any[] }[] }[]>([
     {
-      title: "Dropdown",
-      icon: " <i class='bi bi-bar-chart-fill'></i>",
-      children: [
-        { title: "Dropdown Link1", link: "/account/dropdown1" },
-        { title: "Dropdown Link2", link: "/account/dropdown2" },
-        { title: "Dropdown Link3", link: "/account/dropdown3" }
+      heading: 'MAIN',
+      menu: [
+        { title: "Dashboard", icon: "<i class='bi bi-house-fill'></i>", link: "/account/dashboard" },
+        { title: "Clients", icon: " <i class='bi bi-person-fill'></i>", link: "/account/tables" },
+        { title: "Checks", icon: "<i class='bi bi-check-lg'></i>", link: "/account/charts" },
+        { title: "Tools", icon: "<i class='bi bi-tools'></i>", link: "/account/elements" },
       ]
     },
+
+    {
+      heading: 'ADMINISTRATIVE TASK',
+      menu: [
+        { title: "Audit Report", icon: "<i class='bi bi-columns-gap'></i>", link: "/" },
+
+      ]
+    },
+
+    {
+      heading: 'HELP AND SETTINGS',
+      menu: [
+        { title: "Help & Support", icon: "<i class='bi bi-question-circle'></i>", link: "/" },
+        { title: "Settings", icon: "<i class='bi bi-gear-fill'></i>", link: "/" },
+
+      ]
+    },
+    // {
+    //   heading: 'other',
+    //   menu: [
+    //     {
+    //       title: "Dropdown",
+    //       icon: " <i class='bi bi-bar-chart-fill'></i>",
+    //       children: [
+    //         { title: "Dropdown Link1", link: "/account/dropdown1" },
+    //         { title: "Dropdown Link2", link: "/account/dropdown2" },
+    //         { title: "Dropdown Link3", link: "/account/dropdown3" }
+    //       ]
+    //     },
+    //   ]
+    // }
   ]);
 
 

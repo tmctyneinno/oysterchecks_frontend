@@ -7,12 +7,12 @@
           aria-controls="offcanvasExample">
           <i class="bi bi-text-left"></i>
         </a>
-        OYSTERCHECK
+        <img src="/images/logo.png" width="150" alt="">
       </span>
       <div class="d-flex">
-        <span class="mx-4 d-none d-md-inline">
+        <!-- <span class="mx-4 d-none d-md-inline">
           <ThemeToggler />
-        </span>
+        </span> -->
 
         <span class="account-icon dropdown-toggl cursor-pointer me-lg-5" id="triggerId" data-bs-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false"></span>
@@ -62,13 +62,13 @@ watch(() => route.path, () => {
 
 <style scoped>
 .navbar {
-  /* margin-left: 250px; */
-  z-index: 1000;
-  background-color: var(--navbar-bg) !important;
+  height: var(--navbar-height);
+  background-color: var(--vt-c-white) !important;
 }
 
 .offcanvas {
   width: 250px;
+  background-color: var(--theme-color-thick);
 }
 
 

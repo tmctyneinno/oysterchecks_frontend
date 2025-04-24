@@ -27,6 +27,7 @@ const route = useRoute()
 .content-div {
   margin-left: 250px;
   overflow: hidden !important;
+  background-color: var(--admin-bg);
 }
 
 
