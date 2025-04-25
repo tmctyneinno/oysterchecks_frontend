@@ -17,16 +17,16 @@ export const useTemplateStore = defineStore('template', () => {
       heading: 'MAIN',
       menu: [
         { title: "Dashboard", icon: "<i class='bi bi-house-fill'></i>", link: "/account/dashboard" },
-        { title: "Clients", icon: " <i class='bi bi-person-fill'></i>", link: "/account/tables" },
-        { title: "Checks", icon: "<i class='bi bi-check-lg'></i>", link: "/account/charts" },
-        { title: "Tools", icon: "<i class='bi bi-tools'></i>", link: "/account/elements" },
+        { title: "Clients", icon: " <i class='bi bi-person-fill'></i>", link: "/account/clients" },
+        { title: "Checks", icon: "<i class='bi bi-check-lg'></i>", link: "/account/checks" },
+        { title: "Tools", icon: "<i class='bi bi-tools'></i>", link: "/account/tools" },
       ]
     },
 
     {
       heading: 'ADMINISTRATIVE TASK',
       menu: [
-        { title: "Audit Report", icon: "<i class='bi bi-columns-gap'></i>", link: "/" },
+        { title: "Audit Report", icon: "<i class='bi bi-columns-gap'></i>", link: "/account/audit-report" },
 
       ]
     },
@@ -34,8 +34,8 @@ export const useTemplateStore = defineStore('template', () => {
     {
       heading: 'HELP AND SETTINGS',
       menu: [
-        { title: "Help & Support", icon: "<i class='bi bi-question-circle'></i>", link: "/" },
-        { title: "Settings", icon: "<i class='bi bi-gear-fill'></i>", link: "/" },
+        { title: "Help & Support", icon: "<i class='bi bi-question-circle'></i>", link: "/account/help-and-support" },
+        { title: "Settings", icon: "<i class='bi bi-gear-fill'></i>", link: "/account/settings" },
 
       ]
     },

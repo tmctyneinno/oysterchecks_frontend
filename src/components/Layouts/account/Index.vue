@@ -3,8 +3,8 @@
   <Layout_navbar />
   <Layout_sidebar />
 
-  <div class="content-div">
-    <div class="container py-3 px-lg-4">
+  <div class="content-div py-4">
+    <div class="container px-lg-4">
       <div class="fw-bold text-muted mt-2">{{ route.meta.name }}</div>
       <div class="mt-5 ">
         <RouterView />
@@ -28,6 +28,8 @@ const route = useRoute()
   margin-left: 250px;
   overflow: hidden !important;
   background-color: var(--admin-bg);
+  min-height: 100vh;
+  /* padding-bottom: 100px; */
 }
 
 
