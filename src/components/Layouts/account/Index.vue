@@ -3,10 +3,9 @@
   <Layout_navbar />
   <Layout_sidebar />
 
-  <div class="content-div py-4">
+  <div class="content-div pb-4">
     <div class="container px-lg-4">
-      <div class="fw-bold text-muted mt-2">{{ route.meta.name }}</div>
-      <div class="mt-5 ">
+      <div class="mt-4 ">
         <RouterView />
       </div>
     </div>
@@ -17,9 +16,6 @@
 <script setup lang="ts">
 import Layout_sidebar from './Sidebar.vue';
 import Layout_navbar from './Navbar.vue';
-import { useRoute } from 'vue-router';
-
-const route = useRoute()
 
 </script>
 

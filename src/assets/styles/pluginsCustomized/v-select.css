@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --vs-controls-color: var(--vt-c-white);
   --vs-border-color: var(--bs-border-color);
 
@@ -13,7 +13,7 @@
 
   --vs-dropdown-option--active-bg: var(--theme-color);
   --vs-dropdown-option--active-color: #eeeeee;
-}
+} */
 
 
 .vs__search {

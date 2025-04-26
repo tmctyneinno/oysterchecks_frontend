@@ -59,6 +59,9 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+import redAsteric from './components/redAsteric.vue';
+import ImageCircle from './components/ImageCircle.vue';
+
 const app = createApp(App)
 
 app.component('VueDatePicker', VueDatePicker);
@@ -66,6 +69,8 @@ app.component('vSelect', vSelect);
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.component('v-otp-input', VOtpInput)
 app.component('QuillEditor', QuillEditor)
+app.component('redAsteric', redAsteric)
+app.component('ImageCircle', ImageCircle)
 
 app.use(createPinia())
 app.use(VueApexCharts);

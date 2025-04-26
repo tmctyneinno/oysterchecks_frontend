@@ -7,7 +7,8 @@
           aria-controls="offcanvasExample">
           <i class="bi bi-text-left"></i>
         </a>
-        <img src="/images/logo.png" width="150" alt="">
+        <img class="d-none d-md-inline" src="/images/logo.png" width="150" alt="">
+        <span class="route-name small text-muted">{{ route.meta.name ?? '' }}</span>
       </span>
       <div class="d-flex">
         <!-- <span class="mx-4 d-none d-md-inline">
@@ -71,11 +72,20 @@ watch(() => route.path, () => {
   background-color: var(--theme-color-thick);
 }
 
+.route-name {
+  margin-left: 100px;
+}
+
 
 @media (max-width: 767px) {
   .navbar {
     margin-left: 0px;
   }
+
+  .route-name {
+    margin-left: 10px;
+  }
+
 
 }
 

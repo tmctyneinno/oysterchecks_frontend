@@ -50,9 +50,9 @@
 
 
 
-input,select,textarea{
+/* input,select,textarea{
     background-color: transparent !important;
-}
+} */
 
 
 input:focus,
@@ -112,6 +112,7 @@ button:focus,
   background-color: var( --button-color);
   color: var(--vt-c-white) !important;
   border: none !important;
+  border-radius: 17px;
 }
 
 .btn-theme-outline, .btn-theme-outline:disabled {
