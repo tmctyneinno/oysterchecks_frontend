@@ -1,12 +1,12 @@
 <template>
-    <div class=" d-none d-md-block small ps-3 pt-2">
+    <div class=" d-none d-md-block small ps-1 pt-2">
         <section v-for="({ title, group }) in sections" :key="group" class="mb-3">
             <div class="text-muted">{{ title }}</div>
             <ul class="list-group list-group-flush">
                 <li v-for="({ id, text }) in clientsStore.clientsTabByGroup(group)" :key="id"
-                    @click="clientsDetails.tabShowing = id"
+                    @click="clientsDetailsMenu.tabShowing = id"
                     class="list-group-item border-0 cursor-pointer hover-tiltX pb-0 fw-400"
-                    :class="{ 'active-tab': clientsDetails.tabShowing === id }">
+                    :class="{ 'active-tab': clientsDetailsMenu.tabShowing === id }">
                     {{ text }}
                 </li>
             </ul>
@@ -14,8 +14,8 @@
     </div>
 
     <div class="d-md-none">
-        <select class="form-select form-select-lg" v-model="clientsDetails.tabShowing">
-            <option v-for="menu in clientsDetails.tabsList" :value="menu.id">
+        <select class="form-select form-select-lg" v-model="clientsDetailsMenu.tabShowing">
+            <option v-for="menu in clientsDetailsMenu.tabs" :value="menu.id">
                 {{ menu.text }}
             </option>
         </select>
@@ -35,7 +35,7 @@ const sections: { title: string, group: 'info' | 'due' | 'activity' }[] = [
 ]
 
 const clientsStore = useClientsStore()
-const { clientsDetails } = storeToRefs(clientsStore)
+const { clientsDetailsMenu } = storeToRefs(clientsStore)
 
 </script>
 

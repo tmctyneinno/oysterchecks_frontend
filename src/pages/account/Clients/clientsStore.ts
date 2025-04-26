@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
+import sample_data from '@/stores/sample_data.json'
 
 export const useClientsStore = defineStore('adminClientsStore', () => {
 
     // interfaces
-    interface clientsDetailsInterface {
-        current: any;
-        tabsList: {
+    interface clientsDetailsMenuInterface {
+        tabs: {
             id: number;
             group: string;
             text: string;
@@ -16,9 +16,10 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
 
     const toggleAddModal = ref<boolean>(false)
 
-    const clientsDetails = reactive<clientsDetailsInterface>({
-        current: null,
-        tabsList: [
+    const clientDetails = ref<any>(null)
+
+    const clientsDetailsMenu = reactive<clientsDetailsMenuInterface>({
+        tabs: [
             { id: 1, group: 'info', text: 'General' },
             { id: 2, group: 'info', text: 'Addresses' },
             { id: 3, group: 'due', text: 'Checks' },
@@ -26,11 +27,10 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
             { id: 5, group: 'activity', text: 'Audit Log' },
         ],
         tabShowing: 1,
-
     })
 
     const clientsTabByGroup = (group: 'info' | 'due' | 'activity') => {
-        return clientsDetails.tabsList.filter((x: { group: string }) => x.group == group)
+        return clientsDetailsMenu.tabs.filter((x: { group: string }) => x.group == group)
     }
 
     const riskShader = (risk: string) => {
@@ -46,9 +46,10 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
 
 
     return {
-        clientsDetails,
-        clientsTabByGroup,
+        clientsDetailsMenu,
+        clientDetails,
         toggleAddModal,
-        riskShader
+        clientsTabByGroup,
+        riskShader,
     }
 })

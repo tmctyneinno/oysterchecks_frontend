@@ -32,7 +32,7 @@
 
                             <template #item-name="item">
 
-                                <button @click="viewClient(item.id)"
+                                <button @click="viewClient(item.id, item.name)"
                                     class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-decoration-non">{{
                                         item.name
                                     }}</button>
@@ -106,15 +106,12 @@ function openAddClientsStore() {
     clientsStore.toggleAddModal = !clientsStore.toggleAddModal
 }
 
-function viewClient(id: string) {
-    const client = sampleData.Clients.find((x: { id: string }) => x.id == id)
-    clientsStore.clientsDetails.current = client
+function viewClient(id: string, name: string) {
     router.push({
         path: '',
         query: {
-            refId: client?.id,
-            client: client?.name,
-            email: client?.email,
+            refId: id,
+            client: name,
             tme: new Date().getTime()
         }
     })

@@ -8,15 +8,15 @@
             <div class="card rounded-4 border-0">
                 <div class="card-body">
                     <div class="row g-3">
-                        <div class="col-md-7 d-flex justify-content-start align-items-center gap-3">
+                        <div class="col-lg-7 d-flex justify-content-start align-items-center gap-3">
                             <ImageCircle :url="'/images/avatar.png'" height="50px" />
                             <div>
                                 <div class="fw-600">{{ route.query?.client }} </div>
                                 <div class="small text-muted">{{ route.query?.email }}</div>
                             </div>
                         </div>
-                        <div class="col-md-5 d-lg-flex justify-content-end align-items-center gap-3">
-                            <button class="my-2 my-md-0 btn btn-outline-danger  rounded-4  ">
+                        <div class="col-lg-5 d-lg-flex justify-content-end align-items-center gap-3">
+                            <button class="my-2 me-2 my-lg-0 me-lg-0 btn btn-outline-danger  rounded-4  ">
                                 Delete Client
                             </button>
                             <button class="btn btn-outline-dark rounded-4">
@@ -28,36 +28,54 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card h-100 border-0 rounded-4">
                 <div class="card-body">
-                    <ClientsDetailsMenu />
+                    <menuComponent />
                 </div>
             </div>
         </div>
 
-        <div class="col-md-8">
-            <div class="card h-100 border-0 rounded-4">
-                <div class="card-body">
-
-                </div>
-            </div>
+        <div class="col-md-9">
+            <component :is="contentToShow?.component" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute, type LocationQueryValue } from 'vue-router';
 import { useClientsStore } from './clientsStore';
-import ClientsDetailsMenu from './ClientsDetailsMenu.vue';
-
+import menuComponent from './menuComponent.vue';
+import { defineAsyncComponent, ref, onMounted, computed } from 'vue';
+import sample_data from '@/stores/sample_data.json'
 
 const clientsStore = useClientsStore()
 
-
-
 const router = useRouter()
 const route = useRoute()
+
+onMounted(() => {
+    clientsStore.clientDetails = sample_data.Clients.find((x: { id: LocationQueryValue | LocationQueryValue[]; }) => x.id == route.query.refId)
+})
+
+
+
+const General = defineAsyncComponent(() => import('./menuContents/General.vue'));
+const Addresses = defineAsyncComponent(() => import('./menuContents/Addresses.vue'));
+const Checks = defineAsyncComponent(() => import('./menuContents/Checks.vue'));
+const AML_Risk = defineAsyncComponent(() => import('./menuContents/AML_Risk.vue'));
+const Audit_Log = defineAsyncComponent(() => import('./menuContents/Audit_Log.vue'));
+
+const contentToShow = computed(() => {
+    const contents: { tab: number, component: ReturnType<typeof defineAsyncComponent> }[] = [
+        { tab: 1, component: General },
+        { tab: 2, component: Addresses },
+        { tab: 3, component: Checks },
+        { tab: 4, component: AML_Risk },
+        { tab: 5, component: Audit_Log },
+    ]
+    return contents.find((x: { tab: number }) => x.tab == clientsStore.clientsDetailsMenu.tabShowing);
+})
 </script>
 
 <style scoped>
