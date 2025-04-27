@@ -21,7 +21,31 @@
   {"id":"19","name": "Courtney Henry", "email": "courtney.h@mail.net", "risk": "2", "created_at": "2025-02-28"},
   {"id":"20","name": "Bessie Cooper", "email": "bessiec@mail.org", "risk": "3", "created_at": "2025-04-15"},
   {"id":"21","name": "Guy Hawkins", "email": "guyh@mail.com", "risk": "1", "created_at": "2025-04-20"}
+],
+
+"ClientAddresses": [
+  {"id":"1","country":"United Kingdom","state":"Greater London","city":"Manchester","type":"Main"},
+  {"id":"2","country":"United States","state":"California","city":"Los Angeles","type":"Alternative"},
+  {"id":"3","country":"Australia","state":"New South Wales","city":"Sydney","type":"Others"},
+  {"id":"4","country":"Canada","state":"Ontario","city":"Toronto","type":"Main"},
+  {"id":"5","country":"Germany","state":"Bavaria","city":"Munich","type":"Alternative"},
+  {"id":"6","country":"France","state":"Île-de-France","city":"Paris","type":"Others"},
+  {"id":"7","country":"Japan","state":"Tokyo","city":"Shinjuku","type":"Main"},
+  {"id":"8","country":"Spain","state":"Catalonia","city":"Barcelona","type":"Alternative"},
+  {"id":"9","country":"Italy","state":"Lombardy","city":"Milan","type":"Others"},
+  {"id":"10","country":"United Kingdom","state":"Scotland","city":"Glasgow","type":"Main"},
+  {"id":"11","country":"United States","state":"Texas","city":"Houston","type":"Alternative"},
+  {"id":"12","country":"Australia","state":"Victoria","city":"Melbourne","type":"Others"},
+  {"id":"13","country":"Canada","state":"British Columbia","city":"Vancouver","type":"Main"},
+  {"id":"14","country":"Germany","state":"Berlin","city":"Berlin","type":"Alternative"},
+  {"id":"15","country":"France","state":"Provence-Alpes-Côte d'Azur","city":"Nice","type":"Others"},
+  {"id":"16","country":"Japan","state":"Osaka","city":"Osaka","type":"Main"},
+  {"id":"17","country":"Spain","state":"Madrid","city":"Madrid","type":"Alternative"},
+  {"id":"18","country":"Italy","state":"Lazio","city":"Rome","type":"Others"},
+  {"id":"19","country":"United Kingdom","state":"Wales","city":"Cardiff","type":"Main"},
+  {"id":"20","country":"United States","state":"Florida","city":"Miami","type":"Others"}
 ]
+
 
 
 }
