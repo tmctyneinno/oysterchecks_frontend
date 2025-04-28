@@ -1,5 +1,8 @@
 <template>
-    <div>
-        {{ $route.name }}
-    </div>
+    <Clients />
 </template>
+
+<script setup lang="ts">
+import Clients from '../Clients/Clients.vue';
+
+</script>

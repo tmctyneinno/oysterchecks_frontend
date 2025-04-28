@@ -3,7 +3,7 @@
   <Layout_navbar />
   <Layout_sidebar />
 
-  <div class="content-div pb-4">
+  <div class="content-div pb-5">
     <div class="container px-lg-4">
       <div class="mt-4 ">
         <RouterView />
