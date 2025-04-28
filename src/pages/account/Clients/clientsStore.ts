@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, defineAsyncComponent } from "vue";
 import sample_data from '@/stores/sample_data.json'
 
 export const useClientsStore = defineStore('adminClientsStore', () => {
@@ -7,9 +7,10 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     // interfaces
     interface clientsDetailsMenuInterface {
         tabs: {
-            id: number;
+            tab: number;
             group: string;
             text: string;
+            component: ReturnType<typeof defineAsyncComponent>
         }[];
         tabShowing: number;
     }
@@ -18,13 +19,21 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
 
     const clientDetails = ref<any>(null)
 
+    const General = defineAsyncComponent(() => import('./menuContents/General.vue'));
+    const Addresses = defineAsyncComponent(() => import('./menuContents/Addresses.vue'));
+    const Documents = defineAsyncComponent(() => import('./menuContents/Documents.vue'));
+    const Checks = defineAsyncComponent(() => import('./menuContents/Checks.vue'));
+    const AML_Risk = defineAsyncComponent(() => import('./menuContents/AML_Risk.vue'));
+    const Audit_Log = defineAsyncComponent(() => import('./menuContents/Audit_Log.vue'));
+
     const clientsDetailsMenu = reactive<clientsDetailsMenuInterface>({
         tabs: [
-            { id: 1, group: 'info', text: 'General' },
-            { id: 2, group: 'info', text: 'Addresses' },
-            { id: 3, group: 'due', text: 'Checks' },
-            { id: 4, group: 'due', text: 'AML Risk' },
-            { id: 5, group: 'activity', text: 'Audit Log' },
+            { tab: 1, group: 'info', text: 'General', component: General },
+            { tab: 2, group: 'info', text: 'Addresses', component: Addresses },
+            { tab: 3, group: 'info', text: 'Documents', component: Documents },
+            { tab: 4, group: 'due', text: 'Checks', component: Checks },
+            { tab: 5, group: 'due', text: 'AML Risk', component: AML_Risk },
+            { tab: 6, group: 'activity', text: 'Audit Log', component: Audit_Log },
         ],
         tabShowing: 1,
     })

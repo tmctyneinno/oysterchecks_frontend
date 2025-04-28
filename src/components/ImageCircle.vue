@@ -1,5 +1,5 @@
 <template>
-    <div class="image-circle" :style="{ 'background-image': `url(${url})` }"></div>
+    <div class="image-circle" :style="{ 'background-image': `url(${src})` }"></div>
 </template>
 
 <script setup lang="ts">
@@ -9,7 +9,7 @@ const props = defineProps({
         type: String,
         default: '100px'
     },
-    url: {
+    src: {
         type: String,
         required: true
     }

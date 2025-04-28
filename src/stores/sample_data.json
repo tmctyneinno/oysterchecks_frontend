@@ -44,8 +44,61 @@
   {"id":"18","country":"Italy","state":"Lazio","city":"Rome","type":"Others"},
   {"id":"19","country":"United Kingdom","state":"Wales","city":"Cardiff","type":"Main"},
   {"id":"20","country":"United States","state":"Florida","city":"Miami","type":"Others"}
-]
+],
 
+"ClientDocuments":[
+  {"id":"1","document_type":"Driving License","issuing_country":"United Kingdom","id_no":"1220000456","purpose":"Proof of Address"},
+  {"id":"2","document_type":"Passport","issuing_country":"United States","id_no":"US789456123","purpose":"Proof of Identity"},
+  {"id":"3","document_type":"National ID","issuing_country":"Canada","id_no":"CA456789321","purpose":"Proof of Identity"},
+  {"id":"4","document_type":"Driving License","issuing_country":"Australia","id_no":"AU654123789","purpose":"Proof of Address"},
+  {"id":"5","document_type":"Passport","issuing_country":"Germany","id_no":"DE123789654","purpose":"Proof of Identity"},
+  {"id":"6","document_type":"National ID","issuing_country":"France","id_no":"FR321987654","purpose":"Proof of Address"},
+  {"id":"7","document_type":"Driving License","issuing_country":"Italy","id_no":"IT987654321","purpose":"Proof of Address"},
+  {"id":"8","document_type":"Passport","issuing_country":"Japan","id_no":"JP456123789","purpose":"Proof of Identity"},
+  {"id":"9","document_type":"National ID","issuing_country":"Spain","id_no":"ES789123456","purpose":"Proof of Address"},
+  {"id":"10","document_type":"Driving License","issuing_country":"United Kingdom","id_no":"UK654789321","purpose":"Proof of Identity"},
+  {"id":"11","document_type":"Passport","issuing_country":"United States","id_no":"US321654987","purpose":"Proof of Address"},
+  {"id":"12","document_type":"National ID","issuing_country":"Australia","id_no":"AU987321654","purpose":"Proof of Identity"},
+  {"id":"13","document_type":"Driving License","issuing_country":"Germany","id_no":"DE741852963","purpose":"Proof of Address"},
+  {"id":"14","document_type":"Passport","issuing_country":"France","id_no":"FR963852741","purpose":"Proof of Identity"},
+  {"id":"15","document_type":"National ID","issuing_country":"Canada","id_no":"CA258963147","purpose":"Proof of Address"},
+  {"id":"16","document_type":"Driving License","issuing_country":"Japan","id_no":"JP147258369","purpose":"Proof of Identity"},
+  {"id":"17","document_type":"Passport","issuing_country":"Italy","id_no":"IT369258147","purpose":"Proof of Address"},
+  {"id":"18","document_type":"National ID","issuing_country":"Spain","id_no":"ES654789123","purpose":"Proof of Identity"},
+  {"id":"19","document_type":"Driving License","issuing_country":"United Kingdom","id_no":"UK321987654","purpose":"Proof of Address"},
+  {"id":"20","document_type":"Passport","issuing_country":"Canada","id_no":"CA789654321","purpose":"Proof of Identity"}
+],
+
+"ClientsChecks":[
+  {"id":"1","status":"processing","date_completed":"2024-04-14","result_summary":"In Process","request_date":"2024-04-24"},
+  {"id":"2","status":"validated","date_completed":"2024-10-14","result_summary":"Verified","request_date":"2024-05-14"},
+  {"id":"3","status":"pending","date_completed":"2024-06-20","result_summary":"Awaiting Review","request_date":"2024-06-01"},
+  {"id":"4","status":"processing","date_completed":"2024-08-05","result_summary":"In Process","request_date":"2024-07-25"},
+  {"id":"5","status":"validated","date_completed":"2024-09-18","result_summary":"Verified","request_date":"2024-08-30"},
+  {"id":"6","status":"rejected","date_completed":"2024-11-11","result_summary":"Rejected","request_date":"2024-09-15"},
+  {"id":"7","status":"pending","date_completed":"2024-05-22","result_summary":"Awaiting Review","request_date":"2024-05-01"},
+  {"id":"8","status":"processing","date_completed":"2024-07-09","result_summary":"In Process","request_date":"2024-06-15"},
+  {"id":"9","status":"validated","date_completed":"2024-12-01","result_summary":"Verified","request_date":"2024-10-01"},
+  {"id":"10","status":"rejected","date_completed":"2024-10-29","result_summary":"Rejected","request_date":"2024-09-30"},
+  {"id":"11","status":"pending","date_completed":"2024-11-15","result_summary":"Awaiting Review","request_date":"2024-10-20"},
+  {"id":"12","status":"processing","date_completed":"2024-12-20","result_summary":"In Process","request_date":"2024-11-10"},
+  {"id":"13","status":"validated","date_completed":"2025-01-05","result_summary":"Verified","request_date":"2024-12-01"},
+  {"id":"14","status":"pending","date_completed":"2024-05-08","result_summary":"Awaiting Review","request_date":"2024-04-25"},
+  {"id":"15","status":"rejected","date_completed":"2024-08-16","result_summary":"Rejected","request_date":"2024-07-15"},
+  {"id":"16","status":"processing","date_completed":"2024-09-25","result_summary":"In Process","request_date":"2024-08-20"},
+  {"id":"17","status":"validated","date_completed":"2024-07-30","result_summary":"Verified","request_date":"2024-06-28"},
+  {"id":"18","status":"rejected","date_completed":"2024-11-04","result_summary":"Rejected","request_date":"2024-10-10"},
+  {"id":"19","status":"pending","date_completed":"2024-06-18","result_summary":"Awaiting Review","request_date":"2024-05-30"},
+  {"id":"20","status":"processing","date_completed":"2024-08-12","result_summary":"In Process","request_date":"2024-07-20"}
+],
+
+"ClientsAuditLog":[
+  {"id":"1","user":"Jamine","date":"3/4/16","id_no":"1220000456"},
+  {"id":"2","user":"Jamine","date":"3/4/16","id_no":"1220000456"},
+  {"id":"3","user":"Jamine","date":"3/4/16","id_no":"1220000456"},
+  {"id":"4","user":"Jamine","date":"3/4/16","id_no":"1220000456"},
+  {"id":"5","user":"Jamine","date":"3/4/16","id_no":"1220000456"}
+]
 
 
 }

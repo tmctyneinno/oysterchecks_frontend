@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-lg-7 d-flex justify-content-start align-items-center gap-3">
-                            <ImageCircle :url="'/images/avatar.png'" height="50px" />
+                            <ImageCircle :src="'/images/avatar.png'" height="50px" />
                             <div>
                                 <div class="fw-600">{{ route.query?.client }} </div>
                                 <div class="small text-muted">{{ route.query?.email }}</div>
@@ -59,22 +59,8 @@ onMounted(() => {
 })
 
 
-
-const General = defineAsyncComponent(() => import('./menuContents/General.vue'));
-const Addresses = defineAsyncComponent(() => import('./menuContents/Addresses.vue'));
-const Checks = defineAsyncComponent(() => import('./menuContents/Checks.vue'));
-const AML_Risk = defineAsyncComponent(() => import('./menuContents/AML_Risk.vue'));
-const Audit_Log = defineAsyncComponent(() => import('./menuContents/Audit_Log.vue'));
-
 const contentToShow = computed(() => {
-    const contents: { tab: number, component: ReturnType<typeof defineAsyncComponent> }[] = [
-        { tab: 1, component: General },
-        { tab: 2, component: Addresses },
-        { tab: 3, component: Checks },
-        { tab: 4, component: AML_Risk },
-        { tab: 5, component: Audit_Log },
-    ]
-    return contents.find((x: { tab: number }) => x.tab == clientsStore.clientsDetailsMenu.tabShowing);
+    return clientsStore.clientsDetailsMenu.tabs.find((x: { tab: number }) => x.tab == clientsStore.clientsDetailsMenu.tabShowing);
 })
 </script>
 

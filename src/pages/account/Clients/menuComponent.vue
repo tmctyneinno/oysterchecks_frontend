@@ -3,10 +3,10 @@
         <section v-for="({ title, group }) in sections" :key="group" class="mb-3">
             <div class="text-muted">{{ title }}</div>
             <ul class="list-group list-group-flush">
-                <li v-for="({ id, text }) in clientsStore.clientsTabByGroup(group)" :key="id"
-                    @click="clientsDetailsMenu.tabShowing = id"
+                <li v-for="({ tab, text }) in clientsStore.clientsTabByGroup(group)" :key="tab"
+                    @click="clientsDetailsMenu.tabShowing = tab"
                     class="list-group-item border-0 cursor-pointer hover-tiltX pb-0 fw-400"
-                    :class="{ 'active-tab': clientsDetailsMenu.tabShowing === id }">
+                    :class="{ 'active-tab': clientsDetailsMenu.tabShowing === tab }">
                     {{ text }}
                 </li>
             </ul>
@@ -15,7 +15,7 @@
 
     <div class="d-md-none">
         <select class="form-select form-select-lg" v-model="clientsDetailsMenu.tabShowing">
-            <option v-for="menu in clientsDetailsMenu.tabs" :value="menu.id">
+            <option v-for="menu in clientsDetailsMenu.tabs" :value="menu.tab">
                 {{ menu.text }}
             </option>
         </select>
