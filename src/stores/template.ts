@@ -23,13 +23,13 @@ export const useTemplateStore = defineStore('template', () => {
       ]
     },
 
-    {
-      heading: 'ADMINISTRATIVE TASK',
-      menu: [
-        { title: "Audit Report", icon: "<i class='bi bi-columns-gap'></i>", link: "/account/audit-report" },
+    // {
+    //   heading: 'ADMINISTRATIVE TASK',
+    //   menu: [
+    //     { title: "Audit Report", icon: "<i class='bi bi-columns-gap'></i>", link: "/account/audit-report" },
 
-      ]
-    },
+    //   ]
+    // },
 
     {
       heading: 'HELP AND SETTINGS',

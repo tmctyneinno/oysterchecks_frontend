@@ -27,6 +27,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useClientsStore } from './clientsStore';
+import { useRouter } from 'vue-router';
+import { watch } from 'vue';
+
 
 const sections: { title: string, group: 'info' | 'due' | 'activity' }[] = [
     { title: "CLIENT'S INFORMATION", group: 'info' },
@@ -35,7 +38,22 @@ const sections: { title: string, group: 'info' | 'due' | 'activity' }[] = [
 ]
 
 const clientsStore = useClientsStore()
-const { clientsDetailsMenu } = storeToRefs(clientsStore)
+const { clientsDetailsMenu, clientDetails } = storeToRefs(clientsStore)
+
+const router = useRouter()
+watch(() => clientsDetailsMenu.value.tabShowing, (newVal) => {
+    if (newVal === 4) {
+        router.push({
+            path: '/account/checks',
+            query: {
+                refId: clientDetails.value.id,
+                client: clientDetails.value.name,
+                tme: Date.now()
+            }
+        });
+        clientsDetailsMenu.value.tabShowing = 1;
+    }
+});
 
 </script>
 

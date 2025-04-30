@@ -15,14 +15,14 @@
           <ThemeToggler />
         </span> -->
 
-        <span class="account-icon dropdown-toggl cursor-pointer me-lg-5" id="triggerId" data-bs-toggle="dropdown"
+        <ImageCircle @click="goToProfile" class="cursor-pointer me-lg-4" :src="'/images/avatar.png'" height="30px" />
+        <!-- <span class="account-icon dropdown-toggl cursor-pointer me-lg-5" id="triggerId" data-bs-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false"></span>
-
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId">
           <router-link to="/" class="dropdown-item bg-transparent">
             <i class="bi bi-power"></i> Logout
           </router-link>
-        </div>
+        </div> -->
       </div>
     </div>
   </nav>
@@ -31,11 +31,12 @@
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
-      <button ref="offcanvasCloser" type="button" class="btn-close" data-bs-dismiss="offcanvas"
+      <!-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5> -->
+      <img src="/images/logo-white.png" width="100" alt="">
+      <button ref="offcanvasCloser" type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
         aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body pt-5">
       <Layout_menu />
     </div>
   </div>
@@ -49,15 +50,21 @@
 import ThemeToggler from '@/components/themeToggler.vue';
 import Layout_menu from './Menu.vue';
 import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 
 const route = useRoute()
+const router = useRouter()
 const offcanvasCloser = ref<any>(null)
 
 watch(() => route.path, () => {
   offcanvasCloser.value?.click()
 })
+
+
+function goToProfile() {
+  router.push({ path: '/account/settings' })
+}
 
 </script>
 

@@ -16,9 +16,6 @@
                             </div>
                         </div>
                         <div class="col-lg-5 d-lg-flex justify-content-end align-items-center gap-3">
-                            <button class="my-2 me-2 my-lg-0 me-lg-0 btn btn-outline-danger  rounded-4  ">
-                                Delete Client
-                            </button>
                             <button class="btn btn-outline-dark rounded-4">
                                 Export Client Report
                             </button>
@@ -46,7 +43,7 @@
 import { useRouter, useRoute, type LocationQueryValue } from 'vue-router';
 import { useClientsStore } from './clientsStore';
 import menuComponent from './menuComponent.vue';
-import { defineAsyncComponent, ref, onMounted, computed } from 'vue';
+import { onMounted, computed } from 'vue';
 import sample_data from '@/stores/sample_data.json'
 
 const clientsStore = useClientsStore()
@@ -57,7 +54,6 @@ const route = useRoute()
 onMounted(() => {
     clientsStore.clientDetails = sample_data.Clients.find((x: { id: LocationQueryValue | LocationQueryValue[]; }) => x.id == route.query.refId)
 })
-
 
 const contentToShow = computed(() => {
     return clientsStore.clientsDetailsMenu.tabs.find((x: { tab: number }) => x.tab == clientsStore.clientsDetailsMenu.tabShowing);

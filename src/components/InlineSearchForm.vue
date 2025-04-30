@@ -14,7 +14,7 @@
                     <button v-if="!formIsSearching" @click="emitSearch" class="w-100 btn btn-theme" btnType="submit">
                         Search
                     </button>
-                    <primaryButtonLoading v-else className="w-100" />
+                    <!-- <primaryButtonLoading v-else className="w-100" /> -->
                 </div>
             </div>
         </form>
