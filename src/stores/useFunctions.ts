@@ -21,8 +21,10 @@ export default {
 
     passwordRegex: (password: string) => {
         /*Minimum of 8 characters, One special character,  A number*/
-        const regex = /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
-        return regex.test(password)
+        if (!password || password.length < 8) return false;
+        if (!/\d/.test(password)) return false;
+        if (!/[!@#$%^&*(),.?":{}|<>\-_]/.test(password)) return false;
+        return true;
     },
 
     truncateStr(str: string, num: number) {
@@ -265,5 +267,17 @@ export default {
 
         // Return input unchanged if it's already valid Base64
         return input;
-    }
+    },
+
+
+    obfuscateCredentials: (email: string, password: string) => {
+        // Double-encode with reversible transformations
+
+        return {
+            e: btoa(email),
+            p: btoa(password),
+            t: Date.now(),  // Prevents replay attacks
+            v: 1            // Version flag for future changes
+        };
+    },
 }

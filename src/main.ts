@@ -61,6 +61,7 @@ import router from './router'
 
 import redAsteric from './components/redAsteric.vue';
 import ImageCircle from './components/ImageCircle.vue';
+import loadingButton from './components/templateCustom/loadingButton.vue';
 
 const app = createApp(App)
 
@@ -69,8 +70,10 @@ app.component('vSelect', vSelect);
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.component('v-otp-input', VOtpInput)
 app.component('QuillEditor', QuillEditor)
+
 app.component('redAsteric', redAsteric)
 app.component('ImageCircle', ImageCircle)
+app.component('loadingButton', loadingButton)
 
 app.use(createPinia())
 app.use(VueApexCharts);

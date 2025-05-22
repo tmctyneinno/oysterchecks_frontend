@@ -2,15 +2,15 @@ import { $instance, $instanceForm } from '../instances'
 
 export default {
     register(data: any) {
-        return $instance.post(`signup`, JSON.stringify(data))
+        return $instance.post(`auth/signup`, JSON.stringify(data))
     },
 
     login(data: any) {
-        return $instance.post(`login`, JSON.stringify(data))
+        return $instance.post(`auth/login`, JSON.stringify(data))
     },
 
     loginWithGoogle(data: any) {
-        return $instance.post(`login-google`, JSON.stringify(data))
+        return $instance.post(`auth/login-google`, JSON.stringify(data))
     },
 
     profile() {

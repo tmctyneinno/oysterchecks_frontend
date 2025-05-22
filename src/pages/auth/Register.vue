@@ -113,6 +113,8 @@ import CustomNumberField from '@/components/customNumberField.vue';
 import CustomPasswordField from '@/components/customPasswordField.vue';
 import AuthSideSlider from './authSideSlider.vue';
 
+import api from '@/api';
+
 </script>
 
 <style></style>
