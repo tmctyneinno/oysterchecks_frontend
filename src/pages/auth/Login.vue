@@ -82,12 +82,10 @@ import api from '@/api'
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
-import useFunctions from '@/stores/useFunctions';
-
+import helperFunctions from '@/stores/helperFunctions';
 
 // form and validation
-
-const rules = {
+const validationRules = {
   email: yup.string().email('Invalid email format').required('Password is required'),
   password: yup.string()
     .required('Password is required')
@@ -95,29 +93,20 @@ const rules = {
     .test(
       'password-complexity',
       'Must contain at least one number and one special character',
-      useFunctions.passwordRegex
+      helperFunctions.passwordRegex
     ),
 };
 
 const { errors, handleSubmit, defineField, setFieldValue, isSubmitting } = useForm({
-  validationSchema: toTypedSchema(yup.object(rules),)
+  validationSchema: toTypedSchema(yup.object(validationRules),)
 });
 
 const [email, emailAttr] = defineField('email');
 const [password, passwordAttr] = defineField('password');
 
-
 const login = handleSubmit(async (values) => {
-  const payload = {
-    c: btoa(values.email) + 'oystercheck' + btoa(values.password),
-    t: Date.now(),
-    v: 1
-  }
+  const payload = helperFunctions.encrypedLoginCredentials(values.email, values.password);
   const { data } = await api.login(payload)
-  // isLoggingIn.value = true
-  // setTimeout(() => {
-  //   isLoggingIn.value = false
-  // }, 5000)
 })
 
 </script>

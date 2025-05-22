@@ -2,6 +2,7 @@ import Swal from 'sweetalert2'
 
 import { useDateFormat, useOnline, useTimeAgo } from '@vueuse/core';
 import { createPopper, type VirtualElement } from '@popperjs/core'
+import CryptoJS from 'crypto-js';
 
 type DebounceFunction<T extends (...args: any[]) => any> = (...args: Parameters<T>) => void;
 
@@ -270,14 +271,22 @@ export default {
     },
 
 
-    obfuscateCredentials: (email: string, password: string) => {
-        // Double-encode with reversible transformations
+    encrypedLoginCredentials: (email: string, password: string) => {
+        const key = CryptoJS.enc.Utf8.parse(import.meta.env.VITE_AES_SECRET_KEY);
+        const iv = CryptoJS.lib.WordArray.random(16);
+        const combined = email + 'oystercheck' + password;
+
+        const encrypted = CryptoJS.AES.encrypt(combined, key, {
+            iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,
+        });
 
         return {
-            e: btoa(email),
-            p: btoa(password),
-            t: Date.now(),  // Prevents replay attacks
-            v: 1            // Version flag for future changes
+            c: encrypted.ciphertext.toString(CryptoJS.enc.Base64),
+            iv: iv.toString(CryptoJS.enc.Base64),
+            t: Date.now(),
+            v: 1,
         };
-    },
+    }
 }

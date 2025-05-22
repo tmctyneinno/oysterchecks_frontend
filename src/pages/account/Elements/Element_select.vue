@@ -5,13 +5,13 @@
         </div>
         <div class="card-body">
             <v-select placeholder="select an item" :clearable="true" append-to-body
-                :calculate-position="useFunctions.vueSelectPositionCalc" :options label="name"></v-select>
+                :calculate-position="helperFunctions.vueSelectPositionCalc" :options label="name"></v-select>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import useFunctions from '@/stores/useFunctions';
+import helperFunctions from '@/stores/helperFunctions';
 import { ref } from 'vue';
 
 
