@@ -42,9 +42,9 @@ const handleError = (error: any) => {
 };
 
 // Attach interceptors
-[$instance, $instanceForm].forEach(instance => {
-    instance.interceptors.request.use(setAuthAndStartProgress);
-    instance.interceptors.response.use(finishProgress, handleError);
+[$instance, $instanceForm].forEach(instanceObj => {
+    instanceObj.interceptors.request.use(setAuthAndStartProgress);
+    instanceObj.interceptors.response.use(finishProgress, handleError);
 });
 
 export { $instance, $instanceSilent, $instanceForm };

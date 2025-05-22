@@ -1,4 +1,4 @@
-import auth from "./end_points/auth"
+import auth from "./urls/auth"
 
 export default {
     ...auth,

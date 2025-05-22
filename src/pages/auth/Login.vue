@@ -31,6 +31,7 @@
 
                     <div class="col-12">
                       <CustomPasswordField v-model="password" v-bind="passwordAttr" />
+
                       <div class="small text-danger">{{ errors?.password }}</div>
                       <router-link to="#" class="mt-1 float-end small text-decoration-none">
                         Forgot password?
@@ -38,14 +39,10 @@
                     </div>
 
                     <div class="col-12 mt-4">
-                      <button v-if="!isSubmitting" type="submit" class="btn btn-theme btn-lg w-100">
+                      <loadingButton type="submit" className="btn-theme btn-lg w-100" :loading="isSubmitting">
                         SIGN-IN
-                      </button>
-                      <loadingButton v-else />
+                      </loadingButton>
                     </div>
-
-
-
 
                     <div class="mt-4 text-center">
                       Dont have an account yet?
@@ -76,7 +73,6 @@
 <script setup lang="ts">
 import CustomPasswordField from '@/components/customPasswordField.vue';
 import AuthSideSlider from './authSideSlider.vue';
-import { reactive, ref } from 'vue';
 import api from '@/api'
 
 import { useForm } from 'vee-validate';
@@ -106,7 +102,12 @@ const [password, passwordAttr] = defineField('password');
 
 const login = handleSubmit(async (values) => {
   const payload = helperFunctions.encrypedLoginCredentials(values.email, values.password);
-  const { data } = await api.login(payload)
+  try {
+    const { data } = await api.login(payload)
+  }
+  catch (error: any) {
+    console.log(error);
+  }
 })
 
 </script>

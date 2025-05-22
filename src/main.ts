@@ -61,7 +61,7 @@ import router from './router'
 
 import redAsteric from './components/redAsteric.vue';
 import ImageCircle from './components/ImageCircle.vue';
-import loadingButton from './components/templateCustom/loadingButton.vue';
+import loadingButton from './components/loadingButton.vue';
 
 const app = createApp(App)
 
