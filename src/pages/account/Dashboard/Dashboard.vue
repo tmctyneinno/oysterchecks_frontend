@@ -8,7 +8,7 @@
                         <div class="small mt-2">{{ card.info }}</div>
                     </div>
                     <div class="card-footer fw-500 fs-4 bg-transparent border-0 pt-0">
-                        {{ helperFxn.addCommas(card.number) }}
+                        {{ helperFunctions.addCommas(card.number) }}
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import helperFxn from '@/stores/helperFxn';
+import helperFunctions from '@/stores/helperFunctions';
 import { useDashboardStore } from './dashboardStore';
 import { onMounted, reactive, ref } from 'vue';
 

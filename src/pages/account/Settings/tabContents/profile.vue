@@ -13,7 +13,7 @@
         <div class="col-md-5 d-flex justify-content-center align-items-center">
             <div>
                 <ImageCircle :src="'/images/avatar.png'" />
-                <div class="text-center fw-600">Samtha Jordon</div>
+                <div class="text-center fw-600 text-capitalize">{{ authStore.profile?.name }}</div>
             </div>
 
         </div>
@@ -63,6 +63,9 @@
 
 <script setup lang="ts">
 import RedAsteric from '@/components/redAsteric.vue';
+import { useAuthStore } from '@/stores/authStore';
 
+
+const authStore = useAuthStore()
 
 </script>

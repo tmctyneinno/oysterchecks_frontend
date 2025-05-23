@@ -46,7 +46,7 @@
                             </template>
 
                             <template #item-created_at="item">
-                                <span>{{ helperFxn.dateDisplay(item.created_at) }}</span>
+                                <span>{{ helperFunctions.dateDisplay(item.created_at) }}</span>
                             </template>
 
                             <template #item-action="item">
@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 import InlineSearchForm from '@/components/InlineSearchForm.vue';
-import helperFxn from '@/stores/helperFxn';
+import helperFunctions from '@/stores/helperFunctions';
 import sampleData from '@/stores/sample_data.json'
 import { ref, watchEffect } from 'vue';
 import type { Header, Item } from 'vue3-easy-data-table';

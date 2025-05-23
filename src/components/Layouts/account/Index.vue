@@ -17,6 +17,19 @@
 import Layout_sidebar from './Sidebar.vue';
 import Layout_navbar from './Navbar.vue';
 
+import { onMounted } from 'vue'
+import { useAuthStore } from '@/stores/authStore';
+import api from '@/api';
+
+const authStore = useAuthStore()
+
+onMounted(async () => {
+  const { data } = await api.profile()
+  console.log(data);
+
+  authStore.profile = data
+})
+
 </script>
 
 <style scoped>

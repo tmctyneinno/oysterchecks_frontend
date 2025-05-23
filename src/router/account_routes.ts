@@ -1,7 +1,23 @@
+
+import { useAuthStore } from '@/stores/authStore';
+import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+
+const pageGuard = (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+    const authStore = useAuthStore();
+    if (!authStore.isLoggedIn) {
+        next({ path: '/login' });
+    }
+    else {
+        next()
+    }
+}
+
+
 export default [
     {
         path: '/account',
         component: () => import('../components/Layouts/account/Index.vue'),
+        beforeEnter: pageGuard,
         children: [
             { path: 'dashboard', name: 'Admin-Dashboard', meta: { name: 'Dashboard', }, component: () => import('../pages/account/Dashboard/Dashboard.vue') },
             { path: 'clients', name: 'Admin-Clients', meta: { name: 'Clients', }, component: () => import('../pages/account/Clients/Clients.vue') },

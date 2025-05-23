@@ -41,14 +41,17 @@
                         <Profile />
                     </div>
                     <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-                        <Notifications />
+                        <!-- <Notifications /> -->
+                        <Profile />
                     </div>
                     <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                        <Password_security />
+                        <!-- <Password_security /> -->
+                        <Profile />
                     </div>
 
                     <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
-                        <team />
+                        <!-- <team /> -->
+                        <Profile />
                     </div>
                 </div>
 
@@ -61,7 +64,7 @@
 
 
 <script setup lang="ts">
-import Notifications from './tabContents/Notifications.vue';
+import Notifications from './tabContents/notifications.vue';
 import Password_security from './tabContents/password_security.vue';
 import Profile from './tabContents/profile.vue';
 import Team from './tabContents/team.vue';

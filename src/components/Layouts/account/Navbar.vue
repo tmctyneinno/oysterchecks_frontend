@@ -14,7 +14,7 @@
         <!-- <span class="mx-4 d-none d-md-inline">
           <ThemeToggler />
         </span> -->
-
+        <span class="small me-2 text-capitalize">{{ authStore.profile?.name }}</span>
         <ImageCircle @click="goToProfile" class="cursor-pointer me-lg-4" :src="'/images/avatar.png'" height="30px" />
         <!-- <span class="account-icon dropdown-toggl cursor-pointer me-lg-5" id="triggerId" data-bs-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false"></span>
@@ -51,6 +51,9 @@ import ThemeToggler from '@/components/themeToggler.vue';
 import Layout_menu from './Menu.vue';
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
+
+const authStore = useAuthStore()
 
 
 const route = useRoute()

@@ -18,6 +18,9 @@
                   <h4 class=" fw-bold fw-700">Sign-In</h4>
                   <p class="text-muted mb-4">Access Oysterchecks using your email and password.</p>
 
+                  <div v-if="loginError" class=" alert alert-danger border-0 py-2">
+                    <i class="bi bi-exclamation-circle-fill"></i> {{ loginError }}
+                  </div>
                   <form @submit.prevent="login" class="row g-3 animate__animated animate__fadeIn">
 
                     <div class="col-12">
@@ -79,6 +82,10 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
 import helperFunctions from '@/stores/helperFunctions';
+import { ref } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
+
+const authStore = useAuthStore()
 
 // form and validation
 const validationRules = {
@@ -100,13 +107,18 @@ const { errors, handleSubmit, defineField, setFieldValue, isSubmitting } = useFo
 const [email, emailAttr] = defineField('email');
 const [password, passwordAttr] = defineField('password');
 
+const loginError = ref<string>('')
+
 const login = handleSubmit(async (values) => {
-  const payload = helperFunctions.encrypedLoginCredentials(values.email, values.password);
+  loginError.value = ''
   try {
+    const payload = helperFunctions.encrypedLoginCredentials(values.email, values.password);
     const { data } = await api.login(payload)
+    authStore.login(data.token)
   }
   catch (error: any) {
-    console.log(error);
+    if (error?.status == 401) loginError.value = error?.response?.data?.message
+    else helperFunctions.toast('Network Error!', 'error')
   }
 })
 

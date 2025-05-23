@@ -5,15 +5,14 @@ import { computed, reactive, ref } from "vue";
 
 export const useAuthStore = defineStore('authStore', () => {
 
-    const token: any = ref('')
+    const token = ref<any>('')
+    const profile = ref<any>(null)
     const cookieValues = reactive({
         token: import.meta.env.VITE_TOKEN_NAME,
         expiry: 3 // days
     })
 
     const isLoggedIn = computed(() => token.value || Cookies.get(cookieValues.token));
-
-
 
     const login = (tokenStr: string) => {
         Cookies.set(cookieValues.token, tokenStr, { expires: cookieValues.expiry });
@@ -32,7 +31,8 @@ export const useAuthStore = defineStore('authStore', () => {
         login,
         logout,
         isLoggedIn,
-        cookieValues
+        cookieValues,
+        profile
     }
 
 })
