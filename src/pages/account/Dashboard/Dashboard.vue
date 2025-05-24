@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <DashboardSkeleton v-if="isLoadingDashboard" />
+    <div v-else>
         <div class="d-md-flex gap-2">
             <div v-for="(card, index) in dashboardStore.summaryCards" :key="index" class="col mb-2">
                 <div class="card border-0 h-100">
@@ -49,15 +50,23 @@
 import helperFunctions from '@/stores/helperFunctions';
 import { useDashboardStore } from './dashboardStore';
 import { onMounted, reactive, ref } from 'vue';
+import DashboardSkeleton from '@/components/skeletonLoaders/dashboardSkeleton.vue';
 
 
 const dashboardStore = useDashboardStore()
-
+const isLoadingDashboard = ref<boolean>(true)
 
 onMounted(() => {
     loadChartOptions()
+    loadDashboardContents()
 })
 
+
+function loadDashboardContents() {
+    setTimeout(() => {
+        isLoadingDashboard.value = false
+    }, 1000)
+}
 
 
 

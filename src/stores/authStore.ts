@@ -8,20 +8,21 @@ export const useAuthStore = defineStore('authStore', () => {
     const token = ref<any>('')
     const profile = ref<any>(null)
     const cookieValues = reactive({
-        token: import.meta.env.VITE_TOKEN_NAME,
+        // token: import.meta.env.VITE_TOKEN_NAME,
+        tokenName: 'oytercheck#Tkn',
         expiry: 3 // days
     })
 
-    const isLoggedIn = computed(() => token.value || Cookies.get(cookieValues.token));
+    const isLoggedIn = computed(() => token.value || Cookies.get(cookieValues.tokenName));
 
-    const login = (tokenStr: string) => {
-        Cookies.set(cookieValues.token, tokenStr, { expires: cookieValues.expiry });
-        token.value = tokenStr;
+    const login = (str: string) => {
+        Cookies.set(cookieValues.tokenName, str, { expires: cookieValues.expiry });
+        token.value = str;
         window.location.reload();
     }
 
     function logout() {
-        Cookies.remove(cookieValues.token);
+        Cookies.remove(cookieValues.tokenName);
         token.value = '';
         window.location.reload()
     }

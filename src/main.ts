@@ -51,6 +51,10 @@ import 'vue-tel-input/vue-tel-input.css';
 //https://michalsnik.github.io/aos/
 import "aos/dist/aos.css";
 
+// https://www.npmjs.com/package/vue3-loading-skeleton
+import "vue3-loading-skeleton/dist/style.css";
+import { SkeletonLoader } from "vue3-loading-skeleton";
+
 import './assets/styles/main.css'
 
 import { createApp } from 'vue'
@@ -70,6 +74,7 @@ app.component('vSelect', vSelect);
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.component('v-otp-input', VOtpInput)
 app.component('QuillEditor', QuillEditor)
+app.component("SkeletonLoader", SkeletonLoader)
 
 app.component('redAsteric', redAsteric)
 app.component('ImageCircle', ImageCircle)
