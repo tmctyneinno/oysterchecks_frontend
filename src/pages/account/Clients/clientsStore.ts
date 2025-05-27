@@ -52,6 +52,50 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         return map[risk] || { bg: '', color: '', text: '' }
     }
 
+    const statusShader = (risk: string) => {
+        const map: Record<string, { bg: string; color: string; }> = {
+            'failed': { bg: '#FFE4E4', color: '#DE1919', },
+            'pending': { bg: '#FFFAEA', color: '#C1971B', },
+            'complete': { bg: '#D4FFE1', color: '#0B6526', },
+        }
+
+        return map[risk] || { bg: '', color: '', text: '' }
+    }
+
+    const checktypes = ref<any[]>([
+        { id: 1, name: 'ID Verification' },
+        { id: 2, name: 'Address Verification' },
+        { id: 3, name: 'Sanctions Check' },
+        { id: 4, name: 'PEP Check' },
+        { id: 5, name: 'AML Risk Assessment' },
+        { id: 6, name: 'Credit Check' },
+        { id: 7, name: 'Fraud Check' },
+        { id: 8, name: 'Background Check' },
+        { id: 9, name: 'Employment Verification' },
+        { id: 10, name: 'Education Verification' },
+        { id: 11, name: 'Criminal Record Check' },
+        { id: 12, name: 'Financial History Check' },
+        { id: 13, name: 'Social Media Check' },
+        { id: 14, name: 'Litigation Check' },
+        { id: 15, name: 'Professional License Check' },
+        { id: 16, name: 'Reference Check' },
+        { id: 17, name: 'Custom Check' },
+    ])
+
+
+    const documentTypes = ref<any[]>([
+        { id: 1, name: 'Passport' },
+        { id: 2, name: 'Driver\'s License' },
+        { id: 3, name: 'National ID Card' },
+        { id: 4, name: 'Utility Bill' },
+        { id: 5, name: 'Bank Statement' },
+        { id: 6, name: 'Tax Document' },
+        { id: 7, name: 'Employment Letter' },
+        { id: 8, name: 'Rental Agreement' },
+        { id: 9, name: 'Insurance Document' },
+        { id: 10, name: 'Other' },
+    ])
+
 
     return {
         clientsDetailsMenu,
@@ -59,5 +103,8 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         toggleAddModal,
         clientsTabByGroup,
         riskShader,
+        statusShader,
+        checktypes,
+        documentTypes
     }
 })

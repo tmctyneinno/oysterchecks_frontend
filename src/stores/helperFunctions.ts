@@ -36,17 +36,17 @@ export default {
         }
     },
 
-    toast: (text: string, icon: 'warning' | 'success' | 'error' | 'info') => {
+    toast: (title: string, icon: 'warning' | 'success' | 'error' | 'info', text?: string) => {
         Swal.fire({
             toast: true,
+            // text: `${text}` ,
             icon: `${icon}`,
-            text: `${text}`,
+            title: `${title}`,
             position: 'top-right',
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: false,
             padding: 10,
-            // iconColor: '#2c3e50',
         })
     },
 

@@ -16,13 +16,14 @@
                 </div>
             </div>
             <div class="col-12">
-                <InlineSearchForm placeholder-prop="Search by clients name" />
+                <InlineSearchForm @search="(keyword: string) => searchKeyword = keyword"
+                    placeholder-prop="Search by clients name" />
             </div>
 
             <div class="col-12">
                 <div class="card  min-vh-100 border-0">
                     <div class="card-body">
-                        <EasyDataTable show-index alternating :headers="headers" :items="sampleData.allchecks"
+                        <EasyDataTable show-index alternating :headers="headers" :items="filteredSampleData"
                             buttons-pagination>
                             <template #header="header">
                                 <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
@@ -36,10 +37,10 @@
                                     }}</button>
                             </template>
 
-                            <template #item-risk="item">
+                            <template #item-status="item">
                                 <span class="rounded-2 small d-flex justify-content-center"
-                                    :style="`background-color: ${clientsStore.riskShader(item.risk).bg}; color: ${clientsStore.riskShader(item.risk).color}`">
-                                    {{ clientsStore.riskShader(item.risk).text }}
+                                    :style="`background-color: ${clientsStore.statusShader(item.status).bg}; color: ${clientsStore.statusShader(item.status).color}`">
+                                    {{ item.status }}
                                 </span>
                             </template>
 
@@ -71,7 +72,7 @@
 import InlineSearchForm from '@/components/InlineSearchForm.vue';
 import helperFunctions from '@/stores/helperFunctions';
 import sampleData from '@/stores/sample_data.json'
-import { ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import type { Header, Item } from 'vue3-easy-data-table';
 import { useClientsStore } from '../Clients/clientsStore';
 import ClientsDetailsComponent from '../Clients/ClientsDetails.vue';
@@ -111,6 +112,16 @@ function viewClient(id: string, name: string) {
     })
 
 }
+
+const searchKeyword = ref<string>('')
+const filteredSampleData = computed(() => {
+    if (!searchKeyword.value) {
+        return sampleData.allchecks
+    }
+    return sampleData.allchecks.filter(client => {
+        return client.name.toLowerCase().includes(searchKeyword.value.toLowerCase())
+    })
+})
 
 </script>
 

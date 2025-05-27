@@ -18,13 +18,14 @@
                 </div>
             </div>
             <div class="col-12">
-                <InlineSearchForm placeholder-prop="Search Client" />
+                <InlineSearchForm @search="(keyword: string) => searchKeyword = keyword"
+                    placeholder-prop="Search Client" />
             </div>
 
             <div class="col-12">
                 <div class="card  min-vh-100 border-0">
                     <div class="card-body">
-                        <EasyDataTable show-index alternating :headers="headers" :items="sampleData.Clients"
+                        <EasyDataTable show-index alternating :headers="headers" :items="filteredSampleData"
                             buttons-pagination>
                             <template #header="header">
                                 <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
@@ -74,7 +75,7 @@
 import InlineSearchForm from '@/components/InlineSearchForm.vue';
 import helperFunctions from '@/stores/helperFunctions';
 import sampleData from '@/stores/sample_data.json'
-import { ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import type { Header, Item } from 'vue3-easy-data-table';
 import { useClientsStore } from './clientsStore';
 import AddClientsModal from './addClientsModal.vue';
@@ -117,6 +118,18 @@ function viewClient(id: string, name: string) {
     })
 
 }
+
+
+const searchKeyword = ref<string>('')
+const filteredSampleData = computed(() => {
+    if (!searchKeyword.value) {
+        return sampleData.Clients
+    }
+    return sampleData.Clients.filter(client => {
+        return client.name.toLowerCase().includes(searchKeyword.value.toLowerCase()) ||
+            client.email.toLowerCase().includes(searchKeyword.value.toLowerCase())
+    })
+})
 
 </script>
 

@@ -53,12 +53,7 @@
                             <div class="form-label">
                                 Upload Image
                             </div>
-                            <div class="mb-3">
-
-                                <input type="file" class="form-control" />
-                                <span class="small">Max 15MB</span>
-                            </div>
-
+                            <DropzoneComponent @fileUploaded="updateFile" />
                         </div>
                     </div>
                 </div>
@@ -66,7 +61,12 @@
                     <button type="button" class="btn btn-outline-secondary rounded-4" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="button" class="btn btn-theme">Add Client</button>
+                    <button v-if="!isSaving" @click="simulateFormSubmission" type="button" class="btn btn-theme">Add
+                        Client</button>
+                    <button v-else type="button" class="btn btn-theme" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Saving...
+                    </button>
                 </div>
             </div>
         </div>
@@ -78,8 +78,29 @@
 import { ref, watch } from 'vue';
 import { useClientsStore } from './clientsStore';
 import { onBeforeRouteLeave } from 'vue-router';
+import DropzoneComponent from '@/components/dropzoneComponent.vue';
+import helperFunctions from '@/stores/helperFunctions';
+
 
 const clientsStore = useClientsStore()
+
+
+
+const isSaving = ref<boolean>(false);
+
+const simulateFormSubmission = () => {
+    isSaving.value = true;
+    setTimeout(() => {
+        isSaving.value = false;
+        closeModal.value?.click();
+        helperFunctions.toast('Client added successfully', 'success');
+    }, 2000);
+};
+
+function updateFile(file: any) { }
+
+
+
 
 const openModal = ref<any>(null)
 const closeModal = ref<any>(null)

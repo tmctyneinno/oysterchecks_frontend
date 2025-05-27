@@ -5,6 +5,10 @@
                 <div class="col-lg-10">
                     <div class="input-group position-relative searchingBar border-right-l">
                         <span class="input-group-text" id="addon-search"><i class="bi bi-search"></i> </span>
+                        <button type="button" v-if="searchForm.keyword" @click="searchForm.keyword = ''"
+                            class="btn btn-sm border-0">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </button>
                         <input ref="titleField" v-model="searchForm.keyword" type="text" class="form-control"
                             :placeholder="placeholderProp" aria-describedby="addon-search">
                     </div>
@@ -23,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 
 const titleField = ref<any>(null)
 const formIsSearching = ref(false)
@@ -47,11 +51,15 @@ const props = defineProps({
 
 
 
-const emits = defineEmits(['done'])
+const emits = defineEmits(['search'])
 
 function emitSearch() {
-    emits('done', searchForm.keyword)
+    emits('search', searchForm.keyword)
 }
+
+watch(() => searchForm.keyword, () => {
+    if (searchForm.keyword.length == 0) emits('search', null)
+})
 
 
 </script>
