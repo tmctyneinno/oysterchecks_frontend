@@ -5,7 +5,7 @@
 
         <AuthSideSlider />
 
-        <div class="col-md-6 ">
+        <div class="col-md-6  py-3">
           <div class="row min-vh-100 justify-content-center align-items-center">
             <div class="col-md-9">
               <div class="card border-0 bg-transparent">
@@ -18,63 +18,45 @@
                 <div class="card-body">
 
                   <h4 class=" fw-bold fw-700">Sign Up</h4>
-                  <p class="text-muted mb-4">Hassle-free sign up proces. Start verifying individuals and businesses
+                  <p class="text-muted mb-4 small">Hassle-free sign up proces. Start verifying individuals and
+                    businesses
                     within 5 minutes.</p>
 
                   <form @submit.prevent="signup" class="row g-3 animate__animated animate__fadeIn">
                     <div class="col-lg-6">
-                      <div class="form-floating">
-                        <input v-model="first_name" v-bind="first_nameAttr" type="text" class="form-control"
-                          id="firstanme_input" placeholder="" />
-                        <label for="firstanme_input">First Name *</label>
-                      </div>
+                      <CustomTextField v-model="first_name" v-bind="first_nameAttr" placeholder="First Name *" />
                       <div class="small text-danger">{{ errors?.first_name }}</div>
                     </div>
 
                     <div class="col-lg-6">
-                      <div class="form-floating">
-                        <input v-model="last_name" v-bind="last_nameAttr" type="text" class="form-control"
-                          id="lastname_input" placeholder="" />
-                        <label for="lastname_input">Last Name *</label>
-                      </div>
+                      <CustomTextField v-model="last_name" v-bind="last_nameAttr" placeholder="Last Name *" />
                       <div class="small text-danger">{{ errors?.last_name }}</div>
                     </div>
 
 
                     <div class="col-12">
-                      <div class="form-floating">
-                        <input v-model="email" v-bind="emailAttr" type="email" class="form-control"
-                          id="work_email_input" placeholder="" />
-                        <label for="work_email_input">Work Email *</label>
-                      </div>
+                      <CustomTextField type="email" v-model="email" v-bind="emailAttr" placeholder="Work Email *" />
                       <div class="small text-danger">{{ errors?.email }}</div>
                     </div>
 
-
-
                     <div class="col-12">
-                      <div class="form-floating">
-                        <input v-model="company_name" v-bind="company_nameAttr" type="text" class="form-control"
-                          id="companyname_input" placeholder="" />
-                        <label for="companyname_input">Company Name *</label>
-                      </div>
+                      <CustomTextField v-model="company_name" v-bind="company_nameAttr" placeholder="Company Name *" />
                       <div class="small text-danger">{{ errors?.company_name }}</div>
                     </div>
 
                     <div class="col-12">
-                      <CustomNumberField v-model="phone" :is-form-floating="true" placeholder="Phone"
-                        :is-money-format="false" />
-                      <!-- <div class="small text-danger">{{ errors?.phone }}</div> -->
+                      <CustomPhoneField placeholder="Company Phone" v-model="phone" />
+                      <div class="small text-danger">{{ errors?.phone }}</div>
                     </div>
 
                     <div class="col-12">
-                      <CustomPasswordField v-model="password" v-bind="passwordAttr" placeholder="Enter Password" />
+                      <CustomPasswordField v-model="password" v-bind="passwordAttr" placeholder="Enter Password *" />
                       <div class="small text-danger">{{ errors?.password }}</div>
                     </div>
 
                     <div class="col-12">
                       <CustomPasswordField v-model="repeat_password" v-bind="repeat_passwordAttr"
-                        placeholder="Repeat Password" />
+                        placeholder="Repeat Password *" />
                       <div class="small text-danger">{{ errors?.repeat_password }}</div>
                     </div>
 
@@ -98,7 +80,7 @@
                     </div>
 
 
-                    <div class="mt-4 text-cente">
+                    <div class="mt-2 text-center">
                       Already have an account?
                       <router-link to="/login">Login</router-link>
                     </div>
@@ -134,6 +116,8 @@ import * as yup from 'yup';
 import helperFunctions from '@/stores/helperFunctions';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import CustomTextField from '@/components/customTextField.vue';
+import CustomPhoneField from '@/components/customPhoneField.vue';
 
 
 const router = useRouter()
@@ -143,11 +127,21 @@ const router = useRouter()
 
 // form and validation
 const validationRules = {
-  email: yup.string().email('Invalid email format').required('Password is required'),
-  first_name: yup.string().required('Password is required'),
-  last_name: yup.string().required('Password is required'),
-  company_name: yup.string().required('Password is required'),
-  phone: yup.string(),
+  email: yup.string().email('Invalid email format').required('Email is required'),
+  first_name: yup.string().required('First Name is required'),
+  last_name: yup.string().required('Last Name is required'),
+  company_name: yup.string().required('Company Name is required'),
+  phone: yup.string().required('Phone Number is required').test(
+    'phone-format',
+    'Phone number must be in international format (e.g., +1234567890)',
+    (value) => {
+      // Allow empty value for optional field
+      if (!value) return true;
+      // Check if the phone number starts with '+' and contains only digits after that but allow spaces
+      value = value.replace(/\s+/g, ''); // Remove spaces
+      return /^\+?\d+$/.test(value);
+    }
+  ),
   agree: yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
   password: yup.string()
     .required('Password is required')
@@ -158,7 +152,7 @@ const validationRules = {
       helperFunctions.passwordRegex
     ),
   repeat_password: yup.string()
-    .required('Password is required')
+    .required('Repeat Password is required')
     .oneOf([yup.ref('password')], 'Passwords do not match')
 };
 
@@ -181,6 +175,16 @@ const [agree, agreeAttr] = defineField('agree');
 const signup = handleSubmit(async (values) => {
 
   try {
+
+    values.phone = values.phone.replace(/\s+/g, ''); // Remove spaces
+    values.agree = values.agree ? true : false; // Ensure agree is a boolean
+    values.first_name = values.first_name.trim();
+    values.last_name = values.last_name.trim();
+    values.company_name = values.company_name.trim();
+    values.email = values.email.trim().toLowerCase(); // Normalize email
+    values.password = values.password.trim();
+    values.repeat_password = values.repeat_password.trim();
+
     const { data } = await api.register(values)
     helperFunctions.toast('Registration Successful, Please Login', 'success')
     router.push({ path: '/login' })

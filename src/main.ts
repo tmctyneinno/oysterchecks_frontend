@@ -44,7 +44,7 @@ import VOtpInput from "vue3-otp-input";
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-// https://www.npmjs.com/package/vue-tel-input
+// https://iamstevendao.com/vue-tel-input/guide/getting-started.html
 import VueTelInput from 'vue-tel-input';
 import 'vue-tel-input/vue-tel-input.css';
 
