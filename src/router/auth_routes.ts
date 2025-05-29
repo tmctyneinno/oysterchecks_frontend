@@ -26,4 +26,11 @@ export default [
         beforeEnter: pageGuard,
     },
 
+    {
+        path: '/register/otp',
+        name: 'RegisterOTP',
+        component: () => import('../pages/auth/RegisterOTP.vue'),
+        beforeEnter: pageGuard,
+    },
+
 ]

@@ -1,6 +1,14 @@
 import { $instance, $instanceForm } from '../instances'
 
 export default {
+    sendOtp(data: any) {
+        return $instance.post(`auth/sendOtp`, JSON.stringify(data))
+    },
+
+    verifyOtp(data: any) {
+        return $instance.post(`auth/verifyOtp`, JSON.stringify(data))
+    },
+
     register(data: any) {
         return $instance.post(`auth/register`, JSON.stringify(data))
     },

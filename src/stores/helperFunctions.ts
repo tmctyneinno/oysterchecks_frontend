@@ -9,6 +9,12 @@ type DebounceFunction<T extends (...args: any[]) => any> = (...args: Parameters<
 
 export default {
 
+    isValidEmail: (email: string) => {
+        var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email)
+    },
+
+
 
     isExtension: (fileName: string, requiredFormats: string[]) => {
         const regex = new RegExp('[^.]+$');

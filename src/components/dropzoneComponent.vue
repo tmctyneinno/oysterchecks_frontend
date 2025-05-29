@@ -8,7 +8,7 @@
     </div>
     <span v-if="img?.name">
         <i class="bi bi-check-circle-fill text-success"></i>
-        {{ img?.name }}
+        {{ img.name }}
     </span>
 </template>
 
@@ -77,6 +77,5 @@ const { getRootProps, getInputProps } = useDropzone({
     border-color: var(--bs-primary);
     background-color: #f0f8ff;
     color: var(--bs-primary);
-
 }
 </style>

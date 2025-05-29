@@ -10,7 +10,7 @@
             <div class="col-md-9">
               <div class="card border-0 bg-transparent">
                 <div class="card-header bg-transparent border-0 pb-4">
-                  <router-link to="/">
+                  <router-link to="#">
                     <img src="/images/logo.png" width="150" alt="">
                   </router-link>
                 </div>
@@ -118,11 +118,12 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import CustomTextField from '@/components/customTextField.vue';
 import CustomPhoneField from '@/components/customPhoneField.vue';
+import { useStorage } from '@vueuse/core';
 
 
 const router = useRouter()
 
-
+const tempRegisterStorage = useStorage<any>('oysterTempRegData', null, localStorage);
 
 
 // form and validation
@@ -177,6 +178,7 @@ const signup = handleSubmit(async (values) => {
   try {
 
     values.phone = values.phone.replace(/\s+/g, ''); // Remove spaces
+    // values.phone = values.phone.startsWith('+') ? values.phone : `+${values.phone}`; // Ensure phone starts with '+'
     values.agree = values.agree ? true : false; // Ensure agree is a boolean
     values.first_name = values.first_name.trim();
     values.last_name = values.last_name.trim();
@@ -185,9 +187,13 @@ const signup = handleSubmit(async (values) => {
     values.password = values.password.trim();
     values.repeat_password = values.repeat_password.trim();
 
-    const { data } = await api.register(values)
-    helperFunctions.toast('Registration Successful, Please Login', 'success')
-    router.push({ path: '/login' })
+    await api.sendOtp({ email: values.email })
+    tempRegisterStorage.value = JSON.stringify(values)
+    router.push({
+      path: '/register/otp',
+      query: { e: values.email, tm: new Date().getTime() }
+    })
+
   }
   catch (err: any) {
     const errorMessage = err.response?.data?.errors;

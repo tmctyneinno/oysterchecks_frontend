@@ -50,7 +50,7 @@
                       </div>
                     </div>
 
-                    <div class="col-12 mt-4">
+                    <div class="col-12 mt-3">
                       <loadingButton type="submit" className="btn-theme btn-lg w-100" :loading="isSubmitting">
                         SIGN-IN
                       </loadingButton>
