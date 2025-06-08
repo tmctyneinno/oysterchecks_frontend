@@ -15,10 +15,9 @@
                 </div>
 
                 <div class="col-lg-2">
-                    <button v-if="!formIsSearching" @click="emitSearch" class="w-100 btn btn-theme" btnType="submit">
+                    <loadingButton @click="emitSearch" type="submit" className="btn-theme w-100" :loading="isSearching">
                         Search
-                    </button>
-                    <!-- <primaryButtonLoading v-else className="w-100" /> -->
+                    </loadingButton>
                 </div>
             </div>
         </form>
@@ -28,9 +27,9 @@
 
 <script lang="ts" setup>
 import { ref, reactive, watch } from 'vue';
+import LoadingButton from './loadingButton.vue';
 
 const titleField = ref<any>(null)
-const formIsSearching = ref(false)
 
 const searchForm = reactive({
     keyword: '',
@@ -46,6 +45,10 @@ const props = defineProps({
     url: {
         type: String,
         required: false
+    },
+    isSearching: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -58,7 +61,7 @@ function emitSearch() {
 }
 
 watch(() => searchForm.keyword, () => {
-    if (searchForm.keyword.length == 0) emits('search', null)
+    if (searchForm.keyword.length == 0) emits('search', '')
 })
 
 

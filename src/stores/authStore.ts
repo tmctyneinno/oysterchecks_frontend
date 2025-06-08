@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 // @ts-ignore
 import Cookies from 'js-cookie';
 import { computed, reactive, ref } from "vue";
+import api from "@/api";
 
 export const useAuthStore = defineStore('authStore', () => {
 
@@ -27,13 +28,24 @@ export const useAuthStore = defineStore('authStore', () => {
         window.location.reload()
     }
 
+    async function getProfile() {
+        try {
+            const { data } = await api.profile()
+            profile.value = data;
+        } catch (error: any) {
+            if (error.response && error.response.status == 401) logout();
+        }
+    }
+
 
     return {
         login,
         logout,
+        getProfile,
+
         isLoggedIn,
         cookieValues,
-        profile
+        profile,
     }
 
 })

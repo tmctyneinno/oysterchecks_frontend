@@ -6,8 +6,8 @@
     <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
         aria-labelledby="modalTitleId" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollabl modal-dialog-centered" role="document">
-            <div class="modal-content px-2 px-lg-3">
-                <div class="modal-header">
+            <div class="modal-content">
+                <div class="modal-header border-0">
                     <h5 class="modal-title" id="modalTitleId">
                         New Client
                     </h5>
@@ -17,56 +17,91 @@
                 <div class="modal-body">
                     <div class="row g-3">
 
-                        <div class="col-12">
+                        <div class="col-lg-6">
+
                             <div class="form-label">
-                                First Name
+                                First name
                                 <redAsteric />
                             </div>
-                            <input placeholder="Enter First Name" type="text" class="form-control">
+                            <CustomTextField :float-label="false" v-model="first_name" v-bind="first_nameAttr"
+                                placeholder="" />
+                            <div class="small text-danger">{{ errors?.first_name }}</div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-lg-6">
                             <div class="form-label">
-                                Middle Name
+                                Last name
                                 <redAsteric />
                             </div>
-                            <input placeholder="Enter Middle Name" type="text" class="form-control">
+                            <CustomTextField :float-label="false" v-model="last_name" v-bind="last_nameAttr"
+                                placeholder="" />
+                            <div class="small text-danger">{{ errors?.last_name }}</div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <div class="form-label">
-                                Last Name
+                                Telephone
                                 <redAsteric />
                             </div>
-                            <input placeholder="Enter Last Name" type="text" class="form-control">
+                            <CustomPhoneField :size="'normal'" placeholder="" v-model="telephone"
+                                :v:bind="telephone_Attr" />
+                            <div class="small text-danger">{{ errors?.telephone }}</div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <div class="form-label">
-                                Email Address
+                                Mobile
                                 <redAsteric />
                             </div>
-                            <input placeholder="Enter Email Address" type="email" class="form-control">
+                            <CustomPhoneField :size="'normal'" placeholder="" v-model="mobile" :v:bind="mobileAttr" />
+                            <div class="small text-danger">{{ errors?.mobile }}</div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-label">
+                                Date of Birth
+                                <redAsteric />
+                            </div>
+                            <CustomDatePicker :max-date="new Date()" v-model="dob" :v:bind="dobAttr" />
+                            <div class="small text-danger">{{ errors?.dob }}</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-label">
+                                Country
+                                <redAsteric />
+                            </div>
+                            <v-select v-model="country" :v:bind="countryAttr" :teleport="true" :options="countries"
+                                label="name" placeholder="select country" :clearable="false"></v-select>
+                            <div class="small text-danger">{{ errors?.country }}</div>
+                        </div>
+
+
                         <div class="col-12">
+                            <CustomTextField type="email" v-model="email" v-bind="emailAttr"
+                                placeholder="Work Email *" />
+                            <div class="small text-danger">{{ errors?.email }}</div>
+                        </div>
+
+
+
+
+
+                        <!-- <div class="col-12">
                             <div class="form-label">
                                 Upload Image
                             </div>
                             <DropzoneComponent @fileUploaded="updateFile" />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-outline-secondary rounded-4" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button v-if="!isSaving" @click="simulateFormSubmission" type="button" class="btn btn-theme">Add
-                        Client</button>
-                    <button v-else type="button" class="btn btn-theme" disabled>
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Saving...
-                    </button>
+                    <loadingButton @click="addClient" className="btn-theme" :loading="isSubmitting">
+                        Add Client
+                    </loadingButton>
                 </div>
             </div>
         </div>
@@ -81,24 +116,89 @@ import { onBeforeRouteLeave } from 'vue-router';
 import DropzoneComponent from '@/components/dropzoneComponent.vue';
 import helperFunctions from '@/stores/helperFunctions';
 
+import api from '@/api'
+
+import { useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/yup';
+import * as yup from 'yup';
+import CustomTextField from '@/components/customTextField.vue';
+import CustomPhoneField from '@/components/customPhoneField.vue';
+import CustomDatePicker from '@/components/customDatePicker.vue';
+
+import { Country, type ICountry } from 'country-state-city';
 
 const clientsStore = useClientsStore()
 
+const countries = ref<ICountry[]>(Country.getAllCountries())
 
+const emit = defineEmits(['done'])
 
-const isSaving = ref<boolean>(false);
+// form and validation
+const validationRules = {
+    email: yup.string().email('Invalid email format').required('Email is required'),
+    first_name: yup.string().required('First Name is required'),
+    country: yup.object().required('Country is required'),
+    last_name: yup.string().required('Last Name is required'),
+    dob: yup.date().required('DOB is required'),
+    telephone: yup.string().required('Phone Number is required').test(
+        'phone-format',
+        'Invalid format (e.g., +1234567890)',
+        (value) => { return helperFunctions.validatePhoneNo(value) }
+    ),
+    mobile: yup.string().required('Phone Number is required').test(
+        'phone-format',
+        'Invalid format (e.g., +1234567890)',
+        (value) => { return helperFunctions.validatePhoneNo(value) }
+    ),
 
-const simulateFormSubmission = () => {
-    isSaving.value = true;
-    setTimeout(() => {
-        isSaving.value = false;
-        closeModal.value?.click();
-        helperFunctions.toast('Client added successfully', 'success');
-    }, 2000);
 };
 
-function updateFile(file: any) { }
+const { errors, handleSubmit, defineField, isSubmitting, resetForm } = useForm({
+    validationSchema: toTypedSchema(yup.object(validationRules)),
+});
 
+const [email, emailAttr] = defineField('email');
+const [first_name, first_nameAttr] = defineField('first_name');
+const [last_name, last_nameAttr] = defineField('last_name');
+const [telephone, telephone_Attr] = defineField('telephone');
+const [mobile, mobileAttr] = defineField('mobile');
+const [dob, dobAttr] = defineField('dob');
+const [country, countryAttr] = defineField('country');
+
+
+const addClient = handleSubmit(async (values) => {
+
+    try {
+        const newClient = {
+            type: "person",
+            email: values.email.trim().toLowerCase(),
+            mobile: values.mobile.replace(/\s+/g, ''),
+            telephone: values.telephone.replace(/\s+/g, ''),
+            joinedDate: helperFunctions.dateDisplay(new Date(), 'YYYY-MM-DD'),
+            personDetails: {
+                firstName: values.first_name.trim(),
+                lastName: values.last_name.trim(),
+                dob: helperFunctions.dateDisplay(new Date(values.dob), 'YYYY-MM-DD'),
+                // @ts-ignore
+                nationality: values.country?.isoCode
+
+            }
+        }
+
+        const { data } = await api.createClient(newClient)
+        if (data.status == 201) {
+            helperFunctions.toast(data.message, 'success')
+            emit('done')
+        }
+
+    }
+    catch (err: any) {
+        helperFunctions.toast(err.response?.message ?? 'Something went wrong', 'error')
+    }
+    finally {
+        closeModal.value?.click()
+    }
+})
 
 
 
@@ -106,6 +206,7 @@ const openModal = ref<any>(null)
 const closeModal = ref<any>(null)
 
 watch(() => clientsStore.toggleAddModal, () => {
+    resetForm()
     openModal.value?.click()
 })
 

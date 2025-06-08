@@ -69,7 +69,7 @@
 
 
 .vue3-easy-data-table__loading-mask {
-  background-color: #111 !important;
+  /* background-color: #111 !important; */
   opacity: .1 !important;
 }
 

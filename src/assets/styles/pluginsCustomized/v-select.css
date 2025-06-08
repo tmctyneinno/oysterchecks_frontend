@@ -21,6 +21,29 @@
   border: 0px !important;
 }
 
+.vs--single {
+    &:not(.vs--open) .vs__selected+.vs__search {
+        width: 0;
+        padding: 0;
+        margin: 0;
+        border: none;
+        height: 0;
+    }
+
+    .vs__selected-options {
+        width: 0;
+    }
+
+    .vs__selected {
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        overflow: hidden;
+        line-height:inherit;
+    }
+}
+
 .vs--multiple {
     
   .vs__selected {

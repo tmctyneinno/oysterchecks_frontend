@@ -19,24 +19,29 @@
             </div>
             <div class="col-12">
                 <InlineSearchForm @search="(keyword: string) => searchKeyword = keyword"
-                    placeholder-prop="Search Client" />
+                    placeholder-prop="Search Client" :is-searching="itemsLoading" />
             </div>
 
             <div class="col-12">
                 <div class="card  min-vh-100 border-0">
                     <div class="card-body">
-                        <EasyDataTable show-index alternating :headers="headers" :items="filteredSampleData"
-                            buttons-pagination>
+                        <EasyDataTable show-index :loading="itemsLoading" alternating :headers="headers" :items="items"
+                            buttons-pagination v-model:server-options="serverOptions"
+                            :server-items-length="serverItemsLength">
+
                             <template #header="header">
                                 <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
                             </template>
 
-                            <template #item-name="item">
+                            <template #empty-message>
+                                <EmptyDataComponent :text="'No Clients'" />
+                            </template>
 
+                            <template #item-name="item">
                                 <button @click="viewClient(item.id, item.name)"
-                                    class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-decoration-non">{{
-                                        item.name
-                                    }}</button>
+                                    class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-decoration-non text-capitalize">
+                                    {{ item.first_name + ' ' + item.last_name }}
+                                </button>
                             </template>
 
                             <template #item-risk="item">
@@ -67,7 +72,7 @@
             </div>
         </div>
 
-        <AddClientsModal />
+        <AddClientsModal @done="getClients()" />
     </div>
 </template>
 
@@ -75,12 +80,14 @@
 import InlineSearchForm from '@/components/InlineSearchForm.vue';
 import helperFunctions from '@/stores/helperFunctions';
 import sampleData from '@/stores/sample_data.json'
-import { computed, ref, watchEffect } from 'vue';
-import type { Header, Item } from 'vue3-easy-data-table';
+import { onMounted, ref, watch, watchEffect } from 'vue';
+import type { Header, Item, ServerOptions } from 'vue3-easy-data-table';
 import { useClientsStore } from './clientsStore';
 import AddClientsModal from './addClientsModal.vue';
 import ClientsDetailsComponent from './ClientsDetails.vue';
 import { useRoute, useRouter } from 'vue-router';
+import api from '@/api';
+import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 
 
 const isShowingDetails = ref<boolean>(false)
@@ -90,6 +97,51 @@ const router = useRouter()
 watchEffect(() => {
     isShowingDetails.value = route.query?.refId ? true : false
 })
+
+
+
+onMounted(() => {
+    getClients()
+})
+
+// const items = ref<Item[]>(sampleData.Clients);
+const items = ref<Item[]>([]);
+const itemsLoading = ref<boolean>(false)
+const searchKeyword = ref<string>('');
+const serverItemsLength = ref(0);
+const serverOptions = ref<ServerOptions | any>({
+    page: 1,
+    rowsPerPage: 15,
+    // sortType: 'desc',
+    // sortBy: 'collateral_name'
+});
+
+async function getClients() {
+    try {
+        itemsLoading.value = true
+
+        const obj = {
+            page: serverOptions.value.page,
+            rowsPerPage: serverOptions.value.rowsPerPage,
+            search: searchKeyword.value,
+        }
+
+        const params = new URLSearchParams(obj as Record<string, string>);
+
+        const { data } = await api.getClients(params.toString())
+        serverItemsLength.value = data.data.total
+        items.value = data.data.data
+    } catch (error) {
+
+    }
+    finally {
+        itemsLoading.value = false
+    }
+}
+
+const debouncedLoadCollateralHistory = helperFunctions.debounce(getClients, 500);
+watch(serverOptions, (value) => { getClients(); }, { deep: true });
+watch(searchKeyword, debouncedLoadCollateralHistory, { deep: true });
 
 
 const headers = ref<Header[]>([
@@ -120,16 +172,15 @@ function viewClient(id: string, name: string) {
 }
 
 
-const searchKeyword = ref<string>('')
-const filteredSampleData = computed(() => {
-    if (!searchKeyword.value) {
-        return sampleData.Clients
-    }
-    return sampleData.Clients.filter(client => {
-        return client.name.toLowerCase().includes(searchKeyword.value.toLowerCase()) ||
-            client.email.toLowerCase().includes(searchKeyword.value.toLowerCase())
-    })
-})
+// const filteredSampleData = computed(() => {
+//     if (!searchKeyword.value) {
+//         return sampleData.Clients
+//     }
+//     return sampleData.Clients.filter(client => {
+//         return client.name.toLowerCase().includes(searchKeyword.value.toLowerCase()) ||
+//             client.email.toLowerCase().includes(searchKeyword.value.toLowerCase())
+//     })
+// })
 
 </script>
 

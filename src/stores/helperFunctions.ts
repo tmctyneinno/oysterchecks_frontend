@@ -14,6 +14,14 @@ export default {
         return regex.test(email)
     },
 
+    validatePhoneNo: (value: string) => {
+        if (!value) return true;
+        // Check if the phone number starts with '+' and contains only digits after that but allow spaces
+        value = value.replace(/\s+/g, ''); // Remove spaces
+        // also check if length is more than 10
+        return /^\+?\d+$/.test(value) && value.length >= 10;
+    },
+
 
 
     isExtension: (fileName: string, requiredFormats: string[]) => {
@@ -200,7 +208,8 @@ export default {
             return spaceBelow < spaceAbove ? 'top' : 'bottom'
         }
 
-        const placement = calculatePlacement()
+        // const placement = calculatePlacement()
+        const placement = 'top'
 
         const popper = createPopper(component.$refs.toggle, dropdownList, {
             placement: placement,

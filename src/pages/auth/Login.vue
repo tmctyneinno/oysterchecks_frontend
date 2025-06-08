@@ -136,11 +136,12 @@ const login = handleSubmit(async (values) => {
   try {
     const payload = helperFunctions.encrypedLoginCredentials(values.email, values.password);
     const { data } = await api.login(payload)
+    if (!data.token) return loginError.value = 'An error occurred while logging in. Please try again.'
     authStore.login(data.token)
     rememberMeEmail.value = values.rememberMe ? values.email : '';
   }
   catch (error: any) {
-    loginError.value = error?.response?.data?.message || 'An error occurred while logging in.'
+    loginError.value = error?.response?.data?.message || 'An error occurred while logging in. Please try again.'
   }
 })
 
