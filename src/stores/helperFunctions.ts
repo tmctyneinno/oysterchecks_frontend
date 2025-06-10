@@ -60,7 +60,7 @@ export default {
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: false,
-            padding: 10,
+            // padding: 10,
         })
     },
 
@@ -84,10 +84,15 @@ export default {
             iconColor: '#873A70',
             showCancelButton: true,
             confirmButtonText: `${btnText}`,
-            cancelButtonText: 'cancel',
-            confirmButtonColor: '#873A70',
+            cancelButtonText: 'CANCEL',
+            // confirmButtonColor: '#873A70',
             reverseButtons: true,
             width: '300px',
+            allowEscapeKey: true,
+            customClass: {
+                confirmButton: 'bg-transparent text-uppercase text-theme hover-tiltY',
+                cancelButton: 'bg-transparent text-dark hover-tiltY',
+            },
         })
     },
 
@@ -99,10 +104,15 @@ export default {
             iconColor: '#dc3545',
             showCancelButton: true,
             confirmButtonText: `${btnText}`,
-            cancelButtonText: 'cancel',
-            confirmButtonColor: '#dc3545',
+            cancelButtonText: 'CANCEL',
+            // confirmButtonColor: '#873A70',
             reverseButtons: true,
             width: '300px',
+            allowEscapeKey: true,
+            customClass: {
+                confirmButton: 'bg-transparent text-uppercase text-danger hover-tiltY',
+                cancelButton: 'bg-transparent text-dark hover-tiltY',
+            },
         })
     },
 

@@ -78,8 +78,12 @@
 
 
                         <div class="col-12">
-                            <CustomTextField type="email" v-model="email" v-bind="emailAttr"
-                                placeholder="Work Email *" />
+                            <div class="form-label">
+                                Email
+                                <redAsteric />
+                            </div>
+                            <CustomTextField :float-label="false" type="email" v-model="email" v-bind="emailAttr"
+                                placeholder="" />
                             <div class="small text-danger">{{ errors?.email }}</div>
                         </div>
 
@@ -99,9 +103,11 @@
                     <button type="button" class="btn btn-outline-secondary rounded-4" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <loadingButton @click="addClient" className="btn-theme" :loading="isSubmitting">
-                        Add Client
-                    </loadingButton>
+                    <div style="width: 150px;">
+                        <loadingButton @click="addClient" className="btn-theme w-100" :loading="isSubmitting">
+                            Add Client
+                        </loadingButton>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,6 +132,7 @@ import CustomPhoneField from '@/components/customPhoneField.vue';
 import CustomDatePicker from '@/components/customDatePicker.vue';
 
 import { Country, type ICountry } from 'country-state-city';
+import { useOnline } from '@vueuse/core';
 
 const clientsStore = useClientsStore()
 
@@ -166,7 +173,14 @@ const [dob, dobAttr] = defineField('dob');
 const [country, countryAttr] = defineField('country');
 
 
+const online = useOnline()
+
 const addClient = handleSubmit(async (values) => {
+
+    // if (!online.value) {
+    //     helperFunctions.toast('You are offline', 'warning')
+    //     return;
+    // }
 
     try {
         const newClient = {
@@ -188,15 +202,12 @@ const addClient = handleSubmit(async (values) => {
         const { data } = await api.createClient(newClient)
         if (data.status == 201) {
             helperFunctions.toast(data.message, 'success')
+            closeModal.value?.click()
             emit('done')
         }
-
     }
     catch (err: any) {
-        helperFunctions.toast(err.response?.message ?? 'Something went wrong', 'error')
-    }
-    finally {
-        closeModal.value?.click()
+        helperFunctions.toast(err.response?.message ?? 'Could not create Client, Something went wrong', 'error')
     }
 })
 

@@ -56,10 +56,11 @@
                             </template>
 
                             <template #item-action="item">
-                                <button class="btn-sm border-0 bg-transparent text-info-emphasis hover-tiltY">
+                                <!-- <button class="btn-sm border-0 bg-transparent text-info-emphasis hover-tiltY">
                                     <i class="bi bi-pencil-fill"></i>
-                                </button>
-                                <button class="btn-sm border-0 bg-transparent text-danger-emphasis hover-tiltY">
+                                </button> -->
+                                <button @click="deleteClient(item.id)"
+                                    class="btn-sm border-0 bg-transparent text-danger-emphasis hover-tiltY">
                                     <i class="bi bi-trash3"></i>
                                 </button>
 
@@ -147,7 +148,7 @@ watch(searchKeyword, debouncedLoadCollateralHistory, { deep: true });
 const headers = ref<Header[]>([
     { text: 'Clients Name', value: 'name', sortable: true },
     { text: 'Email Address', value: 'email', sortable: true },
-    { text: 'Risk', value: 'risk', sortable: true },
+    // { text: 'Risk', value: 'risk', sortable: true },
     { text: 'Created Date', value: 'created_at', sortable: true },
     { text: 'Action', value: 'action' },
 ])
@@ -171,16 +172,17 @@ function viewClient(id: string, name: string) {
 
 }
 
+function deleteClient(id: any) {
+    helperFunctions.confirmDelete('Entire Record will be deleted?', 'Yes, Delete')
+        .then((confirm) => {
+            if (confirm.value) {
 
-// const filteredSampleData = computed(() => {
-//     if (!searchKeyword.value) {
-//         return sampleData.Clients
-//     }
-//     return sampleData.Clients.filter(client => {
-//         return client.name.toLowerCase().includes(searchKeyword.value.toLowerCase()) ||
-//             client.email.toLowerCase().includes(searchKeyword.value.toLowerCase())
-//     })
-// })
+            }
+        })
+}
+
+
+
 
 </script>
 

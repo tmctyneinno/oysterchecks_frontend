@@ -3,6 +3,8 @@ import { type ProgressFinisher, useProgress } from '@marcoschulte/vue3-progress'
 // @ts-ignore
 import Cookies from 'js-cookie';
 import { useAuthStore } from '@/stores/authStore';
+import { useOnline } from '@vueuse/core';
+import helperFunctions from '@/stores/helperFunctions';
 
 const progresses: ProgressFinisher[] = [];
 
@@ -26,8 +28,12 @@ const $instanceSilent = createAxiosInstance('json');
 const $instanceForm = createAxiosInstance('form');
 
 const setAuthAndStartProgress = (config: any) => {
+    const online = useOnline()
+    if (!online.value) {
+        helperFunctions.toast('You are offline', 'warning')
+        return;
+    }
     const authStore = useAuthStore()
-    // const token = Cookies.get(import.meta.env.VITE_TOKEN_NAME);
     const token = Cookies.get(authStore.cookieValues.tokenName);
     if (token) config.headers.Authorization = `Bearer ${token}`;
     progresses.push(useProgress().start());
