@@ -5,28 +5,7 @@
             <i class="bi bi-arrow-left"></i> Back to Clients
         </div>
 
-        <div class="col-12">
-            {{ }}
-            <div class="card rounded-4 border-0">
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-lg-7 d-flex justify-content-start align-items-center gap-3">
-                            <ImageCircle :src="null" height="50px" />
-                            <div>
-                                <div class="fw-600 text-capitalize">{{ clientsStore.clientDetails?.name }} </div>
-                                <div class="small text-muted">{{ clientsStore.clientDetails?.email }}</div>
-
-                            </div>
-                        </div>
-                        <div class="col-lg-5 d-lg-flex justify-content-end align-items-center gap-3">
-                            <button disabled class="btn btn-outline-dark rounded-4">
-                                Export Client Report
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ClientHeadComponent :client="clientsStore.clientDetails" />
 
         <div class="col-md-3">
             <div class="card h-100 border-0 rounded-4">
@@ -50,6 +29,7 @@ import { onMounted, computed, ref } from 'vue';
 import sample_data from '@/stores/sample_data.json'
 import api from '@/api';
 import ClientsSkeleton from '@/components/skeletonLoaders/clientsSkeleton.vue';
+import ClientHeadComponent from '../ClientHeadComponent.vue';
 
 const clientsStore = useClientsStore()
 

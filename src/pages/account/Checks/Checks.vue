@@ -23,15 +23,20 @@
             <div class="col-12">
                 <div class="card  min-vh-100 border-0">
                     <div class="card-body">
-                        <EasyDataTable show-index alternating :headers="headers" :items="filteredSampleData"
-                            buttons-pagination>
+                        <EasyDataTable show-index alternating :headers="headers" :items="items" buttons-pagination
+                            :loading="itemsLoading" v-model:server-options="serverOptions"
+                            :server-items-length="serverItemsLength">
                             <template #header="header">
                                 <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
                             </template>
 
+                            <template #empty-message>
+                                <EmptyDataComponent :text="'No Checks'" />
+                            </template>
+
                             <template #item-name="item">
 
-                                <button @click="viewClient(item.id, item.name)"
+                                <button @click="viewClient(item.id, item.client_id)"
                                     class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-decoration-non">{{
                                         item.name
                                     }}</button>
@@ -71,13 +76,13 @@
 <script setup lang="ts">
 import InlineSearchForm from '@/components/InlineSearchForm.vue';
 import helperFunctions from '@/stores/helperFunctions';
-import sampleData from '@/stores/sample_data.json'
-import { computed, ref, watchEffect } from 'vue';
-import type { Header, Item } from 'vue3-easy-data-table';
+import { ref, watch, watchEffect } from 'vue';
+import type { Header, Item, ServerOptions } from 'vue3-easy-data-table';
 import { useClientsStore } from '../Clients/clientsStore';
-import ClientsDetailsComponent from '../Clients/ClientsDetails.vue';
 import ClientsChecks from './ClientsChecks.vue';
 import { useRoute, useRouter } from 'vue-router';
+import api from '@/api';
+import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 
 
 const isShowingDetails = ref<boolean>(false)
@@ -87,6 +92,46 @@ const router = useRouter()
 watchEffect(() => {
     isShowingDetails.value = route.query?.refId ? true : false
 })
+
+
+
+// const items = ref<Item[]>(sampleData.ClientsChecks);
+const items = ref<Item[]>([]);
+const itemsLoading = ref<boolean>(false)
+const searchKeyword = ref<string>('');
+const serverItemsLength = ref(0);
+const serverOptions = ref<ServerOptions | any>({
+    page: 1,
+    rowsPerPage: 15,
+    // sortType: 'desc',
+    // sortBy: ''
+});
+
+async function getChecks() {
+    try {
+        itemsLoading.value = true
+
+        const obj = {
+            page: serverOptions.value.page,
+            rowsPerPage: serverOptions.value.rowsPerPage,
+            search: searchKeyword.value,
+        }
+
+        const params = new URLSearchParams(obj as Record<string, string>);
+
+        const { data } = await api.getChecks(params.toString())
+        serverItemsLength.value = data.data.total
+        items.value = data.data.data
+    } catch (error) { }
+    finally {
+        itemsLoading.value = false
+    }
+}
+
+const debouncedLoadCollateralHistory = helperFunctions.debounce(getChecks, 500);
+watch(serverOptions, (value) => { getChecks(); }, { deep: true });
+watch(searchKeyword, debouncedLoadCollateralHistory, { deep: true });
+
 
 
 const headers = ref<Header[]>([
@@ -101,27 +146,17 @@ const headers = ref<Header[]>([
 
 const clientsStore = useClientsStore()
 
-function viewClient(id: string, name: string) {
+function viewClient(id: string, client_id: string) {
     router.push({
         path: '',
         query: {
             refId: id,
-            client: name,
+            client: client_id,
             tme: new Date().getTime()
         }
     })
 
 }
-
-const searchKeyword = ref<string>('')
-const filteredSampleData = computed(() => {
-    if (!searchKeyword.value) {
-        return sampleData.allchecks
-    }
-    return sampleData.allchecks.filter(client => {
-        return client.name.toLowerCase().includes(searchKeyword.value.toLowerCase())
-    })
-})
 
 </script>
 

@@ -1,43 +1,31 @@
 <template>
     <ClientsSkeleton v-if="isLoadingDetails" />
+
     <div v-else class="row g-3">
         <div class="col-12 fs-4 cursor-pointer" @click="router.back()">
             <i class="bi bi-arrow-left"></i> Client's checks
         </div>
 
-        <div class="col-12">
-            <div class="card rounded-4 border-0">
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-lg-7 d-flex justify-content-start align-items-center gap-3">
-                            <ImageCircle :src="'/images/avatar.png'" height="50px" />
-                            <div>
-                                <div class="fw-600 text-capitalize">{{ clientDetails?.name }} </div>
-                                <div class="small text-muted">{{ clientDetails?.email }}</div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 d-lg-flex justify-content-end align-items-center gap-3">
-                            <button disabled class="btn btn-outline-dark rounded-4">
-                                Export Client Report
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ClientHeadComponent :client="clientDetails" />
+
         <div class="col-12">
 
             <div class="card h-100 border-0 rounded-4">
                 <div class="card-header bg-transparent border-0">
-                    <span v-if="!isAddingNew" class="fw-500">Checks</span>
-                    <span v-else>
-                        <i @click="isAddingNew = false" class="bi bi-arrow-left cursor-pointer"></i>
-                        New Check
+                    <span class="fw-500">
+                        {{ isAddingNew ? 'New Check' : 'Checks' }}
                     </span>
+
                     <button v-if="!isAddingNew" @click="isAddingNew = true"
-                        class="btn btn-sm btn-outline-dark float-end rounded-4 ">
-                        <i class="bi bi-plus"></i> New Check
+                        class="btn btn-sm btn-dark float-end rounded-4 ">
+                        <i class="bi bi-plus-lg"></i> New Check
                     </button>
+
+                    <button v-else @click="isAddingNew = false"
+                        class="btn btn-sm btn-light text-danger float-end rounded-4 ">
+                        <i class="bi bi-x-lg"></i> Cancel
+                    </button>
+
                 </div>
                 <div v-if="!isAddingNew" class="card-body">
                     <EasyDataTable show-index alternating :headers="headers" :items="items" buttons-pagination
@@ -65,19 +53,11 @@
                     <div class="row g-3 small">
                         <div class="col-md-6">
                             <div class="small text-muted">Check Type</div>
-                            <select class="form-select ">
-                                <option v-for="i in checktypes" :value="i.id" :key="i.id">
-                                    {{ i.name }}
-                                </option>
-                            </select>
+                            <CustomSelect :options="checktypes" placeholder="select type" label="name" />
                         </div>
                         <div class="col-md-6">
                             <div class="small text-muted">Required Document</div>
-                            <select class="form-select ">
-                                <option v-for="i in documentTypes" :value="i.id" :key="i.id">
-                                    {{ i.name }}
-                                </option>
-                            </select>
+                            <CustomSelect :options="documentTypes" placeholder="select type" label="name" />
                         </div>
 
                         <div class="col-md-6">
@@ -127,6 +107,8 @@ import helperFunctions from '@/stores/helperFunctions';
 import api from '@/api';
 import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 import ClientsSkeleton from '@/components/skeletonLoaders/clientsSkeleton.vue';
+import ClientHeadComponent from '../Clients/ClientHeadComponent.vue';
+import CustomSelect from '@/components/Inputs/customSelect.vue';
 
 const clientsStore = useClientsStore()
 const { clientDetails, checktypes, documentTypes } = storeToRefs(clientsStore)
@@ -136,18 +118,28 @@ const router = useRouter()
 
 onMounted(async () => {
     await getClientDetails()
+    await getResources()
+    isLoadingDetails.value = false
     // getClientsChecks()
 })
 
-const isLoadingDetails = ref<boolean>(false)
+const isLoadingDetails = ref<boolean>(true)
 async function getClientDetails() {
     try {
-        isLoadingDetails.value = true
         const client_id = route.query?.refId as string
         const { data } = await api.getClient(client_id)
-        clientsStore.clientDetails = data
+        clientDetails.value = data
     } catch (error) { }
-    finally { isLoadingDetails.value = false }
+
+}
+
+async function getResources() {
+    try {
+        const { data } = await api.clientsResources()
+        checktypes.value = data.check_types
+        documentTypes.value = data.document_types
+    } catch (error) { }
+
 }
 
 

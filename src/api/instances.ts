@@ -27,8 +27,8 @@ const $instance = createAxiosInstance('json');
 const $instanceSilent = createAxiosInstance('json');
 const $instanceForm = createAxiosInstance('form');
 
+const online = useOnline()
 const setAuthAndStartProgress = (config: any) => {
-    const online = useOnline()
     if (!online.value) {
         helperFunctions.toast('You are offline', 'warning')
         return;

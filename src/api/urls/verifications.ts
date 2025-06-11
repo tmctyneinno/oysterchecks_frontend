@@ -9,6 +9,14 @@ export default {
         return $instance.get(`clients/all?${params}`)
     },
 
+    getChecks(params: string) {
+        return $instance.get(`checks/all?${params}`)
+    },
+
+    clientsResources() {
+        return $instance.get(`client/resources`)
+    },
+
     getClientChecks(params: string) {
         return $instance.get(`clients/checks?${params}`)
     },
