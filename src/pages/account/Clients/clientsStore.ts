@@ -19,12 +19,12 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
 
     const clientDetails = ref<any>(null)
 
-    const General = markRaw(defineAsyncComponent(() => import('./menuContents/General.vue')))
-    const Addresses = markRaw(defineAsyncComponent(() => import('./menuContents/Addresses.vue')));
-    const Documents = markRaw(defineAsyncComponent(() => import('./menuContents/Documents.vue')));
+    const General = markRaw(defineAsyncComponent(() => import('./Details/Menus/general.vue')))
+    const Addresses = markRaw(defineAsyncComponent(() => import('./Details/Menus/addresses.vue')));
+    const Documents = markRaw(defineAsyncComponent(() => import('./Details/Menus/documents.vue')));
     // const Checks = markRaw(defineAsyncComponent(() => import('./menuContents/Checks.vue')));
-    const AML_Risk = markRaw(defineAsyncComponent(() => import('./menuContents/AML_Risk.vue')));
-    const Audit_Log = markRaw(defineAsyncComponent(() => import('./menuContents/Audit_Log.vue')));
+    const AML_Risk = markRaw(defineAsyncComponent(() => import('./Details/Menus/aml_risk.vue')));
+    const Audit_Log = markRaw(defineAsyncComponent(() => import('./Details/Menus/audit_log.vue')));
 
     const clientsDetailsMenu = reactive<clientsDetailsMenuInterface>({
         tabs: [

@@ -38,9 +38,9 @@
                             </template>
 
                             <template #item-name="item">
-                                <button @click="viewClient(item.id, item.name)"
+                                <button @click="viewClient(item.id, item.client_id)"
                                     class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-decoration-non text-capitalize">
-                                    {{ item.first_name + ' ' + item.last_name }}
+                                    {{ item.name }}
                                 </button>
                             </template>
 
@@ -65,8 +65,6 @@
                         </EasyDataTable>
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -82,7 +80,7 @@ import { onMounted, ref, watch, watchEffect } from 'vue';
 import type { Header, Item, ServerOptions } from 'vue3-easy-data-table';
 import { useClientsStore } from './clientsStore';
 import AddClientsModal from './addClientsModal.vue';
-import ClientsDetailsComponent from './ClientsDetails.vue';
+import ClientsDetailsComponent from './Details/ClientsDetails.vue';
 import { useRoute, useRouter } from 'vue-router';
 import api from '@/api';
 import EmptyDataComponent from '@/components/emptyDataComponent.vue';
@@ -159,12 +157,12 @@ function openAddClientsStore() {
     clientsStore.toggleAddModal = !clientsStore.toggleAddModal
 }
 
-function viewClient(id: string, name: string) {
+function viewClient(id: string, client_id: string) {
     router.push({
         path: '',
         query: {
             refId: id,
-            client: name,
+            client: client_id,
             tme: new Date().getTime()
         }
     })

@@ -1,5 +1,6 @@
 <template>
-    <div class="row g-3">
+    <ClientsSkeleton v-if="isLoadingDetails" />
+    <div v-else class="row g-3">
         <div class="col-12 fs-4 cursor-pointer" @click="router.back()">
             <i class="bi bi-arrow-left"></i> Client's checks
         </div>
@@ -11,12 +12,12 @@
                         <div class="col-lg-7 d-flex justify-content-start align-items-center gap-3">
                             <ImageCircle :src="'/images/avatar.png'" height="50px" />
                             <div>
-                                <div class="fw-600">{{ route.query?.client }} </div>
-                                <div class="small text-muted">{{ route.query?.email }}</div>
+                                <div class="fw-600 text-capitalize">{{ clientDetails?.name }} </div>
+                                <div class="small text-muted">{{ clientDetails?.email }}</div>
                             </div>
                         </div>
                         <div class="col-lg-5 d-lg-flex justify-content-end align-items-center gap-3">
-                            <button class="btn btn-outline-dark rounded-4">
+                            <button disabled class="btn btn-outline-dark rounded-4">
                                 Export Client Report
                             </button>
                         </div>
@@ -39,10 +40,15 @@
                     </button>
                 </div>
                 <div v-if="!isAddingNew" class="card-body">
-                    <EasyDataTable show-index alternating :headers="headers" :items="sampleData.ClientsChecks"
-                        buttons-pagination>
+                    <EasyDataTable show-index alternating :headers="headers" :items="items" buttons-pagination
+                        :loading="itemsLoading" v-model:server-options="serverOptions"
+                        :server-items-length="serverItemsLength">
                         <template #header="header">
                             <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
+                        </template>
+
+                        <template #empty-message>
+                            <EmptyDataComponent :text="'No Checks'" />
                         </template>
 
                         <template #item-type="item">
@@ -112,18 +118,76 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useClientsStore } from '../Clients/clientsStore';
-import { ref } from 'vue';
-import sampleData from '@/stores/sample_data.json'
-import type { Header, Item } from 'vue3-easy-data-table';
+import { onMounted, ref, watch } from 'vue';
+// import sampleData from '@/stores/sample_data.json'
+import type { Header, Item, ServerOptions } from 'vue3-easy-data-table';
 import { useRoute, useRouter } from 'vue-router';
 import DropzoneComponent from '@/components/Inputs/dropzoneComponent.vue';
 import helperFunctions from '@/stores/helperFunctions';
+import api from '@/api';
+import EmptyDataComponent from '@/components/emptyDataComponent.vue';
+import ClientsSkeleton from '@/components/skeletonLoaders/clientsSkeleton.vue';
 
 const clientsStore = useClientsStore()
 const { clientDetails, checktypes, documentTypes } = storeToRefs(clientsStore)
 
 const route = useRoute()
 const router = useRouter()
+
+onMounted(async () => {
+    await getClientDetails()
+    // getClientsChecks()
+})
+
+const isLoadingDetails = ref<boolean>(false)
+async function getClientDetails() {
+    try {
+        isLoadingDetails.value = true
+        const client_id = route.query?.refId as string
+        const { data } = await api.getClient(client_id)
+        clientsStore.clientDetails = data
+    } catch (error) { }
+    finally { isLoadingDetails.value = false }
+}
+
+
+// const items = ref<Item[]>(sampleData.ClientsChecks);
+const items = ref<Item[]>([]);
+const itemsLoading = ref<boolean>(false)
+const searchKeyword = ref<string>('');
+const serverItemsLength = ref(0);
+const serverOptions = ref<ServerOptions | any>({
+    page: 1,
+    rowsPerPage: 15,
+    // sortType: 'desc',
+    // sortBy: ''
+});
+
+async function getClientsChecks() {
+    try {
+        itemsLoading.value = true
+
+        const obj = {
+            page: serverOptions.value.page,
+            rowsPerPage: serverOptions.value.rowsPerPage,
+            search: searchKeyword.value,
+            id: route.query.refId
+        }
+
+        const params = new URLSearchParams(obj as Record<string, string>);
+
+        const { data } = await api.getClientChecks(params.toString())
+        serverItemsLength.value = data.data.total
+        items.value = data.data.data
+    } catch (error) { }
+    finally {
+        itemsLoading.value = false
+    }
+}
+
+const debouncedLoadCollateralHistory = helperFunctions.debounce(getClientsChecks, 500);
+watch(serverOptions, (value) => { getClientsChecks(); }, { deep: true });
+watch(searchKeyword, debouncedLoadCollateralHistory, { deep: true });
 
 const headers = ref<Header[]>([
     { text: 'Status', value: 'status', sortable: true },

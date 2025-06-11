@@ -9,6 +9,10 @@ export default {
         return $instance.get(`clients/all?${params}`)
     },
 
+    getClientChecks(params: string) {
+        return $instance.get(`clients/checks?${params}`)
+    },
+
     createClient(data: any) {
         return $instance.post(`clients/new`, JSON.stringify(data))
     },

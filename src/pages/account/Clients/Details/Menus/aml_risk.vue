@@ -35,7 +35,7 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useClientsStore } from '../clientsStore';
+import { useClientsStore } from '../../clientsStore';
 import { ref } from 'vue';
 import sampleData from '@/stores/sample_data.json'
 import type { Header, Item } from 'vue3-easy-data-table';
