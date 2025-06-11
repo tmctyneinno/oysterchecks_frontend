@@ -18,7 +18,6 @@
                     <div class="row g-3">
 
                         <div class="col-lg-6">
-
                             <div class="form-label">
                                 First name
                                 <redAsteric />
@@ -71,8 +70,8 @@
                                 Country
                                 <redAsteric />
                             </div>
-                            <v-select v-model="country" :v:bind="countryAttr" :teleport="true" :options="countries"
-                                label="name" placeholder="select country" :clearable="false"></v-select>
+                            <CustomSelect v-model="country" :v:bind="countryAttr" :options="clientsStore.countries"
+                                placeholder="select country" />
                             <div class="small text-danger">{{ errors?.country }}</div>
                         </div>
 
@@ -86,10 +85,6 @@
                                 placeholder="" />
                             <div class="small text-danger">{{ errors?.email }}</div>
                         </div>
-
-
-
-
 
                         <!-- <div class="col-12">
                             <div class="form-label">
@@ -119,7 +114,6 @@
 import { ref, watch } from 'vue';
 import { useClientsStore } from './clientsStore';
 import { onBeforeRouteLeave } from 'vue-router';
-import DropzoneComponent from '@/components/dropzoneComponent.vue';
 import helperFunctions from '@/stores/helperFunctions';
 
 import api from '@/api'
@@ -127,16 +121,14 @@ import api from '@/api'
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
-import CustomTextField from '@/components/customTextField.vue';
-import CustomPhoneField from '@/components/customPhoneField.vue';
-import CustomDatePicker from '@/components/customDatePicker.vue';
+// import DropzoneComponent from '@/components/Inputs/dropzoneComponent.vue';
+import CustomTextField from '@/components/Inputs/customTextField.vue';
+import CustomPhoneField from '@/components/Inputs/customPhoneField.vue';
+import CustomDatePicker from '@/components/Inputs/customDatePicker.vue';
+import CustomSelect from '@/components/Inputs/customSelect.vue';
 
-import { Country, type ICountry } from 'country-state-city';
-import { useOnline } from '@vueuse/core';
 
 const clientsStore = useClientsStore()
-
-const countries = ref<ICountry[]>(Country.getAllCountries())
 
 const emit = defineEmits(['done'])
 
@@ -173,14 +165,9 @@ const [dob, dobAttr] = defineField('dob');
 const [country, countryAttr] = defineField('country');
 
 
-const online = useOnline()
+
 
 const addClient = handleSubmit(async (values) => {
-
-    // if (!online.value) {
-    //     helperFunctions.toast('You are offline', 'warning')
-    //     return;
-    // }
 
     try {
         const newClient = {

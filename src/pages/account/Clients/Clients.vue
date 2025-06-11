@@ -44,11 +44,8 @@
                                 </button>
                             </template>
 
-                            <template #item-risk="item">
-                                <span class="rounded-2 small d-flex justify-content-center"
-                                    :style="`background-color: ${clientsStore.riskShader(item.risk).bg}; color: ${clientsStore.riskShader(item.risk).color}`">
-                                    {{ clientsStore.riskShader(item.risk).text }}
-                                </span>
+                            <template #item-nationality="item">
+                                {{ clientsStore.countryName(item.nationality) }}
                             </template>
 
                             <template #item-created_at="item">
@@ -100,7 +97,6 @@ watchEffect(() => {
 })
 
 
-
 onMounted(() => {
     getClients()
 })
@@ -148,10 +144,13 @@ watch(searchKeyword, debouncedLoadCollateralHistory, { deep: true });
 const headers = ref<Header[]>([
     { text: 'Clients Name', value: 'name', sortable: true },
     { text: 'Email Address', value: 'email', sortable: true },
+    { text: 'Nationality', value: 'nationality', sortable: true },
     // { text: 'Risk', value: 'risk', sortable: true },
     { text: 'Created Date', value: 'created_at', sortable: true },
     { text: 'Action', value: 'action' },
 ])
+
+// const getCountryName
 
 
 const clientsStore = useClientsStore()

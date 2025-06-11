@@ -116,7 +116,7 @@ import { ref } from 'vue';
 import sampleData from '@/stores/sample_data.json'
 import type { Header, Item } from 'vue3-easy-data-table';
 import { useRoute, useRouter } from 'vue-router';
-import DropzoneComponent from '@/components/dropzoneComponent.vue';
+import DropzoneComponent from '@/components/Inputs/dropzoneComponent.vue';
 import helperFunctions from '@/stores/helperFunctions';
 
 const clientsStore = useClientsStore()

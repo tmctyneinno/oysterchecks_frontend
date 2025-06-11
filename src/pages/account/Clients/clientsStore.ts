@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, reactive, ref, defineAsyncComponent, markRaw } from "vue";
+import { Country, type ICountry } from 'country-state-city';
 
 export const useClientsStore = defineStore('adminClientsStore', () => {
 
@@ -96,6 +97,13 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         { id: 10, name: 'Other' },
     ])
 
+    const countries: ICountry[] = Country.getAllCountries()
+        .map((x: any) => ({ label: x.name + ' (' + x.isoCode + ')', ...x }))
+
+    const countryName = (isCode: string): string | undefined => {
+        return countries.find(x => x.isoCode == isCode)?.name
+    }
+
 
     return {
         clientsDetailsMenu,
@@ -105,6 +113,8 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         riskShader,
         statusShader,
         checktypes,
-        documentTypes
+        documentTypes,
+        countries,
+        countryName
     }
 })

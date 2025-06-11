@@ -104,20 +104,18 @@
 </template>
 
 <script setup lang="ts">
-import CustomNumberField from '@/components/customNumberField.vue';
-import CustomPasswordField from '@/components/customPasswordField.vue';
+
 import AuthSideSlider from './authSideSlider.vue';
-
 import api from '@/api'
-
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
 import helperFunctions from '@/stores/helperFunctions';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import CustomTextField from '@/components/customTextField.vue';
-import CustomPhoneField from '@/components/customPhoneField.vue';
+import CustomTextField from '@/components/Inputs/customTextField.vue';
+import CustomPhoneField from '@/components/Inputs/customPhoneField.vue';
+import CustomPasswordField from '@/components/Inputs/customPasswordField.vue';
 import { useStorage } from '@vueuse/core';
 
 

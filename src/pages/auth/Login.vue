@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import CustomPasswordField from '@/components/customPasswordField.vue';
+import CustomPasswordField from '@/components/Inputs/customPasswordField.vue';
 import AuthSideSlider from './authSideSlider.vue';
 import api from '@/api'
 
@@ -93,7 +93,7 @@ import * as yup from 'yup';
 import helperFunctions from '@/stores/helperFunctions';
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
-import CustomTextField from '@/components/customTextField.vue';
+import CustomTextField from '@/components/Inputs/customTextField.vue';
 import { useStorage } from '@vueuse/core';
 
 const authStore = useAuthStore()

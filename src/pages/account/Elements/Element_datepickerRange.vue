@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import CustomDateRangePicker from '@/components/customDateRangePicker.vue';
+import CustomDateRangePicker from '@/components/Inputs/customDatePicker.vue';
 import { ref } from 'vue';
 
 
