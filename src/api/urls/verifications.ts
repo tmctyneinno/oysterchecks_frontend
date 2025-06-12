@@ -25,11 +25,7 @@ export default {
         return $instance.post(`clients/new`, JSON.stringify(data))
     },
 
-    verifyAML_Standard(data: any) {
-        return $instance.post(`clients/verify/aml-standard`, JSON.stringify(data))
-    },
-
-    verifyAML_Extensive(data: any) {
-        return $instance.post(`clients/verify/aml-extensive`, JSON.stringify(data))
+    verifyAML(data: any) {
+        return $instance.post(`clients/verify/aml`, JSON.stringify(data))
     },
 }

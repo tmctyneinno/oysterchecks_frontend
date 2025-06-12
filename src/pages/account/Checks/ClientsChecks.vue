@@ -10,7 +10,7 @@
 
         <div class="col-12">
 
-            <div class="card h-100 border-0 rounded-4">
+            <div class="card min-vh-50 border-0 rounded-4">
                 <div class="card-header bg-transparent border-0">
                     <span class="fw-500">
                         {{ isAddingNew ? 'New Check' : 'Checks' }}
@@ -50,39 +50,51 @@
                 </div>
 
                 <div v-else class="card-body">
+
                     <div class="row g-3 small">
-                        <div class="col-md-6">
-                            <div class="small text-muted">Check Type</div>
-                            <CustomSelect :options="checktypes" placeholder="select type" label="name" />
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="small text-muted">Check Type</div>
+                                    <CustomSelect v-model="slectedCheckType" :options="checktypes"
+                                        placeholder="select type" label="name" />
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
+
+                        <div class="col-md-6 d-none">
                             <div class="small text-muted">Required Document</div>
                             <CustomSelect :options="documentTypes" placeholder="select type" label="name" />
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6 d-none">
                             <div class="form-label">Uplaod Document</div>
                             <div class="small text-muted">Front Side (2MB MAX)</div>
                             <DropzoneComponent />
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6 d-none">
                             <div class="form-label">Upload Document</div>
                             <div class="small text-muted">Back Side (2MB MAX)</div>
                             <DropzoneComponent />
                         </div>
 
 
-                        <div v-if="isAddingNew" class="col-12 mt-5">
-                            <button v-if="!isSaving" @click="simulateFormSubmission" type="button"
-                                class="btn btn-theme rounded-4 float-end">Run Check</button>
-                            <button v-else type="button" class="btn btn-theme float-end" disabled>
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Checking...
-                            </button>
-                            <button @click="isAddingNew = false" class="btn btn-outline-dark me-2 rounded-4 float-end">
+
+                    </div>
+                </div>
+                <div v-if="isAddingNew" class="card-footer bg-transparent border-0">
+                    <div class="row justify-content-end g-1">
+                        <div class="col-md-2">
+                            <button @click="isAddingNew = false"
+                                class="btn btn-outline-dark me-2 rounded-4 float-end w-100">
                                 Cancel
                             </button>
+                        </div>
+                        <div v-if="slectedCheckType" class="col-md-3 col-lg-2">
+                            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="isSaving">
+                                RUN CHECk
+                            </loadingButton>
                         </div>
                     </div>
                 </div>
@@ -109,6 +121,7 @@ import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 import ClientsSkeleton from '@/components/skeletonLoaders/clientsSkeleton.vue';
 import ClientHeadComponent from '../Clients/ClientHeadComponent.vue';
 import CustomSelect from '@/components/Inputs/customSelect.vue';
+import LoadingButton from '@/components/loadingButton.vue';
 
 const clientsStore = useClientsStore()
 const { clientDetails, checktypes, documentTypes } = storeToRefs(clientsStore)
@@ -192,20 +205,33 @@ const headers = ref<Header[]>([
 
 const isAddingNew = ref<boolean>(false)
 
-
 const isSaving = ref<boolean>(false);
-const simulateFormSubmission = () => {
-    isSaving.value = true;
-    setTimeout(() => {
-        isSaving.value = false;
-        // helperFunctions.toast('Client added successfully', 'success');
-        helperFunctions.toast('Documents added successfully', 'success');
-    }, 2000);
-};
-
-
-
 
 function showDetails(item: any) {
+}
+
+const slectedCheckType = ref<any>(null)
+function runCheck() {
+    helperFunctions.confirm('Run Check?', 'Continue').then(async (confirm) => {
+        if (confirm.value) {
+            if (["extensive_screening_check", "standard_screening_check"].includes(slectedCheckType.value?.type)) {
+                try {
+                    isSaving.value = true
+                    const { data } = await api.verifyAML({ id: clientDetails.value?.id, type: slectedCheckType.value?.type })
+                    if (data.status == 201) {
+                        helperFunctions.toast(data.message, 'success')
+                        isAddingNew.value = false
+                    }
+
+                } catch (error) { }
+                finally { isSaving.value = false }
+            }
+        }
+    })
+
+
+
+
+
 }
 </script>

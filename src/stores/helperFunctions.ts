@@ -91,7 +91,7 @@ export default {
             allowEscapeKey: true,
             customClass: {
                 confirmButton: 'bg-transparent text-uppercase text-theme hover-tiltY',
-                cancelButton: 'bg-transparent text-dark hover-tiltY',
+                cancelButton: 'bg-transparent text-muted hover-tiltY',
             },
         })
     },
@@ -111,7 +111,7 @@ export default {
             allowEscapeKey: true,
             customClass: {
                 confirmButton: 'bg-transparent text-uppercase text-danger hover-tiltY',
-                cancelButton: 'bg-transparent text-dark hover-tiltY',
+                cancelButton: 'bg-transparent text-muted hover-tiltY',
             },
         })
     },

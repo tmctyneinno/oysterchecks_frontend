@@ -100,7 +100,7 @@ button:focus,
 }
 
 .text-theme{
-  color: var(--theme-color);
+  color: var(--theme-color) !important;
 }
 
 .bg-theme{
