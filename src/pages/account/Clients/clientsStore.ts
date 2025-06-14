@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, reactive, ref, defineAsyncComponent, markRaw } from "vue";
 import { Country, type ICountry } from 'country-state-city';
+import api from "@/api";
 
 export const useClientsStore = defineStore('adminClientsStore', () => {
 
@@ -20,8 +21,8 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     const clientDetails = ref<any>(null)
 
     const General = markRaw(defineAsyncComponent(() => import('./Details/Menus/general.vue')))
-    const Addresses = markRaw(defineAsyncComponent(() => import('./Details/Menus/addresses.vue')));
-    const Documents = markRaw(defineAsyncComponent(() => import('./Details/Menus/documents.vue')));
+    // const Addresses = markRaw(defineAsyncComponent(() => import('./Details/Menus/addresses.vue')));
+    // const Documents = markRaw(defineAsyncComponent(() => import('./Details/Menus/documents.vue')));
     // const Checks = markRaw(defineAsyncComponent(() => import('./menuContents/Checks.vue')));
     const AML_Risk = markRaw(defineAsyncComponent(() => import('./Details/Menus/aml_risk.vue')));
     const Audit_Log = markRaw(defineAsyncComponent(() => import('./Details/Menus/audit_log.vue')));
@@ -29,11 +30,11 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     const clientsDetailsMenu = reactive<clientsDetailsMenuInterface>({
         tabs: [
             { tab: 1, group: 'info', text: 'General', component: General },
-            { tab: 2, group: 'info', text: 'Addresses', component: Addresses },
-            { tab: 3, group: 'info', text: 'Documents', component: Documents },
-            { tab: 4, group: 'due', text: 'Checks', component: null },
-            { tab: 5, group: 'due', text: 'AML Risk', component: AML_Risk },
-            { tab: 6, group: 'activity', text: 'Audit Log', component: Audit_Log },
+            // { tab: 2, group: 'info', text: 'Addresses', component: Addresses },
+            // { tab: 3, group: 'info', text: 'Documents', component: Documents },
+            { tab: 4, group: 'info', text: 'Checks', component: null },
+            // { tab: 5, group: 'due', text: 'AML Risk', component: AML_Risk },
+            { tab: 6, group: 'info', text: 'Audit Log', component: Audit_Log },
         ],
         tabShowing: 1,
     })
@@ -49,8 +50,21 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         return countries.find(x => x.isoCode == isCode)?.name
     }
 
-    const checktypes = ref<any[]>([])
-    const documentTypes = ref<any[]>([])
+    const resources = reactive({
+        checksTypes: [],
+        documentTypes: [],
+        isLoaded: false
+    })
+
+    async function getClientResources() {
+        if (!resources.isLoaded)
+            try {
+                const { data } = await api.clientsResources()
+                resources.checksTypes = data.check_types
+                resources.documentTypes = data.document_types
+                resources.isLoaded = true
+            } catch (error) { }
+    }
 
 
 
@@ -90,9 +104,9 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         clientsTabByGroup,
         riskShader,
         statusShader,
-        checktypes,
-        documentTypes,
         countries,
-        countryName
+        countryName,
+        getClientResources,
+        resources
     }
 })

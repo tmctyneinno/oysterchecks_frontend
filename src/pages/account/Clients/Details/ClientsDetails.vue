@@ -29,7 +29,7 @@ import { onMounted, computed, ref } from 'vue';
 import sample_data from '@/stores/sample_data.json'
 import api from '@/api';
 import ClientsSkeleton from '@/components/skeletonLoaders/clientsSkeleton.vue';
-import ClientHeadComponent from '../ClientHeadComponent.vue';
+import ClientHeadComponent from '../clientHeadComponent.vue';
 
 const clientsStore = useClientsStore()
 

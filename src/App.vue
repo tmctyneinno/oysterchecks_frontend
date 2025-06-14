@@ -11,10 +11,13 @@ import { RouterView } from 'vue-router';
 import * as bootstrap from 'bootstrap'
 import { useRoute } from 'vue-router'
 import { nextTick, watch } from 'vue';
+import { useTemplateStore } from './stores/template';
+
+const templateStore = useTemplateStore()
 
 const route = useRoute()
 
-watch(() => [route.fullPath, /*templateStore.activateToolTip*/], async () => {
+watch(() => [route.fullPath, templateStore.activateToolTip], async () => {
   await nextTick();
   document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
     const instance = bootstrap.Tooltip.getInstance(el);

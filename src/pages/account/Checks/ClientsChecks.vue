@@ -14,6 +14,7 @@
                 <div class="card-header bg-transparent border-0">
                     <span class="fw-500">
                         {{ isAddingNew ? 'New Check' : 'Checks' }}
+
                     </span>
 
                     <button v-if="!isAddingNew" @click="isAddingNew = true"
@@ -56,7 +57,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-lg-4">
                                     <div class="small text-muted">Check Type</div>
-                                    <CustomSelect v-model="slectedCheckType" :options="checktypes"
+                                    <CustomSelect v-model="slectedCheckType" :options="resources.checksTypes"
                                         placeholder="select type" label="name" />
                                 </div>
                             </div>
@@ -64,7 +65,7 @@
 
                         <div class="col-md-6 d-none">
                             <div class="small text-muted">Required Document</div>
-                            <CustomSelect :options="documentTypes" placeholder="select type" label="name" />
+                            <CustomSelect :options="resources.documentTypes" placeholder="select type" label="name" />
                         </div>
 
                         <div class="col-md-6 d-none">
@@ -103,9 +104,6 @@
         </div>
     </div>
 
-
-
-
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
@@ -119,21 +117,21 @@ import helperFunctions from '@/stores/helperFunctions';
 import api from '@/api';
 import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 import ClientsSkeleton from '@/components/skeletonLoaders/clientsSkeleton.vue';
-import ClientHeadComponent from '../Clients/ClientHeadComponent.vue';
+import ClientHeadComponent from '../Clients/clientHeadComponent.vue';
 import CustomSelect from '@/components/Inputs/customSelect.vue';
 import LoadingButton from '@/components/loadingButton.vue';
 
 const clientsStore = useClientsStore()
-const { clientDetails, checktypes, documentTypes } = storeToRefs(clientsStore)
+const { clientDetails, resources } = storeToRefs(clientsStore)
 
 const route = useRoute()
 const router = useRouter()
 
 onMounted(async () => {
+    if (!route.query?.refId || !route.query?.client) router.back()
     await getClientDetails()
-    await getResources()
+    await clientsStore.getClientResources()
     isLoadingDetails.value = false
-    // getClientsChecks()
 })
 
 const isLoadingDetails = ref<boolean>(true)
@@ -145,16 +143,6 @@ async function getClientDetails() {
     } catch (error) { }
 
 }
-
-async function getResources() {
-    try {
-        const { data } = await api.clientsResources()
-        checktypes.value = data.check_types
-        documentTypes.value = data.document_types
-    } catch (error) { }
-
-}
-
 
 // const items = ref<Item[]>(sampleData.ClientsChecks);
 const items = ref<Item[]>([]);
@@ -217,13 +205,15 @@ function runCheck() {
             if (["extensive_screening_check", "standard_screening_check"].includes(slectedCheckType.value?.type)) {
                 try {
                     isSaving.value = true
-                    const { data } = await api.verifyAML({ id: clientDetails.value?.id, type: slectedCheckType.value?.type })
+                    const { data } = await api.verify({ id: clientDetails.value?.id, check_type: slectedCheckType.value?.type })
                     if (data.status == 201) {
                         helperFunctions.toast(data.message, 'success')
                         isAddingNew.value = false
                     }
 
-                } catch (error) { }
+                } catch (error) {
+                    helperFunctions.toast('Could not verify, Pls try again', 'error')
+                }
                 finally { isSaving.value = false }
             }
         }

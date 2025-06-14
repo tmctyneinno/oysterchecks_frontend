@@ -31,9 +31,9 @@ import { useRouter } from 'vue-router';
 import { watch } from 'vue';
 
 const sections: { title: string, group: 'info' | 'due' | 'activity' }[] = [
-    { title: "CLIENT'S INFORMATION", group: 'info' },
-    { title: "DUE DILIGENCE", group: 'due' },
-    { title: "ACTIVITY LOG", group: 'activity' }
+    { title: "CLIENT'S DETAILS", group: 'info' },
+    // { title: "DUE DILIGENCE", group: 'due' },
+    // { title: "ACTIVITY LOG", group: 'activity' }
 ]
 
 const clientsStore = useClientsStore()

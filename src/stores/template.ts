@@ -10,6 +10,8 @@ export const useTemplateStore = defineStore('template', () => {
     appTheme.value = appTheme.value == 'dark' ? 'light' : 'dark';
   }
 
+  const activateToolTip = ref<number>(0)
+
 
   // Data
   const sidebarmenu = reactive<{ heading?: string, menu: { title: string, icon: string, link?: string, children?: any[] }[] }[]>([
@@ -60,6 +62,7 @@ export const useTemplateStore = defineStore('template', () => {
   return {
     appTheme,
     toggleTheme,
-    sidebarmenu
+    sidebarmenu,
+    activateToolTip,
   }
 })

@@ -38,7 +38,7 @@
                             </template>
 
                             <template #item-name="item">
-                                <button @click="viewClient(item.id, item.client_id)"
+                                <button @click="goToClientsDetails(item.id, item.client_id)"
                                     class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-decoration-non text-capitalize">
                                     {{ item.name }}
                                 </button>
@@ -95,7 +95,8 @@ watchEffect(() => {
 })
 
 
-onMounted(() => {
+onMounted(async () => {
+    await clientsStore.getClientResources()
     getClients()
 })
 
@@ -148,7 +149,6 @@ const headers = ref<Header[]>([
     { text: 'Action', value: 'action' },
 ])
 
-// const getCountryName
 
 
 const clientsStore = useClientsStore()
@@ -157,7 +157,7 @@ function openAddClientsStore() {
     clientsStore.toggleAddModal = !clientsStore.toggleAddModal
 }
 
-function viewClient(id: string, client_id: string) {
+function goToClientsDetails(id: string, client_id: string) {
     router.push({
         path: '',
         query: {
