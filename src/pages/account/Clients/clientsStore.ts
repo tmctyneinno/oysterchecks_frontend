@@ -32,9 +32,9 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
             { tab: 1, group: 'info', text: 'General', component: General },
             // { tab: 2, group: 'info', text: 'Addresses', component: Addresses },
             // { tab: 3, group: 'info', text: 'Documents', component: Documents },
+            { tab: 6, group: 'info', text: 'Audit Log', component: Audit_Log },
             { tab: 4, group: 'info', text: 'Checks', component: null },
             // { tab: 5, group: 'due', text: 'AML Risk', component: AML_Risk },
-            { tab: 6, group: 'info', text: 'Audit Log', component: Audit_Log },
         ],
         tabShowing: 1,
     })

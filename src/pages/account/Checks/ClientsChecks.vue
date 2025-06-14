@@ -209,6 +209,7 @@ function runCheck() {
                     if (data.status == 201) {
                         helperFunctions.toast(data.message, 'success')
                         isAddingNew.value = false
+                        // getClientsChecks()
                     }
 
                 } catch (error) {

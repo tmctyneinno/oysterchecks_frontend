@@ -9,15 +9,11 @@
                         <div class="small text-muted">View, manage and track all checks performed on clients
                         </div>
                     </div>
-                    <!-- <div class="col-md-3">
-                        <button @click="openAddClientsStore" class="btn btn-theme small float-end">Create new
-                            Client</button>
-                    </div> -->
                 </div>
             </div>
             <div class="col-12">
                 <InlineSearchForm @search="(keyword: string) => searchKeyword = keyword"
-                    placeholder-prop="Search by clients name" />
+                    placeholder-prop="Search by clients name" :is-searching="itemsLoading" />
             </div>
 
             <div class="col-12">
@@ -53,7 +49,7 @@
                                 <span>{{ helperFunctions.dateDisplay(item.created_at) }}</span>
                             </template>
 
-                            <template #item-action="item">
+                            <!-- <template #item-action="item">
                                 <button class="btn-sm border-0 bg-transparent text-info-emphasis hover-tiltY">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button>
@@ -61,12 +57,10 @@
                                     <i class="bi bi-trash3"></i>
                                 </button>
 
-                            </template>
+                            </template> -->
                         </EasyDataTable>
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -76,7 +70,7 @@
 <script setup lang="ts">
 import InlineSearchForm from '@/components/InlineSearchForm.vue';
 import helperFunctions from '@/stores/helperFunctions';
-import { ref, watch, watchEffect } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 import type { Header, Item, ServerOptions } from 'vue3-easy-data-table';
 import { useClientsStore } from '../Clients/clientsStore';
 import ClientsChecks from './ClientsChecks.vue';
@@ -107,7 +101,11 @@ const serverOptions = ref<ServerOptions | any>({
     // sortBy: ''
 });
 
-async function getChecks() {
+onMounted(() => {
+    getClientsWithChecks()
+})
+
+async function getClientsWithChecks() {
     try {
         itemsLoading.value = true
 
@@ -115,11 +113,12 @@ async function getChecks() {
             page: serverOptions.value.page,
             rowsPerPage: serverOptions.value.rowsPerPage,
             search: searchKeyword.value,
+            checks: 'true',
         }
 
         const params = new URLSearchParams(obj as Record<string, string>);
 
-        const { data } = await api.getChecks(params.toString())
+        const { data } = await api.getClients(params.toString())
         serverItemsLength.value = data.data.total
         items.value = data.data.data
     } catch (error) { }
@@ -128,19 +127,22 @@ async function getChecks() {
     }
 }
 
-const debouncedLoadCollateralHistory = helperFunctions.debounce(getChecks, 500);
-watch(serverOptions, (value) => { getChecks(); }, { deep: true });
+const debouncedLoadCollateralHistory = helperFunctions.debounce(getClientsWithChecks, 500);
+watch(serverOptions, (value) => { getClientsWithChecks(); }, { deep: true });
 watch(searchKeyword, debouncedLoadCollateralHistory, { deep: true });
+watch(() => route.query?.refId, () => { getClientsWithChecks() })
 
 
 
 const headers = ref<Header[]>([
     { text: 'Clients Name', value: 'name', sortable: true },
-    { text: 'Type', value: 'type', sortable: true },
-    { text: 'Status', value: 'status', sortable: true },
-    { text: 'Outcome', value: 'outcome', sortable: true },
-    { text: 'Started', value: 'started' },
-    { text: 'Completed', value: 'completed' },
+    { text: 'Email Address', value: 'email', sortable: true },
+    { text: 'Nationality', value: 'nationality', sortable: true },
+    { text: 'Telephone', value: 'telephone', sortable: true },
+    { text: 'Checks', value: 'no_of_checks', sortable: true },
+    // { text: 'Risk', value: 'risk', sortable: true },
+    // { text: 'Created Date', value: 'created_at', sortable: true },
+    // { text: 'Action', value: 'action' },
 ])
 
 
