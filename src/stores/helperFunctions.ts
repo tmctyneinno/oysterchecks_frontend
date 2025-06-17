@@ -219,8 +219,7 @@ export default {
             return spaceBelow < spaceAbove ? 'top' : 'bottom'
         }
 
-        // const placement = calculatePlacement()
-        const placement = 'top'
+        const placement = calculatePlacement()
 
         const popper = createPopper(component.$refs.toggle, dropdownList, {
             placement: placement,

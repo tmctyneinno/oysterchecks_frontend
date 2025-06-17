@@ -73,7 +73,7 @@ import ClientHeadComponent from '../Clients/clientHeadComponent.vue';
 import NewCheckComponent from './newCheckComponent.vue';
 
 const clientsStore = useClientsStore()
-const { clientDetails, clientExistingChecks, } = storeToRefs(clientsStore)
+const { clientExistingChecks } = storeToRefs(clientsStore)
 
 const route = useRoute()
 const router = useRouter()

@@ -13,7 +13,10 @@
 
   /* --vs-dropdown-option--active-color: #eeeeee; */
   --vs-dropdown-option--active-bg: var(--theme-color);
+  --vs-dropdown-z-index: 9999;
 }
+
+
 
 
 .vs__search {

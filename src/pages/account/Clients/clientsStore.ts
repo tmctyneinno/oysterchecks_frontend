@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, reactive, ref, defineAsyncComponent, markRaw } from "vue";
-import { Country, type ICountry } from 'country-state-city';
+import { Country, type ICountry, State, type IState, City, type ICity } from 'country-state-city';
 import api from "@/api";
 
 export const useClientsStore = defineStore('adminClientsStore', () => {
@@ -15,6 +15,12 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         }[];
         tabShowing: number;
     }
+
+    type CheckType = {
+        type: string;
+        name: string;
+        fields?: any[];
+    };
 
     const toggleAddModal = ref<boolean>(false)
 
@@ -46,18 +52,30 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     const countries: ICountry[] = Country.getAllCountries()
         .map((x: any) => ({ label: x.name + ' (' + x.isoCode + ')', ...x }))
 
+    const statesByCountry = (isoCode: string): IState[] => {
+        return State.getStatesOfCountry(isoCode).map((x: any) => ({ label: x.name, ...x }))
+    }
+
+    const citiesByState = (countryCode: string, stateCode: string): ICity[] => {
+        return City.getCitiesOfState(countryCode, stateCode).map((x: any) => ({ label: x.name, ...x }))
+    }
+
     const countryName = (isCode: string): string | undefined => {
         return countries.find(x => x.isoCode == isCode)?.name
     }
 
-    const resources = reactive({
+    const resources = reactive<{
+        checksTypes: CheckType[],
+        documentTypes: any[],
+        isLoaded: boolean
+    }>({
         checksTypes: [],
         documentTypes: [],
         isLoaded: false
     })
 
     const clientExistingChecks = ref<string[]>([])
-    const availableChecks = computed(() => {
+    const availableChecks = computed<CheckType[]>(() => {
         return resources.checksTypes.filter((x: { type: string }) => !clientExistingChecks.value.includes(x.type))
     })
 
@@ -126,5 +144,7 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         countryName,
         getClientResources,
         getClientDetails,
+        statesByCountry,
+        citiesByState,
     }
 })
