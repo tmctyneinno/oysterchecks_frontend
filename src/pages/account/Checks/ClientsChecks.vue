@@ -40,9 +40,22 @@
                             <EmptyDataComponent :text="'No Checks'" />
                         </template>
 
-                        <template #item-type="item">
-                            <span class="text-muted text-center text-uppercase">{{ item.type }}</span>
+
+                        <template #item-status="item">
+                            <span class="p-1 px-2 rounded-3" :style="{
+                                backgroundColor: clientsStore.statusShader(item.status).bg,
+                                color: clientsStore.statusShader(item.status).color
+                            }">
+                                {{ item.status }}
+                            </span>
                         </template>
+
+
+                        <template #item-created_at="item">
+                            <span> {{ helperFunctions.dateTimeDisplay(item.created_at) }} </span>
+                        </template>
+
+
 
                         <template #item-action="item">
                             <a @click="showDetails(item)" href="#">Details</a>
@@ -131,6 +144,7 @@ onMounted(async () => {
     if (!route.query?.refId || !route.query?.client) router.back()
     await getClientDetails()
     await clientsStore.getClientResources()
+    await getChecks()
     isLoadingDetails.value = false
 })
 
@@ -156,7 +170,7 @@ const serverOptions = ref<ServerOptions | any>({
     // sortBy: ''
 });
 
-async function getClientsChecks() {
+async function getChecks() {
     try {
         itemsLoading.value = true
 
@@ -164,29 +178,28 @@ async function getClientsChecks() {
             page: serverOptions.value.page,
             rowsPerPage: serverOptions.value.rowsPerPage,
             search: searchKeyword.value,
-            id: route.query.refId
+            client_id: route.query.client
         }
 
         const params = new URLSearchParams(obj as Record<string, string>);
 
-        const { data } = await api.getClientChecks(params.toString())
-        serverItemsLength.value = data.data.total
-        items.value = data.data.data
+        const { data } = await api.getChecks(params.toString())
+        serverItemsLength.value = data.total
+        items.value = data.data
     } catch (error) { }
     finally {
         itemsLoading.value = false
     }
 }
 
-const debouncedLoadCollateralHistory = helperFunctions.debounce(getClientsChecks, 500);
-watch(serverOptions, (value) => { getClientsChecks(); }, { deep: true });
+const debouncedLoadCollateralHistory = helperFunctions.debounce(getChecks, 500);
+watch(serverOptions, (value) => { getChecks(); }, { deep: true });
 watch(searchKeyword, debouncedLoadCollateralHistory, { deep: true });
 
 const headers = ref<Header[]>([
-    { text: 'Status', value: 'status', sortable: true },
-    { text: 'Date Completed', value: 'date_completed', sortable: true },
-    { text: 'Result Summary', value: 'result_summary', sortable: true },
-    { text: 'Request Date', value: 'request_date', sortable: true },
+    { text: 'Check Type', value: 'type', sortable: false },
+    { text: 'Status', value: 'status', sortable: false },
+    { text: 'Request Date', value: 'created_at', sortable: false },
     { text: 'Action', value: 'action' },
 ])
 
@@ -209,7 +222,7 @@ function runCheck() {
                     if (data.status == 201) {
                         helperFunctions.toast(data.message, 'success')
                         isAddingNew.value = false
-                        // getClientsChecks()
+                        getChecks()
                     }
 
                 } catch (error) {

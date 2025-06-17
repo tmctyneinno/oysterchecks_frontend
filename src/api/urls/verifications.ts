@@ -1,31 +1,30 @@
 import { $instance, $instanceForm } from '../instances'
 
 export default {
-    getClient(id: string) {
-        return $instance.get(`clients/details/${id}`)
-    },
 
     getClients(params: string) {
-        return $instance.get(`clients/all?${params}`)
-    },
-
-    getChecks(params: string) {
-        return $instance.get(`checks/all?${params}`)
-    },
-
-    clientsResources() {
-        return $instance.get(`client/resources`)
-    },
-
-    getClientChecks(params: string) {
-        return $instance.get(`clients/checks?${params}`)
+        return $instance.get(`clients?${params}`)
     },
 
     createClient(data: any) {
-        return $instance.post(`clients/new`, JSON.stringify(data))
+        return $instance.post(`clients`, JSON.stringify(data))
     },
 
+    getClient(id: string) {
+        return $instance.get(`clients/${id}`)
+    },
+
+    checksResources() {
+        return $instance.get(`checks/resources`)
+    },
+
+    getChecks(params: string) {
+        return $instance.get(`checks?${params}`)
+    },
+
+
+
     verify(data: any) {
-        return $instance.post(`clients/verify`, JSON.stringify(data))
+        return $instance.post(`client/verify`, JSON.stringify(data))
     },
 }

@@ -59,7 +59,7 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     async function getClientResources() {
         if (!resources.isLoaded)
             try {
-                const { data } = await api.clientsResources()
+                const { data } = await api.checksResources()
                 resources.checksTypes = data.check_types
                 resources.documentTypes = data.document_types
                 resources.isLoaded = true
