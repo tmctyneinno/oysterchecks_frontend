@@ -76,41 +76,42 @@ export default {
         })
     },
 
-    confirm: (text: string, btnText: string) => {
+    confirm: (title: string = '', text: string = '', btnText: string) => {
         return Swal.fire({
-            // title: `${title}`,
+            title: `${title}`,
             text: `${text}`,
-            icon: 'question',
-            iconColor: '#873A70',
+            // icon: 'question',
+            // iconColor: '#233c76',
             showCancelButton: true,
             confirmButtonText: `${btnText}`,
             cancelButtonText: 'CANCEL',
-            // confirmButtonColor: '#873A70',
+            confirmButtonColor: '#6e788117',
             reverseButtons: true,
             width: '300px',
             allowEscapeKey: true,
             customClass: {
-                confirmButton: 'bg-transparent text-uppercase text-theme hover-tiltY',
+                confirmButton: ' text-uppercase text-theme hover-tiltY',
                 cancelButton: 'bg-transparent text-muted hover-tiltY',
             },
         })
     },
 
-    confirmDelete: (text: string, btnText: string) => {
+    confirmDelete: (title: string = '', text: string = '', btnText: string) => {
         return Swal.fire({
-            // title: `${title}`,
+            title: `${title}`,
             text: `${text}`,
-            icon: 'warning',
-            iconColor: '#dc3545',
+            // icon: 'warning',
+            // iconColor: '#dc3545',
+            color: '#dc3545',
             showCancelButton: true,
             confirmButtonText: `${btnText}`,
             cancelButtonText: 'CANCEL',
-            // confirmButtonColor: '#873A70',
+            confirmButtonColor: '#6e788117',
             reverseButtons: true,
             width: '300px',
             allowEscapeKey: true,
             customClass: {
-                confirmButton: 'bg-transparent text-uppercase text-danger hover-tiltY',
+                confirmButton: ' text-uppercase text-danger hover-tiltY',
                 cancelButton: 'bg-transparent text-muted hover-tiltY',
             },
         })

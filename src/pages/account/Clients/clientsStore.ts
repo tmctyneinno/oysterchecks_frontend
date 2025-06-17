@@ -56,6 +56,11 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         isLoaded: false
     })
 
+    const clientExistingChecks = ref<string[]>([])
+    const availableChecks = computed(() => {
+        return resources.checksTypes.filter((x: { type: string }) => !clientExistingChecks.value.includes(x.type))
+    })
+
     async function getClientResources() {
         if (!resources.isLoaded)
             try {
@@ -65,6 +70,8 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
                 resources.isLoaded = true
             } catch (error) { }
     }
+
+
 
 
 
@@ -107,6 +114,8 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         countries,
         countryName,
         getClientResources,
-        resources
+        resources,
+        clientExistingChecks,
+        availableChecks
     }
 })

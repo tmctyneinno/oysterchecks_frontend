@@ -21,19 +21,16 @@ import { useDropzone } from 'vue3-dropzone';
 const props = defineProps({
     formats: {
         type: Array as () => string[],
-        required: true,
         default: () => ['png', 'jpg', 'jpeg', 'svg']
     },
     text: {
         type: String,
-        required: false,
         default: 'Click to replace or drag and drop'
     }
 })
 
 
 const emit = defineEmits(['fileUploaded']);
-
 
 // image
 const img = ref<any>(null)

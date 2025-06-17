@@ -70,7 +70,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-lg-4">
                                     <div class="small text-muted">Check Type</div>
-                                    <CustomSelect v-model="slectedCheckType" :options="resources.checksTypes"
+                                    <CustomSelect v-model="slectedCheckType" :options="availableChecks"
                                         placeholder="select type" label="name" />
                                 </div>
                             </div>
@@ -135,7 +135,7 @@ import CustomSelect from '@/components/Inputs/customSelect.vue';
 import LoadingButton from '@/components/loadingButton.vue';
 
 const clientsStore = useClientsStore()
-const { clientDetails, resources } = storeToRefs(clientsStore)
+const { clientDetails, resources, clientExistingChecks, availableChecks } = storeToRefs(clientsStore)
 
 const route = useRoute()
 const router = useRouter()
@@ -185,7 +185,8 @@ async function getChecks() {
 
         const { data } = await api.getChecks(params.toString())
         serverItemsLength.value = data.total
-        items.value = data.data
+        items.value = data.data;
+        clientExistingChecks.value = data.existing_checks
     } catch (error) { }
     finally {
         itemsLoading.value = false
@@ -213,7 +214,7 @@ function showDetails(item: any) {
 
 const slectedCheckType = ref<any>(null)
 function runCheck() {
-    helperFunctions.confirm('Run Check?', 'Continue').then(async (confirm) => {
+    helperFunctions.confirm('Run this check?', '', 'Continue').then(async (confirm) => {
         if (confirm.value) {
             if (["extensive_screening_check", "standard_screening_check"].includes(slectedCheckType.value?.type)) {
                 try {
@@ -222,6 +223,7 @@ function runCheck() {
                     if (data.status == 201) {
                         helperFunctions.toast(data.message, 'success')
                         isAddingNew.value = false
+                        slectedCheckType.value = null
                         getChecks()
                     }
 
@@ -232,10 +234,5 @@ function runCheck() {
             }
         }
     })
-
-
-
-
-
 }
 </script>

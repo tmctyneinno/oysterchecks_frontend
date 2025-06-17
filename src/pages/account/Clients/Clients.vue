@@ -170,7 +170,7 @@ function goToClientsDetails(id: string, client_id: string) {
 }
 
 function deleteClient(id: any) {
-    helperFunctions.confirmDelete('Entire Record will be deleted?', 'Yes, Delete')
+    helperFunctions.confirmDelete('Entire Record will be deleted?', '', 'Yes, Delete')
         .then((confirm) => {
             if (confirm.value) {
 

@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-lg-7 d-flex justify-content-start align-items-center gap-3">
-                        <ImageCircle :src="client?.img" height="50px" />
+                        <ImageCircle :src="client?.img ?? ''" height="50px" />
                         <div>
                             <div class="fw-600 text-capitalize">{{ client?.name }} </div>
                             <div class="small text-muted">{{ client?.email }}</div>

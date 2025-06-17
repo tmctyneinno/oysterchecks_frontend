@@ -24,7 +24,7 @@
                             </div>
                             <CustomTextField :float-label="false" v-model="first_name" v-bind="first_nameAttr"
                                 placeholder="" />
-                            <div class="small text-danger">{{ errors?.first_name }}</div>
+                            <div class="xsmall text-danger">{{ errors?.first_name }}</div>
                         </div>
 
                         <div class="col-lg-6">
@@ -34,7 +34,7 @@
                             </div>
                             <CustomTextField :float-label="false" v-model="last_name" v-bind="last_nameAttr"
                                 placeholder="" />
-                            <div class="small text-danger">{{ errors?.last_name }}</div>
+                            <div class="xsmall text-danger">{{ errors?.last_name }}</div>
                         </div>
 
                         <div class="col-md-6">
@@ -42,9 +42,8 @@
                                 Telephone
                                 <redAsteric />
                             </div>
-                            <CustomPhoneField :size="'normal'" placeholder="" v-model="telephone"
-                                :v:bind="telephone_Attr" />
-                            <div class="small text-danger">{{ errors?.telephone }}</div>
+                            <CustomPhoneField :size="'normal'" placeholder="" v-model="telephone" />
+                            <div class="xsmall text-danger">{{ errors?.telephone }}</div>
                         </div>
 
                         <div class="col-md-6">
@@ -52,8 +51,8 @@
                                 Mobile
                                 <redAsteric />
                             </div>
-                            <CustomPhoneField :size="'normal'" placeholder="" v-model="mobile" :v:bind="mobileAttr" />
-                            <div class="small text-danger">{{ errors?.mobile }}</div>
+                            <CustomPhoneField :size="'normal'" placeholder="" v-model="mobile" />
+                            <div class="xsmall text-danger">{{ errors?.mobile }}</div>
                         </div>
 
                         <div class="col-md-6">
@@ -61,8 +60,8 @@
                                 Date of Birth
                                 <redAsteric />
                             </div>
-                            <CustomDatePicker :max-date="new Date()" v-model="dob" :v:bind="dobAttr" />
-                            <div class="small text-danger">{{ errors?.dob }}</div>
+                            <CustomDatePicker :max-date="new Date()" v-model="dob" />
+                            <div class="xsmall text-danger">{{ errors?.dob }}</div>
                         </div>
 
                         <div class="col-md-6">
@@ -70,9 +69,9 @@
                                 Country
                                 <redAsteric />
                             </div>
-                            <CustomSelect v-model="country" :v:bind="countryAttr" :options="clientsStore.countries"
+                            <CustomSelect v-model="country" :options="clientsStore.countries"
                                 placeholder="select country" />
-                            <div class="small text-danger">{{ errors?.country }}</div>
+                            <div class="xsmall text-danger">{{ errors?.country }}</div>
                         </div>
 
 
@@ -83,7 +82,7 @@
                             </div>
                             <CustomTextField :float-label="false" type="email" v-model="email" v-bind="emailAttr"
                                 placeholder="" />
-                            <div class="small text-danger">{{ errors?.email }}</div>
+                            <div class="xsmall text-danger">{{ errors?.email }}</div>
                         </div>
 
                         <!-- <div class="col-12">
