@@ -7,8 +7,7 @@
                     <div class="col-md-9">
                         <div class="fs-4">Create Clients</div>
                         <div class="small text-muted">Instantly generate a complete candidate profile ready for review
-                            and
-                            selection.
+                            and selection.
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -96,11 +95,9 @@ watchEffect(() => {
 
 
 onMounted(async () => {
-    await clientsStore.getClientResources()
     getClients()
 })
 
-// const items = ref<Item[]>(sampleData.Clients);
 const items = ref<Item[]>([]);
 const itemsLoading = ref<boolean>(false)
 const searchKeyword = ref<string>('');

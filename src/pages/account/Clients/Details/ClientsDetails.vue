@@ -5,7 +5,7 @@
             <i class="bi bi-arrow-left"></i> Back to Clients
         </div>
 
-        <ClientHeadComponent :client="clientsStore.clientDetails" />
+        <ClientHeadComponent />
 
         <div class="col-md-3">
             <div class="card h-100 border-0 rounded-4">

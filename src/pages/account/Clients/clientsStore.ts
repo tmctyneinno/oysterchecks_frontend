@@ -71,6 +71,14 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
             } catch (error) { }
     }
 
+    async function getClientDetails(client_id: string) {
+        if (!clientDetails.value)
+            try {
+                const { data } = await api.getClient(client_id)
+                clientDetails.value = data
+            } catch (error) { }
+    }
+
 
 
 
@@ -108,14 +116,15 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         clientsDetailsMenu,
         clientDetails,
         toggleAddModal,
+        resources,
+        clientExistingChecks,
+        availableChecks,
+        countries,
         clientsTabByGroup,
         riskShader,
         statusShader,
-        countries,
         countryName,
         getClientResources,
-        resources,
-        clientExistingChecks,
-        availableChecks
+        getClientDetails,
     }
 })
