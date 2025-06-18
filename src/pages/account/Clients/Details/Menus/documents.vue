@@ -33,7 +33,7 @@
                 <div class="col-md-6">
                     <div class="small text-muted">Document Type</div>
                     <select class="form-select ">
-                        <option v-for="i in documentTypes" :value="i.id" :key="i.id">
+                        <option v-for="i in resources.documentTypes" :value="i.id" :key="i.id">
                             {{ i.name }}
                         </option>
                     </select>
@@ -86,7 +86,7 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useClientsStore } from '../../clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 import { ref } from 'vue';
 import sampleData from '@/stores/sample_data.json'
 import type { Header, Item } from 'vue3-easy-data-table';
@@ -94,7 +94,7 @@ import DropzoneComponent from '@/components/Inputs/dropzoneComponent.vue';
 import helperFunctions from '@/stores/helperFunctions';
 
 const clientsStore = useClientsStore()
-const { clientDetails, documentTypes } = storeToRefs(clientsStore)
+const { clientDetails, resources } = storeToRefs(clientsStore)
 
 const headers = ref<Header[]>([
     { text: 'Document Type', value: 'document_type', sortable: true },

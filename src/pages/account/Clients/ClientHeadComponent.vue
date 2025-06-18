@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { useClientsStore } from './clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 
 
 const clientsStore = useClientsStore()

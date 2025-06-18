@@ -77,7 +77,7 @@ import helperFunctions from '@/stores/helperFunctions';
 import sampleData from '@/stores/sample_data.json'
 import { onMounted, ref, watch, watchEffect } from 'vue';
 import type { Header, Item, ServerOptions } from 'vue3-easy-data-table';
-import { useClientsStore } from './clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 import AddClientsModal from './addClientsModal.vue';
 import ClientsDetailsComponent from './Details/ClientsDetails.vue';
 import { useRoute, useRouter } from 'vue-router';

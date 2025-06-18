@@ -8,12 +8,12 @@
 
         <ClientHeadComponent />
 
-        <div v-if="!isAddingNew" class="col-12">
+        <div v-if="!newCheck.adding" class="col-12">
             <div class="card min-vh-50 border-0 rounded-4">
                 <div class="card-header bg-transparent border-0">
                     <span class="fw-500"> Checks </span>
 
-                    <button @click="isAddingNew = true" class="btn btn-sm btn-dark float-end rounded-4 ">
+                    <button @click="newCheck.adding = true" class="btn btn-sm btn-dark float-end rounded-4 ">
                         <i class="bi bi-plus-lg"></i> New Check
                     </button>
 
@@ -40,11 +40,9 @@
                             </span>
                         </template>
 
-
                         <template #item-created_at="item">
                             <span> {{ helperFunctions.dateTimeDisplay(item.created_at) }} </span>
                         </template>
-
 
 
                         <template #item-action="item">
@@ -55,13 +53,13 @@
             </div>
         </div>
 
-        <NewCheckComponent v-else @done="reloadChecks" />
+        <NewChecksIndex v-else />
     </div>
 
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useClientsStore } from '../Clients/clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 import { onMounted, ref, watch } from 'vue';
 import type { Header, Item, ServerOptions } from 'vue3-easy-data-table';
 import { useRoute, useRouter } from 'vue-router';
@@ -70,10 +68,10 @@ import api from '@/api';
 import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 import ClientsSkeleton from '@/components/skeletonLoaders/clientsSkeleton.vue';
 import ClientHeadComponent from '../Clients/clientHeadComponent.vue';
-import NewCheckComponent from './newCheckComponent.vue';
+import NewChecksIndex from './NewChecks/newChecksIndex.vue';
 
 const clientsStore = useClientsStore()
-const { clientExistingChecks } = storeToRefs(clientsStore)
+const { clientExistingChecks, newCheck } = storeToRefs(clientsStore)
 
 const route = useRoute()
 const router = useRouter()
@@ -134,12 +132,10 @@ const headers = ref<Header[]>([
 ])
 
 
-const isAddingNew = ref<boolean>(false)
+watch(() => newCheck.value.adding, (newValue) => {
+    if (!newValue) getChecks()
+})
 
-function reloadChecks(hasRunNewCheck: boolean) {
-    if (hasRunNewCheck) getChecks()
-    isAddingNew.value = false
-}
 
 const isSaving = ref<boolean>(false);
 

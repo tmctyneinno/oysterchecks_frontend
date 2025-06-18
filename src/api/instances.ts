@@ -29,10 +29,10 @@ const $instanceForm = createAxiosInstance('form');
 
 const online = useOnline()
 const setAuthAndStartProgress = (config: any) => {
-    if (!online.value) {
-        helperFunctions.toast('You are offline', 'warning')
-        return;
-    }
+    // if (!online.value) {
+    //     helperFunctions.toast('You are offline', 'warning')
+    //     return;
+    // }
     const authStore = useAuthStore()
     const token = Cookies.get(authStore.cookieValues.tokenName);
     if (token) config.headers.Authorization = `Bearer ${token}`;

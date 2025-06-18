@@ -72,7 +72,7 @@ import InlineSearchForm from '@/components/InlineSearchForm.vue';
 import helperFunctions from '@/stores/helperFunctions';
 import { onMounted, ref, watch, watchEffect } from 'vue';
 import type { Header, Item, ServerOptions } from 'vue3-easy-data-table';
-import { useClientsStore } from '../Clients/clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 import ClientsChecks from './ClientsChecks.vue';
 import { useRoute, useRouter } from 'vue-router';
 import api from '@/api';

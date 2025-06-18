@@ -19,19 +19,19 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     type CheckType = {
         type: string;
         name: string;
-        fields?: any[];
+        fields: any[];
     };
 
     const toggleAddModal = ref<boolean>(false)
 
     const clientDetails = ref<any>(null)
 
-    const General = markRaw(defineAsyncComponent(() => import('./Details/Menus/general.vue')))
+    const General = markRaw(defineAsyncComponent(() => import('../pages/account/Clients/Details/Menus/general.vue')))
     // const Addresses = markRaw(defineAsyncComponent(() => import('./Details/Menus/addresses.vue')));
     // const Documents = markRaw(defineAsyncComponent(() => import('./Details/Menus/documents.vue')));
     // const Checks = markRaw(defineAsyncComponent(() => import('./menuContents/Checks.vue')));
-    const AML_Risk = markRaw(defineAsyncComponent(() => import('./Details/Menus/aml_risk.vue')));
-    const Audit_Log = markRaw(defineAsyncComponent(() => import('./Details/Menus/audit_log.vue')));
+    const AML_Risk = markRaw(defineAsyncComponent(() => import('../pages/account/Clients/Details/Menus/aml_risk.vue')));
+    const Audit_Log = markRaw(defineAsyncComponent(() => import('../pages/account/Clients/Details/Menus/audit_log.vue')));
 
     const clientsDetailsMenu = reactive<clientsDetailsMenuInterface>({
         tabs: [
@@ -99,9 +99,6 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
 
 
 
-
-
-
     // ######################################################33
 
     const riskShader = (risk: string) => {
@@ -125,6 +122,14 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         return map[risk] || { bg: '', color: '', text: '' }
     }
 
+    const newCheck = reactive<{
+        selectedType: CheckType | null,
+        adding: boolean
+    }>({
+        selectedType: null,
+        adding: false
+    })
+
 
 
 
@@ -146,5 +151,6 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         getClientDetails,
         statesByCountry,
         citiesByState,
+        newCheck
     }
 })

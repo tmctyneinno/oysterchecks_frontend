@@ -111,7 +111,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useClientsStore } from './clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 import { onBeforeRouteLeave } from 'vue-router';
 import helperFunctions from '@/stores/helperFunctions';
 

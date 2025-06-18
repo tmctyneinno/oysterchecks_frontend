@@ -137,7 +137,7 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useClientsStore } from '../../clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 import { ref } from 'vue';
 
 const clientsStore = useClientsStore()

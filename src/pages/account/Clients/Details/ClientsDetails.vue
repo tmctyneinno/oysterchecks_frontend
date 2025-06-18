@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { useRouter, useRoute, type LocationQueryValue } from 'vue-router';
-import { useClientsStore } from '../clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 import menuComponent from './menu_list.vue';
 import { onMounted, computed, ref } from 'vue';
 import sample_data from '@/stores/sample_data.json'

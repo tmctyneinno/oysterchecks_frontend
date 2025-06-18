@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useClientsStore } from '../clientsStore';
+import { useClientsStore } from '@/stores/clientsStore';
 import { useRouter } from 'vue-router';
 import { watch } from 'vue';
 
