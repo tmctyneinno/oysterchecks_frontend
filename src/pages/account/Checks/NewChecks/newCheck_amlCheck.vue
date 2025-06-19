@@ -1,24 +1,12 @@
 <template>
-    <div class="col-12">
-        <div class="card border-0 pt-0 " style="min-height: 20vh;">
-            <div class="card-body"> </div>
-            <div class="card-footer bg-transparent border-0">
-                <div class="row justify-content-end g-1">
-                    <div class="col-md-2">
-                        <button @click="newCheck.adding = false"
-                            class="btn btn-outline-dark me-2 rounded-4 float-end w-100">
-                            Cancel
-                        </button>
-                    </div>
-                    <div v-if="newCheck.selectedType" class="col-md-3 col-lg-2">
-                        <loadingButton @click="runCheck" className="btn-theme w-100" :loading="isSaving">
-                            RUN CHECk
-                        </loadingButton>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    <NewCheckTemplate>
+        <template #button>
+            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="isSaving">
+                RUN CHECk
+            </loadingButton>
+        </template>
+    </NewCheckTemplate>
 
 </template>
 <script setup lang="ts">
@@ -29,6 +17,7 @@ import { useRoute, useRouter } from 'vue-router';
 import helperFunctions from '@/stores/helperFunctions';
 import api from '@/api';
 import LoadingButton from '@/components/loadingButton.vue';
+import NewCheckTemplate from './newCheckTemplate.vue';
 
 const clientsStore = useClientsStore()
 const { clientDetails, newCheck } = storeToRefs(clientsStore)

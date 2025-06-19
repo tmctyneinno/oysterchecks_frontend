@@ -1,69 +1,42 @@
 <template>
-    <div class="col-12">
-        <div class="card border-0 pt-0 ">
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <div class="form-label">Address</div>
-                        <CustomTextField v-model="form.line" :floatLabel="false" />
-                    </div>
-                    <div class=" col-lg-4 col-md-6">
-                        <div class="form-label">Country</div>
-                        <CustomSelect v-model="form.country" :options="clientsStore.countries"
-                            placeholder="select country" />
-                    </div>
 
-                    <div class=" col-lg-4 col-md-6">
-                        <div class="form-label">State</div>
-                        <CustomSelect v-model="form.state" :options="statesArray" placeholder="select state" />
-                    </div>
-
-                    <div class=" col-lg-4 col-md-6">
-                        <div class="form-label">City</div>
-                        <CustomSelect v-model="form.city" :options="citiesArray" placeholder="select city" />
-                    </div>
-
-                    <div class=" col-lg-4 col-md-6">
-                        <div class="form-label">Postal Code</div>
-                        <CustomTextField v-model="form.postalCode" :floatLabel="false" />
-                    </div>
+    <NewCheckTemplate>
+        <template #form>
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <div class="form-label">Address</div>
+                    <CustomTextField v-model="form.line" :floatLabel="false" />
+                </div>
+                <div class=" col-lg-4 col-md-6">
+                    <div class="form-label">Country</div>
+                    <CustomSelect v-model="form.country" :options="clientsStore.countries"
+                        placeholder="select country" />
                 </div>
 
-                <!-- <div class="col-md-6">
-                                    <div class="small text-muted">Required Document</div>
-                                    <CustomSelect :options="resources.documentTypes" placeholder="select type"
-                                        label="name" />
-                                </div> -->
+                <div class=" col-lg-4 col-md-6">
+                    <div class="form-label">State</div>
+                    <CustomSelect v-model="form.state" :options="statesArray" placeholder="select state" />
+                </div>
 
-                <!-- <div class="col-md-6 d-none">
-                                    <div class="form-label">Uplaod Document</div>
-                                    <div class="small text-muted">Front Side (2MB MAX)</div>
-                                    <DropzoneComponent />
-                                </div> -->
+                <div class=" col-lg-4 col-md-6">
+                    <div class="form-label">City</div>
+                    <CustomSelect v-model="form.city" :options="citiesArray" placeholder="select city" />
+                </div>
 
-                <!-- <div class="col-md-6 d-none">
-                                    <div class="form-label">Upload Document</div>
-                                    <div class="small text-muted">Back Side (2MB MAX)</div>
-                                    <DropzoneComponent />
-                                </div> -->
-            </div>
-            <div class="card-footer bg-transparent border-0">
-                <div class="row justify-content-end g-1">
-                    <div class="col-md-2">
-                        <button @click="newCheck.adding = false"
-                            class="btn btn-outline-dark me-2 rounded-4 float-end w-100">
-                            Cancel
-                        </button>
-                    </div>
-                    <div v-if="newCheck.selectedType" class="col-md-3 col-lg-2">
-                        <loadingButton @click="runCheck" className="btn-theme w-100" :loading="isSaving">
-                            RUN CHECk
-                        </loadingButton>
-                    </div>
+                <div class=" col-lg-4 col-md-6">
+                    <div class="form-label">Postal Code</div>
+                    <CustomTextField v-model="form.postalCode" :floatLabel="false" />
                 </div>
             </div>
-        </div>
-    </div>
+        </template>
+
+        <template #button>
+            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="isSaving">
+                RUN CHECk
+            </loadingButton>
+        </template>
+
+    </NewCheckTemplate>
 
 </template>
 <script setup lang="ts">
@@ -77,6 +50,7 @@ import api from '@/api';
 import CustomSelect from '@/components/Inputs/customSelect.vue';
 import LoadingButton from '@/components/loadingButton.vue';
 import CustomTextField from '@/components/Inputs/customTextField.vue';
+import NewCheckTemplate from './newCheckTemplate.vue';
 
 const clientsStore = useClientsStore()
 const { clientDetails, availableChecks, newCheck } = storeToRefs(clientsStore)
@@ -146,7 +120,7 @@ const validateRequiredFields = (): boolean => {
         }
 
         if (!form[field as keyof FormInterface]) {
-            helperFunctions.toastShort('Please complete all required fields');
+            helperFunctions.toast('Please complete all required fields', 'warning');
             return false;
         }
     }

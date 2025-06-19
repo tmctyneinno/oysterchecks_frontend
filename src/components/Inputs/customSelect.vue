@@ -1,6 +1,6 @@
 <template>
     <v-select class="d-none d-md-block" append-to-body :calculate-position="helperFunctions.vueSelectPositionCalc"
-        v-model="localValue" :teleport="true" :options :label :placeholder :clearable></v-select>
+        v-model="localValue" :teleport="true" :options :label :placeholder :clearable :loading></v-select>
 
     <select class="form-select d-md-none">
         <option value="" selected disabled>{{ placeholder }}</option>
@@ -36,6 +36,10 @@ const props = defineProps({
         default: 'select ...'
     },
     clearable: {
+        type: Boolean,
+        default: false
+    },
+    loading: {
         type: Boolean,
         default: false
     },

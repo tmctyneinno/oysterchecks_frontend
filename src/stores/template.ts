@@ -19,8 +19,9 @@ export const useTemplateStore = defineStore('template', () => {
       heading: 'MAIN',
       menu: [
         { title: "Dashboard", icon: "<i class='bi bi-house-fill'></i>", link: "/account/dashboard" },
-        { title: "Clients", icon: " <i class='bi bi-person-fill'></i>", link: "/account/clients" },
-        { title: "Checks", icon: "<i class='bi bi-check-lg'></i>", link: "/account/checks" },
+        { title: "Clients", icon: " <i class='bi bi-people-fill'></i>", link: "/account/clients" },
+        { title: "Checks", icon: "<i class='bi bi-ui-checks-grid'></i>", link: "/account/checks" },
+        { title: "DBS Check", icon: "<i class='bi bi-person-fill-check'></i>", link: "/account/dbs-checks" },
         { title: "Tools", icon: "<i class='bi bi-tools'></i>", link: "/account/tools" },
       ]
     },
