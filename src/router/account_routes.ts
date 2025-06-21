@@ -27,6 +27,18 @@ export default [
             { path: 'audit-report', name: 'Admin-Audit_Report', meta: { name: 'Audit Report', }, component: () => import('../pages/account/Audit_Report/Audit_Report.vue') },
             { path: 'help-and-support', name: 'Admin-HelpAndSupport', meta: { name: 'Help & Support', }, component: () => import('../pages/account/HelpAndSupport/HelpAndSupport.vue') },
             { path: 'settings', name: 'Admin-Settings', meta: { name: 'Settings', }, component: () => import('../pages/account/Settings/Settings.vue') },
+
+
+            // {
+            //     path: 'dbs-checks',
+            //     component: () => import('../pages/account/DBS_Checks/DBS_ChecksIndex.vue'),
+            //     children: [
+            //         { path: '', name: 'Admin-DBS-Checks', meta: { name: 'DBS Checks', }, component: () => import('../pages/account/DBS_Checks/DBS_Checks.vue') },
+            //         { path: 'options', name: 'Admin-DBS-Checks-Options', meta: { name: 'DBS Checks', }, component: () => import('../pages/account/DBS_Checks/DBS_Checks_Options.vue') },
+            //     ],
+            // },
+
+
         ],
     },
 ]
