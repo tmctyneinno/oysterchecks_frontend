@@ -177,13 +177,13 @@ function goToTypesSelectPage() {
     })
 }
 
+
 </script>
 
 <style scoped>
 table th {
     background-color: var(--bs-secondary-bg-subtle);
 }
-
 
 .accordion-button:not(.collapsed) {
     background: transparent;

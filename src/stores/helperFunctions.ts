@@ -258,6 +258,18 @@ export default {
         return regex.test(url);
     },
 
+    generateCode: (digits: number = 4, withNumbers: boolean = true, withSpecialCharacters: boolean = false) => {
+        let charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (withNumbers) charset += '0123456789';
+        if (withSpecialCharacters) charset += '!@#$%^&*()';
+
+        let result = '';
+        for (let i = 0; i < digits; i++) {
+            result += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+        return result;
+    },
+
     generateTimeOptions: (startHour: number, endHour: number) => {
         const times = [];
         for (let hour = startHour; hour <= endHour; hour++) {

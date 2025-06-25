@@ -149,6 +149,7 @@ const headers = ref<Header[]>([
 const clientsStore = useClientsStore()
 
 function viewClient(id: string, client_id: string) {
+    clientsStore.newCheck.adding = false
     router.push({
         path: '',
         query: {

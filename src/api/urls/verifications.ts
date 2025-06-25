@@ -22,6 +22,9 @@ export default {
         return $instance.get(`checks?${params}`)
     },
 
+    getAddresses(clientId: string) {
+        return $instance.get(`client/addresses/${clientId}`)
+    },
 
 
     verify(data: any) {

@@ -15,12 +15,18 @@
 
                 <div class=" col-lg-4 col-md-6">
                     <div class="form-label">State</div>
+                    <!-- {{ statesArray }} -->
                     <CustomSelect v-model="form.state" :options="statesArray" placeholder="select state" />
                 </div>
 
                 <div class=" col-lg-4 col-md-6">
                     <div class="form-label">City</div>
                     <CustomSelect v-model="form.city" :options="citiesArray" placeholder="select city" />
+                </div>
+
+                <div class=" col-lg-4 col-md-6">
+                    <div class="form-label">Property Number</div>
+                    <CustomTextField v-model="form.propertyNumber" :floatLabel="false" />
                 </div>
 
                 <div class=" col-lg-4 col-md-6">
@@ -77,6 +83,7 @@ interface FormInterface {
     state: any,
     city: any,
     postalCode: string,
+    propertyNumber: string
 }
 
 const form = reactive<FormInterface>({
@@ -85,6 +92,7 @@ const form = reactive<FormInterface>({
     state: null,
     city: null,
     postalCode: '',
+    propertyNumber: ''
 })
 
 watch(() => form.country, () => {
@@ -146,6 +154,7 @@ function runCheck() {
                     city: form.city?.label,
                     postalCode: form.postalCode,
                     line: form.line,
+                    propertyNumber: form.propertyNumber
                     // ...form
                 }
 

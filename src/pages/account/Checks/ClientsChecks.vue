@@ -2,8 +2,8 @@
     <ClientsSkeleton v-if="isLoadingDetails" />
 
     <div v-else class="row g-3">
-        <div class="col-12 fs-4 cursor-pointer" @click="router.back()">
-            <i class="bi bi-arrow-left"></i> Client's checks
+        <div class="col-12 fs-4 ">
+            <i @click="router.back()" class="bi bi-arrow-left cursor-pointer"></i> Client's checks
         </div>
 
         <ClientHeadComponent />
@@ -83,6 +83,7 @@ onMounted(async () => {
     await getChecks()
     isLoadingDetails.value = false
 })
+
 
 const isLoadingDetails = ref<boolean>(true)
 
