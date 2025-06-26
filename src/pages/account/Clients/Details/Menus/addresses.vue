@@ -1,10 +1,14 @@
 <template>
     <div class="card h-100 border-0 rounded-4">
         <div class="card-header bg-transparent border-0">
-            <span v-if="!isAddingNew" class="fw-500">Addresses</span>
+            <span v-if="!isAddingNew" class="fw-500">Addresses ({{ items.length }})</span>
             <span v-else>
                 <i @click="isAddingNew = false" class="bi bi-arrow-left cursor-pointer"></i>
                 Add New Address
+            </span>
+            <span v-if="isLoadingAddresses" class="text-warning ms-3">
+                <span class="spinner-border spinner-border-sm" role="status"> </span> please Wait..
+
             </span>
             <button v-if="!isAddingNew" @click="isAddingNew = true"
                 class="btn btn-sm btn-outline-dark float-end rounded-4 ">
@@ -35,7 +39,11 @@
 
                 <template #item-action="item">
                     <a @click="showDetails(item)" href="#" data-bs-toggle="modal"
-                        data-bs-target="#addressDetailsModal">Details</a>
+                        data-bs-target="#addressDetailsModal">View</a>
+                    |
+
+                    <span @click="deleteAddress(item.id)" class="text-danger cursor-pointer hover-tiltY">Delete</span>
+
                 </template>
             </EasyDataTable>
         </div>
@@ -196,7 +204,7 @@ const clientsStore = useClientsStore()
 const { clientDetails } = storeToRefs(clientsStore)
 
 const headers = ref<Header[]>([
-    { text: 'Birth Country', value: 'country', sortable: true },
+    { text: 'Country', value: 'country', sortable: true },
     { text: 'State', value: 'state', sortable: true },
     { text: 'City', value: 'city', sortable: true },
     { text: 'Action', value: 'action' },
@@ -224,11 +232,27 @@ async function loadAddresses() {
 }
 
 
-
 const addressItemsToShow = ref<any>({})
 const closeDetailModal = ref<any>(null)
 function showDetails(item: any) {
     addressItemsToShow.value = item
+}
+
+function deleteAddress(addressId: any) {
+    helperFunctions.confirmDelete('Are you sure?', 'This Address will be deleted for this Client', 'Yes Delete')
+        .then(async (confirm) => {
+            if (confirm.value) {
+                try {
+                    await api.deleteAddresse(addressId)
+                    helperFunctions.toast('Address Deleted', 'success')
+                    loadAddresses()
+                }
+                catch {
+                    helperFunctions.toast('Address not deleted Something Went Wrong', 'error')
+                }
+            }
+        })
+    console.log(addressId);
 }
 
 onBeforeRouteLeave(() => {

@@ -26,6 +26,10 @@ export default {
         return $instance.get(`client/addresses/${clientId}`)
     },
 
+    deleteAddresse(addressID: string) {
+        return $instance.delete(`client/addresses/${addressID}`)
+    },
+
 
     verify(data: any) {
         return $instance.post(`client/verify`, JSON.stringify(data))

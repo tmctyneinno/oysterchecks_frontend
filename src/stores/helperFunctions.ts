@@ -96,7 +96,7 @@ export default {
         })
     },
 
-    confirmDelete: (title: string = '', text: string = '', btnText: string) => {
+    confirmDelete: (title: string, text: string, btnText: string) => {
         return Swal.fire({
             title: `${title}`,
             text: `${text}`,
