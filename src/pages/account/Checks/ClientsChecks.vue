@@ -77,6 +77,7 @@ const route = useRoute()
 const router = useRouter()
 
 onMounted(async () => {
+    newCheck.value.adding = false
     if (!route.query?.refId || !route.query?.client) router.back()
     const client_id = route.query?.refId as string
     await clientsStore.getClientDetails(client_id)

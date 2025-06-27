@@ -15,117 +15,49 @@
                 <i class="bi bi-plus"></i> Add New Address
             </button>
         </div>
-        <div v-if="!isAddingNew" class="card-body">
-            <EasyDataTable :loading="isLoadingAddresses" show-index alternating :headers="headers" :items="items"
-                buttons-pagination>
+        <div class="card-body">
+            <div v-if="!isAddingNew">
+                <EasyDataTable :loading="isLoadingAddresses" show-index alternating :headers="headers" :items="items"
+                    buttons-pagination>
 
-                <template #empty-message>
-                    <EmptyDataComponent :text="'No Addresses'" />
-                </template>
-
-
-                <template #header="header">
-                    <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
-                </template>
-
-                <template #item-country="item">
-                    <span>{{ clientsStore.countryName(item.country) }}</span>
-                </template>
-
-                <template #item-state="item">
-                    <span>{{ clientsStore.stateName(item.state, item.country) }}</span>
-                </template>
+                    <template #empty-message>
+                        <EmptyDataComponent :text="'No Addresses'" />
+                    </template>
 
 
-                <template #item-action="item">
-                    <a @click="showDetails(item)" href="#" data-bs-toggle="modal"
-                        data-bs-target="#addressDetailsModal">View</a>
-                    |
+                    <template #header="header">
+                        <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
+                    </template>
 
-                    <span @click="deleteAddress(item.id)" class="text-danger cursor-pointer hover-tiltY">Delete</span>
+                    <template #item-country="item">
+                        <span>{{ clientsStore.countryName(item.country) }}</span>
+                    </template>
 
-                </template>
-            </EasyDataTable>
-        </div>
+                    <template #item-state="item">
+                        <span>{{ clientsStore.stateName(item.state, item.country) }}</span>
+                    </template>
 
-        <div v-else class="card-body">
-            <div class="row g-3 small">
-                <div class="col-md-4">
-                    <div class="small text-muted">Birth Country</div>
-                    <select class="form-select ">
-                        <option selected>Select--</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <div class="small text-muted">Property Phpne Number</div>
-                    <input type="text" class="form-control">
-                </div>
 
-                <div class="col-md-4">
-                    <div class="small text-muted">Building Name</div>
-                    <input type="text" class="form-control">
-                </div>
+                    <template #item-action="item">
+                        <a @click="showDetails(item)" href="#" data-bs-toggle="modal"
+                            data-bs-target="#addressDetailsModal">View</a>
+                        |
 
-                <div class="col-md-4">
-                    <div class="small text-muted">Line</div>
-                    <input type="text" class="form-control">
-                </div>
+                        <span @click="deleteAddress(item.id)"
+                            class="text-danger cursor-pointer hover-tiltY">Delete</span>
 
-                <div class="col-md-4">
-                    <div class="small text-muted">City</div>
-                    <input type="text" class="form-control">
-                </div>
-
-                <div class="col-md-4">
-                    <div class="small text-muted">State</div>
-                    <select class="form-select ">
-                        <option selected>Select--</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="small text-muted">From</div>
-                    <input type="text" class="form-control">
-                </div>
-
-                <div class="col-md-4">
-                    <div class="small text-muted">After</div>
-                    <input type="text" class="form-control">
-                </div>
-
-                <div class="col-md-4">
-                    <div class="small text-muted">Type</div>
-                    <select class="form-select ">
-                        <option selected>Select--</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="small text-muted">Postal Code</div>
-                    <input type="text" class="form-control">
-                </div>
-
-                <div v-if="isAddingNew" class="col-12 mt-5">
-                    <button class="btn btn-theme rounded-4 float-end">
-                        Add New Address
-                    </button>
-                    <button @click="isAddingNew = false" class="btn btn-outline-dark me-2 rounded-4 float-end">
-                        Cancel
-                    </button>
-                </div>
+                    </template>
+                </EasyDataTable>
+            </div>
+            <div v-else>
+                <AddressesForm @done="formEmit()" />
             </div>
         </div>
+
     </div>
 
 
     <!-- address Details Modal -->
-    <!-- Modal trigger button -->
-    <!-- <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addressDetailsModal">
-        Launch
-    </button> -->
-
-    <!-- Modal Body -->
-    <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
     <div class="modal fade" id="addressDetailsModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
         role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -186,9 +118,6 @@
     </div>
 
 
-
-
-
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
@@ -199,6 +128,7 @@ import api from '@/api';
 import { onBeforeRouteLeave } from 'vue-router';
 import helperFunctions from '@/stores/helperFunctions';
 import EmptyDataComponent from '@/components/emptyDataComponent.vue';
+import AddressesForm from './addressesForm.vue';
 
 const clientsStore = useClientsStore()
 const { clientDetails } = storeToRefs(clientsStore)
@@ -229,6 +159,11 @@ async function loadAddresses() {
     }
     catch { }
     finally { isLoadingAddresses.value = false }
+}
+
+function formEmit() {
+    isAddingNew.value = false;
+    loadAddresses()
 }
 
 
