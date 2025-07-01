@@ -10,6 +10,7 @@
 
             <div class="card-body bg-light">
                 <newCheck_amlCheck v-if="newCheck.selectedType?.type == 'extensive_screening_check'" />
+                <newCheck_amlCheck v-if="newCheck.selectedType?.type == 'standard_screening_check'" />
                 <NewCheck_bureauCheck v-if="newCheck.selectedType?.type == 'multi_bureau_check'" />
                 <NewCheck_bureauCheck v-if="newCheck.selectedType?.type == 'document_check'" />
                 <NewCheck_bureauCheck v-if="newCheck.selectedType?.type == 'identity_check'" />

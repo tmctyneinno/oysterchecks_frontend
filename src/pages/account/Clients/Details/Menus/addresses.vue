@@ -10,7 +10,7 @@
                 <span class="spinner-border spinner-border-sm" role="status"> </span> please Wait..
 
             </span>
-            <button v-if="!isAddingNew" @click="isAddingNew = true"
+            <button v-if="!isAddingNew" @click="openNewAddressForm"
                 class="btn btn-sm btn-outline-dark float-end rounded-4 ">
                 <i class="bi bi-plus"></i> Add New Address
             </button>
@@ -129,6 +129,7 @@ import { onBeforeRouteLeave } from 'vue-router';
 import helperFunctions from '@/stores/helperFunctions';
 import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 import AddressesForm from './addressesForm.vue';
+import { useTemplateStore } from '@/stores/template';
 
 const clientsStore = useClientsStore()
 const { clientDetails } = storeToRefs(clientsStore)
@@ -154,11 +155,22 @@ onMounted(() => {
 async function loadAddresses() {
     try {
         isLoadingAddresses.value = true
-        const { data } = await api.getAddresses(clientDetails.value.client_id)
+
+        const obj = {
+            client_id: clientDetails.value.client_id,
+        }
+        const params = new URLSearchParams(obj as Record<string, string>);
+        const { data } = await api.getAddresses(params.toString())
         items.value = data.items ?? []
     }
     catch { }
     finally { isLoadingAddresses.value = false }
+}
+
+const templateStore = useTemplateStore()
+function openNewAddressForm() {
+    templateStore.activateToolTip++
+    isAddingNew.value = true
 }
 
 function formEmit() {

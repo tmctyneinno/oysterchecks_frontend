@@ -22,8 +22,12 @@ export default {
         return $instance.get(`checks?${params}`)
     },
 
-    getAddresses(clientId: string) {
-        return $instance.get(`client/addresses/${clientId}`)
+    getAddresses(params: string) {
+        return $instance.get(`client/addresses?${params}`)
+    },
+
+    newAddress(data: any) {
+        return $instance.post(`client/addresses`, JSON.stringify(data))
     },
 
     deleteAddresse(addressID: string) {

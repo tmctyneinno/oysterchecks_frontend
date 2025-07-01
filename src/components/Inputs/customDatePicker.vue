@@ -39,5 +39,9 @@ watch(() => localValue.value, () => {
 
 })
 
+watch(() => props.modelValue, () => {
+    if (!props.modelValue) localValue.value = props.modelValue
+})
+
 
 </script>

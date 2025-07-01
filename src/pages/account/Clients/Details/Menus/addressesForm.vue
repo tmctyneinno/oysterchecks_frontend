@@ -2,50 +2,86 @@
 
     <div class="row g-3">
         <div class="col-md-8">
-            <div class="form-label">Address</div>
+            <div class="form-label">Address
+                <RedAsteric />
+            </div>
             <CustomTextField v-model="line" :floatLabel="false" />
             <div class="xsmall text-danger">{{ errors?.line }}</div>
         </div>
         <div class=" col-lg-4 col-md-6">
-            <div class="form-label">Country</div>
+            <div class="form-label">Country
+                <RedAsteric />
+            </div>
             <CustomSelect v-model="country" :options="clientsStore.countries" placeholder="select country" />
             <div class="xsmall text-danger">{{ errors?.country }}</div>
         </div>
 
         <div class=" col-lg-4 col-md-6">
-            <div class="form-label">State</div>
+            <div class="form-label">State
+                <RedAsteric />
+            </div>
             <CustomSelect v-model="state" :options="statesArray" placeholder="select state" />
             <div class="xsmall text-danger">{{ errors?.state }}</div>
         </div>
 
         <div class=" col-lg-4 col-md-6">
-            <div class="form-label">City</div>
+            <div class="form-label">City
+                <RedAsteric />
+            </div>
             <CustomSelect v-model="city" :options="citiesArray" placeholder="select city" />
             <div class="xsmall text-danger">{{ errors?.city }}</div>
         </div>
 
         <div class=" col-lg-4 col-md-6">
-            <div class="form-label">Property Number</div>
+            <div class="form-label">House Number
+                <RedAsteric />
+            </div>
             <CustomTextField v-model="propertyNumber" :floatLabel="false" />
             <div class="xsmall text-danger">{{ errors?.propertyNumber }}</div>
         </div>
 
         <div class=" col-lg-4 col-md-6">
-            <div class="form-label">Postal Code</div>
+            <div class="form-label">Postal Code
+                <!-- <RedAsteric /> -->
+                <i data-bs-toggle="tooltip" data-bs-title="Zip or Postal Code" class="bi bi-info-circle small"></i>
+            </div>
             <CustomTextField v-model="postalCode" :floatLabel="false" />
             <div class="xsmall text-danger">{{ errors?.postalCode }}</div>
         </div>
 
         <div class=" col-lg-4 col-md-6">
-            <div class="form-label">Name of Building</div>
+            <div class="form-label"> Name of Building
+                <i data-bs-toggle="tooltip" data-bs-title="The building name of the client's address"
+                    class="bi bi-info-circle small"></i>
+            </div>
             <CustomTextField v-model="buildingName" :floatLabel="false" />
             <div class="xsmall text-danger">{{ errors?.buildingName }}</div>
         </div>
 
         <div class=" col-lg-4 col-md-6">
-            <div class="form-label">Address Type</div>
+            <div class="form-label">Address Type
+                <i data-bs-toggle="tooltip" data-bs-title="The type of address" class="bi bi-info-circle small"></i>
+            </div>
             <CustomSelect v-model="type" :options="addressTypes" placeholder="select type" />
             <div class="xsmall text-danger">{{ errors?.type }}</div>
+        </div>
+
+        <div class=" col-lg-4 col-md-6">
+            <div class="form-label">From Date
+                <i data-bs-toggle="tooltip" data-bs-title="The date the client moved into this address"
+                    class="bi bi-info-circle small"></i>
+            </div>
+            <CustomDatePicker v-model="fromDate" />
+            <div class="xsmall text-danger">{{ errors?.fromDate }}</div>
+        </div>
+
+        <div class=" col-lg-4 col-md-6">
+            <div class="form-label">To Date
+                <i data-bs-toggle="tooltip" data-bs-title="The date the client moved out of this address"
+                    class="bi bi-info-circle small"></i>
+            </div>
+            <CustomDatePicker v-model="toDate" />
+            <div class="xsmall text-danger">{{ errors?.toDate }}</div>
         </div>
 
 
@@ -75,6 +111,8 @@ import CustomTextField from '@/components/Inputs/customTextField.vue';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
+import RedAsteric from '@/components/redAsteric.vue';
+import CustomDatePicker from '@/components/Inputs/customDatePicker.vue';
 
 const clientsStore = useClientsStore()
 const { clientDetails } = storeToRefs(clientsStore)
@@ -88,6 +126,7 @@ onMounted(async () => {
     isLoadingDetails.value = false
 })
 
+const emits = defineEmits(['done'])
 
 const statesArray = ref<any[]>([])
 const citiesArray = ref<any[]>([])
@@ -97,21 +136,25 @@ const stateIsoCode = computed(() => { return state.value?.isoCode ?? '' })
 
 const isLoadingDetails = ref<boolean>(true)
 
-const addressTypes = ref(['main', 'alternative', 'other'])
+const addressTypes = ref([
+    { id: 1, label: 'Main', value: 'main' },
+    { id: 2, label: 'Alternative', value: 'alternative' },
+    { id: 3, label: 'Other', value: 'other' },
+])
 
 
 // form and validation
 const validationRules = {
-    line: yup.string().required('Line is required'),
+    line: yup.string().required('Address is required'),
     country: yup.object().required('Country is required'),
     state: yup.object().required('State is required'),
     city: yup.object().required('City is required'),
     propertyNumber: yup.string().required('Property Number is required'),
-    buildingName: yup.string().required('Bulding Name is required'),
-    type: yup.string().required('Type is required'),
-    postalCode: yup.string().required('Postal Code is required'),
-    fromDate: yup.string(),
-    toDate: yup.string(),
+    buildingName: yup.string(),
+    type: yup.object(),
+    postalCode: yup.string(),
+    fromDate: yup.date(),
+    toDate: yup.date(),
 };
 
 const { errors, handleSubmit, defineField, isSubmitting, resetForm, setFieldValue, resetField } = useForm({
@@ -149,7 +192,7 @@ watch(() => state.value, () => {
 
 
 const submitForm = handleSubmit(async (values: any) => {
-    helperFunctions.confirm('Add Address?', '', 'Continue').then(async (confirm) => {
+    helperFunctions.confirm('Add new Address?', '', 'Continue').then(async (confirm) => {
         if (confirm.value) {
 
             try {
@@ -162,19 +205,22 @@ const submitForm = handleSubmit(async (values: any) => {
                     line: values.line,
                     propertyNumber: values.propertyNumber,
                     buildingName: values.buildingName,
-                    type: values.type,
-                    fromDate: values.fromDate ? new Date(values.fromDate).toDateString() : null,
-                    toDate: values.toDate ? new Date(values.toDate).toDateString() : null,
+                    type: values.type?.value,
+                    fromDate: values.fromDate ? helperFunctions.dateDisplay(values.fromDate, 'YYYY-MM-DD') : undefined,
+                    toDate: values.toDate ? helperFunctions.dateDisplay(values.toDate, 'YYYY-MM-DD') : undefined,
                 }
 
-                const { data } = await api.verify(obj)
+
+                const { data } = await api.newAddress(obj)
                 if (data.status == 201) {
+                    resetForm()
+                    emits('done')
                     helperFunctions.toast(data.message, 'success')
 
                 }
 
             } catch (error) {
-                helperFunctions.toast('Could not verify, Pls try again', 'error')
+                helperFunctions.toast('Something went wrong, Pls try again', 'error')
             }
             // finally { isSaving.value = false }
         }
