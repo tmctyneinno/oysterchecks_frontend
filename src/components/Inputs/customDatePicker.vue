@@ -1,6 +1,6 @@
 <template>
     <VueDatePicker :flow="flow" :format="format" :teleport="true" v-model="localValue" hide-input-icon
-        :clearable="false" :enable-time-picker="false" auto-apply :max-date="maxDate" :min-date="minDate" />
+        :clearable="clearable" :enable-time-picker="false" auto-apply :max-date="maxDate" :min-date="minDate" />
 
 </template>
 
@@ -10,7 +10,7 @@ import { useDateFormat } from '@vueuse/core';
 
 const props = defineProps({
     modelValue: {
-        type: Date,
+        type: [Date, null],
         default: () => null
     },
     maxDate: {
@@ -21,7 +21,12 @@ const props = defineProps({
     minDate: {
         type: Date,
         default: undefined
-    }
+    },
+
+    clearable: {
+        type: Boolean,
+        default: false
+    },
 })
 const emit = defineEmits(['update:modelValue']);
 const localValue = ref(props.modelValue)

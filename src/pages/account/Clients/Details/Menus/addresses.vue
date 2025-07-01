@@ -92,9 +92,35 @@
                                     <td>Address:</td>
                                     <td>{{ addressItemsToShow.line }}</td>
                                 </tr>
+
+                                <tr>
+                                    <td>Address Type:</td>
+                                    <td class="text-capitalize">{{ addressItemsToShow.type ?? '-' }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Property Number:</td>
+                                    <td>{{ addressItemsToShow.propertyNumber ?? '-' }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Bulding Name:</td>
+                                    <td class="text-capitalize">{{ addressItemsToShow.buildingName ?? '-' }}</td>
+                                </tr>
+
                                 <tr>
                                     <td>Postal Code:</td>
                                     <td>{{ addressItemsToShow.postalCode }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Moved In:</td>
+                                    <td>{{ helperFunctions.dateDisplay(addressItemsToShow.fromDate) }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Moved Out:</td>
+                                    <td>{{ helperFunctions.dateDisplay(addressItemsToShow.toDate) }}</td>
                                 </tr>
 
                                 <tr>

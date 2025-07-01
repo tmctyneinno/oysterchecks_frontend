@@ -71,7 +71,7 @@
                 <i data-bs-toggle="tooltip" data-bs-title="The date the client moved into this address"
                     class="bi bi-info-circle small"></i>
             </div>
-            <CustomDatePicker v-model="fromDate" />
+            <CustomDatePicker v-model="fromDate" :clearable="true" />
             <div class="xsmall text-danger">{{ errors?.fromDate }}</div>
         </div>
 
@@ -80,7 +80,7 @@
                 <i data-bs-toggle="tooltip" data-bs-title="The date the client moved out of this address"
                     class="bi bi-info-circle small"></i>
             </div>
-            <CustomDatePicker v-model="toDate" />
+            <CustomDatePicker v-model="toDate" :clearable="true" />
             <div class="xsmall text-danger">{{ errors?.toDate }}</div>
         </div>
 
@@ -153,8 +153,8 @@ const validationRules = {
     buildingName: yup.string(),
     type: yup.object(),
     postalCode: yup.string(),
-    fromDate: yup.date(),
-    toDate: yup.date(),
+    fromDate: yup.date().nullable(),
+    toDate: yup.date().nullable(),
 };
 
 const { errors, handleSubmit, defineField, isSubmitting, resetForm, setFieldValue, resetField } = useForm({

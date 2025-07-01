@@ -181,7 +181,7 @@ export default {
         return dd.value;
     },
 
-    dateTimeDisplay: (date: Date | string, format = 'MMM D, YYYY -  hh:mm a') => {
+    dateTimeDisplay: (date: Date | string, format = 'MMM D, YYYY   hh:mm a') => {
 
         if (!date) return '-';
 
