@@ -41,12 +41,12 @@ function runCheck() {
             try {
                 isSaving.value = true
 
-                const obj = {
+                const obj: any = {
                     check_type: newCheck.value.selectedType?.type,
                     clientId: clientDetails.value?.client_id,
                 }
 
-                const { data } = await api.verify(obj)
+                const { data } = await api.verify(obj, obj.check_type)
                 if (data.status == 201) {
                     helperFunctions.toast(data.message, 'success')
                     newCheck.value.selectedType = null

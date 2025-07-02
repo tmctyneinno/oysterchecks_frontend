@@ -134,7 +134,7 @@ const runCheck = handleSubmit(async (values: any) => {
         if (confirm.value) {
 
             try {
-                const obj = {
+                const obj: any = {
                     check_type: newCheck.value.selectedType?.type,
                     clientId: clientDetails.value?.client_id,
                     country: countryIsoCode.value,
@@ -146,7 +146,7 @@ const runCheck = handleSubmit(async (values: any) => {
                     // ...form
                 }
 
-                const { data } = await api.verify(obj)
+                const { data } = await api.verify(obj, obj.check_type)
                 if (data.status == 201) {
                     helperFunctions.toast(data.message, 'success')
                     newCheck.value.selectedType = null

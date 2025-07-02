@@ -35,7 +35,7 @@ export default {
     },
 
 
-    verify(data: any) {
-        return $instance.post(`client/verify`, JSON.stringify(data))
+    verify(data: any, check_type: string) {
+        return $instance.post(`client/verify/${check_type}`, JSON.stringify(data))
     },
 }
