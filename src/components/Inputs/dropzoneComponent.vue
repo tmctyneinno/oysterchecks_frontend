@@ -3,6 +3,7 @@
         <div class="text-center small">
             <span v-if="imgSaving" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
             <div class="text-muted">{{ text }}</div>
+            <div class="text-info-emphasis"> {{ formats }}</div>
         </div>
         <input v-bind="getInputProps()" />
     </div>

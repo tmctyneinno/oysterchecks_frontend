@@ -4,36 +4,49 @@
         <template #form>
             <div class="row g-3">
                 <div class="col-md-8">
-                    <div class="form-label">Address</div>
+                    <div class="form-label">Address
+                        <RedAsteric />
+                    </div>
                     <CustomTextField v-model="line" :floatLabel="false" />
                     <div class="xsmall text-danger">{{ errors?.line }}</div>
                 </div>
                 <div class=" col-lg-4 col-md-6">
-                    <div class="form-label">Country</div>
-                    <CustomSelect v-model="country" :options="clientsStore.countries" placeholder="select country" />
+                    <div class="form-label">Country
+                        <RedAsteric />
+                    </div>
+                    <CustomSelect :disabled="true" v-model="country" :options="clientsStore.countries"
+                        placeholder="select country" />
                     <div class="xsmall text-danger">{{ errors?.country }}</div>
                 </div>
 
                 <div class=" col-lg-4 col-md-6">
-                    <div class="form-label">State</div>
+                    <div class="form-label">State
+                        <RedAsteric />
+                    </div>
                     <CustomSelect v-model="state" :options="statesArray" placeholder="select state" />
                     <div class="xsmall text-danger">{{ errors?.state }}</div>
                 </div>
 
                 <div class=" col-lg-4 col-md-6">
-                    <div class="form-label">City</div>
-                    <CustomSelect v-model="city" :options="citiesArray" placeholder="select city" />
+                    <div class="form-label">City
+                        <RedAsteric />
+                    </div>
+                    <CustomSelect v-model="city" :options="citiesArray" :taggable="true" placeholder="select city" />
                     <div class="xsmall text-danger">{{ errors?.city }}</div>
                 </div>
 
                 <div class=" col-lg-4 col-md-6">
-                    <div class="form-label">Property Number</div>
+                    <div class="form-label">Property Number
+                        <RedAsteric />
+                    </div>
                     <CustomTextField v-model="propertyNumber" :floatLabel="false" />
                     <div class="xsmall text-danger">{{ errors?.propertyNumber }}</div>
                 </div>
 
                 <div class=" col-lg-4 col-md-6">
-                    <div class="form-label">Postal Code</div>
+                    <div class="form-label">Postal Code
+                        <RedAsteric />
+                    </div>
                     <CustomTextField v-model="postalCode" :floatLabel="false" />
                     <div class="xsmall text-danger">{{ errors?.postalCode }}</div>
                 </div>
@@ -52,9 +65,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useClientsStore } from '@/stores/clientsStore';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import DropzoneComponent from '@/components/Inputs/dropzoneComponent.vue';
 import helperFunctions from '@/stores/helperFunctions';
 import api from '@/api';
 import CustomSelect from '@/components/Inputs/customSelect.vue';
@@ -65,9 +77,10 @@ import NewCheckTemplate from './newCheckTemplate.vue';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
+import RedAsteric from '@/components/redAsteric.vue';
 
 const clientsStore = useClientsStore()
-const { clientDetails, availableChecks, newCheck } = storeToRefs(clientsStore)
+const { clientDetails, newCheck } = storeToRefs(clientsStore)
 
 const route = useRoute()
 const router = useRouter()
@@ -76,6 +89,9 @@ onMounted(async () => {
     if (!route.query?.refId || !route.query?.client) router.back()
     await clientsStore.getClientResources()
     isLoadingDetails.value = false
+
+    if (clientDetails.value?.nationality) setFieldValue('country', currentClientCountry.value)
+
 })
 
 
@@ -87,20 +103,22 @@ const stateIsoCode = computed(() => { return state.value?.isoCode ?? '' })
 
 const isLoadingDetails = ref<boolean>(true)
 
-
-
-// form and validation
-const validationRules = {
-    line: yup.string().required('Line is required'),
-    country: yup.object().required('Country is required'),
-    state: yup.object().required('State is required'),
-    city: yup.object().required('City is required'),
-    propertyNumber: yup.string().required('Property Number is required'),
-    postalCode: yup.string().required('Postal Code is required'),
-};
+const currentClientCountry = computed(() => {
+    return clientsStore.countries.find((country) => country.isoCode === clientDetails.value?.nationality)
+})
 
 const { errors, handleSubmit, defineField, isSubmitting, resetForm, setFieldValue, resetField } = useForm({
-    validationSchema: toTypedSchema(yup.object(validationRules)),
+    validationSchema: toTypedSchema(yup.object({
+        line: yup.string().required('Line is required'),
+        country: yup.object().required('Country is required'),
+        state: yup.object().required('State is required'),
+        city: yup.mixed().required('City is required'),
+        propertyNumber: yup.string().required('Property Number is required'),
+        postalCode: yup.string().required('Postal Code is required'),
+    })),
+    initialValues: {
+        country: currentClientCountry.value,
+    }
 });
 
 const [line, lineAttr] = defineField('line');
@@ -128,25 +146,25 @@ watch(() => state.value, () => {
 })
 
 
-
 const runCheck = handleSubmit(async (values: any) => {
     helperFunctions.confirm('Run this check?', '', 'Continue').then(async (confirm) => {
         if (confirm.value) {
-
             try {
-                const obj: any = {
-                    check_type: newCheck.value.selectedType?.type,
-                    clientId: clientDetails.value?.client_id,
-                    country: countryIsoCode.value,
-                    state: stateIsoCode.value,
-                    city: values.city?.label,
-                    postalCode: values.postalCode,
-                    line: values.line,
-                    propertyNumber: values.propertyNumber
-                    // ...form
-                }
+                isSubmitting.value = true
 
-                const { data } = await api.verify(obj, obj.check_type)
+                const formData = new FormData();
+                const checkType: string = newCheck.value.selectedType?.type ?? 'multi_bureau_check'
+
+                formData.append('check_type', checkType);
+                formData.append('clientId', clientDetails.value?.client_id);
+                formData.append('country', countryIsoCode.value);
+                formData.append('state', stateIsoCode.value);
+                formData.append('city', values.city?.label ?? values.city);
+                formData.append('postalCode', values.postalCode);
+                formData.append('line', values.line);
+                formData.append('propertyNumber', values.propertyNumbe);
+
+                const { data } = await api.verify(formData, checkType)
                 if (data.status == 201) {
                     helperFunctions.toast(data.message, 'success')
                     newCheck.value.selectedType = null
@@ -156,7 +174,7 @@ const runCheck = handleSubmit(async (values: any) => {
             } catch (error) {
                 helperFunctions.toast('Could not verify, Pls try again', 'error')
             }
-            // finally { isSaving.value = false }
+            finally { isSubmitting.value = false }
         }
     })
 

@@ -92,10 +92,12 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     const resources = reactive<{
         checksTypes: CheckType[],
         documentTypes: any[],
+        documentClassifications: any[],
         isLoaded: boolean
     }>({
         checksTypes: [],
         documentTypes: [],
+        documentClassifications: [],
         isLoaded: false
     })
 
@@ -110,6 +112,7 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
                 const { data } = await api.checksResources()
                 resources.checksTypes = data.check_types
                 resources.documentTypes = data.document_types
+                resources.documentClassifications = data.document_classifications
                 resources.isLoaded = true
             } catch (error) { }
     }

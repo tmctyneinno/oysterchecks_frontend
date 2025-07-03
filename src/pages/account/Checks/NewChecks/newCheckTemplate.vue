@@ -6,13 +6,13 @@
             </div>
             <div class="card-footer bg-transparent border-0">
                 <div class="row justify-content-end g-1">
-                    <div class="col-md-2">
+                    <div class="col-md-4 col-lg-2">
                         <button @click="clientsStore.newCheck.adding = false"
                             class="btn btn-outline-dark me-2 rounded-4 float-end w-100">
                             Cancel
                         </button>
                     </div>
-                    <div v-if="clientsStore.newCheck.selectedType" class="col-md-3 col-lg-2">
+                    <div v-if="clientsStore.newCheck.selectedType" class="col-md-4 col-lg-2">
                         <slot name="button"> </slot>
                     </div>
                 </div>
