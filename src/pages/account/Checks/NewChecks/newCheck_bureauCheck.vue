@@ -92,11 +92,7 @@ const router = useRouter()
 
 onMounted(async () => {
     if (!route.query?.refId || !route.query?.client) router.back()
-    await clientsStore.getClientResources()
-    isLoadingDetails.value = false
-
     if (clientDetails.value?.nationality) setFieldValue('country', currentClientCountry.value)
-
 })
 
 
@@ -106,7 +102,6 @@ const citiesArray = ref<any[]>([])
 const countryIsoCode = computed(() => { return country.value?.isoCode ?? '' })
 const stateIsoCode = computed(() => { return state.value?.isoCode ?? '' })
 
-const isLoadingDetails = ref<boolean>(true)
 
 const currentClientCountry = computed(() => {
     return clientsStore.countries.find((country) => country.isoCode === clientDetails.value?.nationality)

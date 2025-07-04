@@ -13,7 +13,7 @@
                 <newCheck_amlCheck v-if="newCheck.selectedType?.type == 'standard_screening_check'" />
                 <NewCheck_bureauCheck v-if="newCheck.selectedType?.type == 'multi_bureau_check'" />
                 <NewCheck_documentCheck v-if="newCheck.selectedType?.type == 'document_check'" />
-                <NewCheck_bureauCheck v-if="newCheck.selectedType?.type == 'identity_check'" />
+                <NewCheck_indentityCheck v-if="newCheck.selectedType?.type == 'identity_check'" />
                 <NewCheck_bureauCheck v-if="newCheck.selectedType?.type == 'age_estimation_check'" />
                 <NewCheck_bureauCheck v-if="newCheck.selectedType?.type == 'proof_of_address_check'" />
             </div>
@@ -34,6 +34,7 @@ import CustomSelect from '@/components/Inputs/customSelect.vue';
 import newCheck_amlCheck from './newCheck_amlCheck.vue';
 import NewCheck_bureauCheck from './newCheck_bureauCheck.vue';
 import NewCheck_documentCheck from './newCheck_documentCheck.vue';
+import NewCheck_indentityCheck from './newCheck_indentityCheck.vue';
 
 const clientsStore = useClientsStore()
 const { availableChecks, newCheck } = storeToRefs(clientsStore)

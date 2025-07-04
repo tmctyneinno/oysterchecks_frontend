@@ -2,7 +2,7 @@
 
     <NewCheckTemplate>
         <template #button>
-            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="isSaving">
+            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="newCheckStore.isSubmittingForm">
                 RUN CHECk
             </loadingButton>
         </template>
@@ -18,28 +18,26 @@ import helperFunctions from '@/stores/helperFunctions';
 import api from '@/api';
 import LoadingButton from '@/components/loadingButton.vue';
 import NewCheckTemplate from './newCheckTemplate.vue';
+import { useNewChecksStore } from './useNewChecksStore';
 
 const clientsStore = useClientsStore()
 const { clientDetails, newCheck } = storeToRefs(clientsStore)
+const newCheckStore = useNewChecksStore()
 
 const route = useRoute()
 const router = useRouter()
 
 onMounted(async () => {
     if (!route.query?.refId || !route.query?.client) router.back()
-    await clientsStore.getClientResources()
-    isLoadingDetails.value = false
 })
 
-const isLoadingDetails = ref<boolean>(true)
 
-const isSaving = ref<boolean>(false);
 function runCheck() {
 
     helperFunctions.confirm('Run this check?', '', 'Continue').then(async (confirm) => {
         if (confirm.value) {
             try {
-                isSaving.value = true
+                newCheckStore.isSubmittingForm = true
 
                 const obj: any = {
                     check_type: newCheck.value.selectedType?.type,
@@ -56,7 +54,7 @@ function runCheck() {
             } catch (error) {
                 helperFunctions.toast('Could not verify, Pls try again', 'error')
             }
-            finally { isSaving.value = false }
+            finally { newCheckStore.isSubmittingForm = false }
         }
     })
 }
