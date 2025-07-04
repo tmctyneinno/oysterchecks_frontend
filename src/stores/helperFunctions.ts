@@ -58,7 +58,7 @@ export default {
             title: `${title}`,
             position: 'top-right',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 5000,
             timerProgressBar: false,
             // padding: 10,
         })

@@ -47,5 +47,7 @@ onMounted(async () => {
     if (!route.query?.refId || !route.query?.client) router.back()
     await clientsStore.getClientResources()
     loadingResources.value = false
+
+    newCheck.value.selectedType = availableChecks.value[0] || null
 })
 </script>

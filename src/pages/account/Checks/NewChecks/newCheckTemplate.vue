@@ -7,7 +7,7 @@
             <div class="card-footer bg-transparent border-0">
                 <div class="row justify-content-end g-1">
                     <div class="col-md-4 col-lg-2">
-                        <button @click="clientsStore.newCheck.adding = false"
+                        <button @click="clientsStore.newCheck.adding = false" :disabled="newCheckStore.isSubmittingForm"
                             class="btn btn-outline-dark me-2 rounded-4 float-end w-100">
                             Cancel
                         </button>
@@ -23,5 +23,10 @@
 </template>
 <script setup lang="ts">
 import { useClientsStore } from '@/stores/clientsStore';
+import { useNewChecksStore } from './useNewChecksStore';
+
 const clientsStore = useClientsStore()
+const newCheckStore = useNewChecksStore()
+
+
 </script>

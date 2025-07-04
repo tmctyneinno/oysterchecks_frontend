@@ -31,7 +31,8 @@
                     <div class="form-label">City
                         <RedAsteric />
                     </div>
-                    <CustomSelect v-model="city" :options="citiesArray" :taggable="true" placeholder="select city" />
+                    <CustomSelect v-model="city" :options="citiesArray" :taggable="true" placeholder="select city"
+                        :noOptionsText="'No cities, type a city and press ENTER'" />
                     <div class="xsmall text-danger">{{ errors?.city }}</div>
                 </div>
 
@@ -54,7 +55,7 @@
         </template>
 
         <template #button>
-            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="isSubmitting">
+            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="newCheckStore.isSubmittingForm">
                 RUN CHECk
             </loadingButton>
         </template>
@@ -78,9 +79,13 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
 import RedAsteric from '@/components/redAsteric.vue';
+import { useNewChecksStore } from './useNewChecksStore';
 
 const clientsStore = useClientsStore()
 const { clientDetails, newCheck } = storeToRefs(clientsStore)
+
+const newCheckStore = useNewChecksStore()
+
 
 const route = useRoute()
 const router = useRouter()
@@ -150,7 +155,7 @@ const runCheck = handleSubmit(async (values: any) => {
     helperFunctions.confirm('Run this check?', '', 'Continue').then(async (confirm) => {
         if (confirm.value) {
             try {
-                isSubmitting.value = true
+                newCheckStore.isSubmittingForm = true
 
                 const formData = new FormData();
                 const checkType: string = newCheck.value.selectedType?.type ?? 'multi_bureau_check'
@@ -174,7 +179,7 @@ const runCheck = handleSubmit(async (values: any) => {
             } catch (error) {
                 helperFunctions.toast('Could not verify, Pls try again', 'error')
             }
-            finally { isSubmitting.value = false }
+            finally { newCheckStore.isSubmittingForm = false }
         }
     })
 

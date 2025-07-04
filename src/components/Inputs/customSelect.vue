@@ -1,7 +1,12 @@
 <template>
     <v-select class="d-none d-md-block" append-to-body :calculate-position="helperFunctions.vueSelectPositionCalc"
-        v-model="localValue" :teleport="true" :options :label :placeholder :clearable :loading :disabled
-        :taggable></v-select>
+        v-model="localValue" :teleport="true" :options :label :placeholder :clearable :loading :disabled :taggable>
+
+        <template #no-options="{ search, searching, loading }">
+            {{ noOptionsText }}
+        </template>
+
+    </v-select>
 
     <select class="form-select d-md-none">
         <option value="" selected disabled>{{ placeholder }}</option>
@@ -52,6 +57,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    noOptionsText: {
+        type: String,
+        default: 'There are no options available'
+    },
 
 })
 const emit = defineEmits(['update:modelValue']);
@@ -64,7 +73,7 @@ watch(() => localValue.value, () => {
 })
 
 watch(() => props.modelValue, () => {
-    if (!props.modelValue) localValue.value = props.modelValue
-})
+    if (JSON.stringify(props.modelValue) !== JSON.stringify(localValue.value)) localValue.value = props.modelValue
+}, { immediate: true, deep: true })
 
 </script>

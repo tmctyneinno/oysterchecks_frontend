@@ -39,7 +39,7 @@
                         </div>
 
                         <div class=" col-lg-4 col-md-6">
-                            <div class="form-label">Isuing Country
+                            <div class="form-label">Issuing Country
                                 <RedAsteric />
                             </div>
                             <CustomSelect v-model="issuingCountry" :options="clientsStore.countries"
@@ -49,39 +49,66 @@
 
 
                         <div class=" col-lg-4 col-md-6">
-                            <div class="form-label">Isuing State
+                            <div class="form-label">Issuing State
                                 <RedAsteric />
                             </div>
                             <CustomSelect v-model="issuingState" :options="statesArray" placeholder="select state" />
                             <div class="xsmall text-danger">{{ errors?.issuingState }}</div>
                         </div>
 
+                        <div class="col-12" v-if="twoSidedDocument">
+                            <fieldset class="borderr bg-light-subtle rounded-3 pb-3 px-3 mb-4">
+                                <legend class="text-muted float-none xsmall p-0 px-2 w-auto">
+                                    IMAGE UPLOAD GUIDELINES
+                                </legend>
+                                <div class="row g-1 small text-warning-emphasis">
+                                    <div class="col-lg-6 ">
+                                        <i class="bi bi-dot"></i> The images must be of good quality, with a
+                                        <strong>minimum of 150 DPI.</strong>
+                                    </div>
+                                    <div class="col-lg-6 ">
+                                        <i class="bi bi-dot"></i> The images must be either in <strong>JPG,
+                                            PNG</strong>, or <strong>PDF</strong>
+                                        format.
+                                    </div>
+                                    <div class="col-lg-6 ">
+                                        <i class="bi bi-dot"></i> The images must be provided <strong>without blur or
+                                            glare</strong>.
+                                    </div>
+                                    <div class="col-lg-6 ">
+                                        <i class="bi bi-dot"></i> You must <strong>not</strong> take the image at
+                                        <strong>an angle.</strong>
+                                    </div>
+                                    <div class="col-lg-6 ">
+                                        <i class="bi bi-dot"></i> Each side of the document must be
+                                        <strong>between 34 KB and 4 MB.</strong>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+
                         <div class="col-lg-5">
                             <div class="form-label">
-                                Upload Image
+                                Upload Document
+                                <span v-if="twoSidedDocument">(front)</span>
                                 <RedAsteric />
                             </div>
-                            <DropzoneComponent :formats="['jpg', 'jpeg', 'png', 'pdf']"
-                                @fileUploaded="updateUploadedFile" />
+                            <DropzoneComponent :formats="formatToUpload" :text="document?.name"
+                                @fileUploaded="updateDocumentFrontSide" />
                             <div class="xsmall text-danger">{{ errors?.document }}</div>
                         </div>
 
-                        <div class="col-lg-5 cursor-pointer">
+                        <div v-if="twoSidedDocument" class="col-lg-5">
                             <div class="form-label">
-                                &nbsp;
+                                Upload Document
+                                <span>(back)</span>
+                                <RedAsteric />
                             </div>
-                            <div class="d-fle">
-                                <div @click="document_side = 'front'">
-                                    <i v-if="document_side !== 'front'" class="bi bi-circle"></i>
-                                    <i v-else class="bi bi-circle-fill"></i> Front
-                                </div>
-                                <div @click="document_side = 'back'">
-                                    <i v-if="document_side !== 'back'" class="bi bi-circle"></i>
-                                    <i v-else class="bi bi-circle-fill"></i> Back
-                                </div>
-                            </div>
+                            <DropzoneComponent :formats="formatToUpload" :text="documentBack?.name"
+                                @fileUploaded="updateDocumentBackSide" />
+                            <div class="xsmall text-danger">{{ errors?.documentBack }}</div>
                         </div>
-
                     </div>
                 </div>
 
@@ -89,7 +116,7 @@
         </template>
 
         <template #button>
-            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="isSubmitting">
+            <loadingButton @click="runCheck" className="btn-theme w-100" :loading="newCheckStore.isSubmittingForm">
                 RUN CHECk
             </loadingButton>
         </template>
@@ -114,9 +141,12 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
 import RedAsteric from '@/components/redAsteric.vue';
+import { useNewChecksStore } from './useNewChecksStore';
 
 const clientsStore = useClientsStore()
 const { clientDetails, newCheck } = storeToRefs(clientsStore)
+
+const newCheckStore = useNewChecksStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -131,6 +161,11 @@ onMounted(async () => {
 })
 
 
+const twoSidedDocument = computed(() => { return documentType.value?.sides_required == 2 })
+const formatToUpload = computed(() => {
+    return !twoSidedDocument.value ? ['jpg', 'jpeg', 'png', 'pdf'] : ['jpg', 'jpeg', 'png']
+})
+
 const statesArray = ref<any[]>([])
 
 const countryIsoCode = computed(() => { return issuingCountry.value?.isoCode ?? '' })
@@ -143,7 +178,6 @@ const currentClientCountry = computed(() => {
     return clientsStore.countries.find((country) => country.isoCode === clientDetails.value?.nationality)
 })
 
-
 const { errors, handleSubmit, defineField, isSubmitting, resetForm, setFieldValue, resetField } = useForm({
     validationSchema: toTypedSchema(yup.object({
         documentNumber: yup.string().required('Document Number is required'),
@@ -151,12 +185,29 @@ const { errors, handleSubmit, defineField, isSubmitting, resetForm, setFieldValu
         issuingCountry: yup.object().required('Country is required'),
         documentType: yup.object().required('Document Type is required'),
         classification: yup.object().required('Classification Type is required'),
-        document: yup.mixed().required('Please upload document'),
-        document_side: yup.string(),
+
+        document: yup.mixed().required('Please upload a valid document')
+            .test('fileSize', 'File must be less than 4MB',
+                (value: any) => {
+                    if (!value) return true; // Skip if no file
+                    return value.size <= 4096 * 1024; // 4096 KB = 4MB
+                }
+            ),
+        documentBack: yup.mixed().when('documentType', {
+            is: (val: any) => val?.sides_required == 2,
+            then: (schema) => schema.required('Please upload a valid document')
+                .test('fileSize', 'File must be less than 4MB',
+                    (value: any) => {
+                        if (!value) return true; // Skip if no file
+                        return value.size <= 4096 * 1024; // 4096 KB = 4MB
+                    }
+                ),
+            otherwise: (schema) => schema.optional(),
+        }),
+
     })),
     initialValues: {
         issuingCountry: currentClientCountry.value,
-        document_side: 'front'
     }
 });
 
@@ -165,8 +216,8 @@ const [issuingState, issuingStateAttr] = defineField<any>('issuingState');
 const [documentType, documentTypeAttr] = defineField<any>('documentType');
 const [classification, classificationAttr] = defineField<any>('classification');
 const [documentNumber, documentNumber_Attr] = defineField('documentNumber');
-const [document, document_Attr] = defineField('document');
-const [document_side, document_side_Attr] = defineField('document_side');
+const [document, document_Attr] = defineField<any>('document');
+const [documentBack, documentBack_Attr] = defineField<any>('documentBack');
 
 
 watch(() => issuingCountry.value, () => {
@@ -177,8 +228,12 @@ watch(() => issuingCountry.value, () => {
     }
 })
 
-function updateUploadedFile(file: any) {
+function updateDocumentFrontSide(file: any) {
     setFieldValue('document', file)
+}
+
+function updateDocumentBackSide(file: any) {
+    setFieldValue('documentBack', file)
 }
 
 const runCheck = handleSubmit(async (values: any) => {
@@ -186,7 +241,7 @@ const runCheck = handleSubmit(async (values: any) => {
         if (confirm.value) {
 
             try {
-                isSubmitting.value = true
+                newCheckStore.isSubmittingForm = true
                 const checkType: string = newCheck.value.selectedType?.type ?? 'document_check'
 
                 const formData = new FormData()
@@ -198,7 +253,8 @@ const runCheck = handleSubmit(async (values: any) => {
                 formData.append('type', values.documentType?.value)
                 formData.append('classification', values.classification?.value)
                 formData.append('document', values.document)
-                formData.append('document_side', values.document_side)
+                if (twoSidedDocument.value)
+                    formData.append('documentBack', values?.documentBack)
 
                 // Iterate over entries and log each one
                 // for (const [key, value] of formData.entries()) {
@@ -213,10 +269,10 @@ const runCheck = handleSubmit(async (values: any) => {
                     newCheck.value.adding = false
                 }
 
-            } catch (error) {
-                helperFunctions.toast('Could not verify, Pls try again', 'error')
+            } catch (error: any) {
+                helperFunctions.toast(error?.response?.data?.errors?.message ?? 'Could not verify, Pls try again', 'error')
             }
-            finally { isSubmitting.value = false }
+            finally { newCheckStore.isSubmittingForm = false }
         }
     })
 

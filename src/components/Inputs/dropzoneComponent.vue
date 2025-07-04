@@ -1,21 +1,20 @@
 <template>
-    <div class="dropzone" v-bind="getRootProps()">
+    <div class="dropzone " :class="{ 'active': doc?.name }" v-bind="getRootProps()">
         <div class="text-center small">
             <span v-if="imgSaving" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-            <div class="text-muted">{{ text }}</div>
-            <div class="text-info-emphasis"> {{ formats }}</div>
+            <div class="text-mute">{{ text }}</div>
+            <div class="text-muted"> {{ formats }}</div>
         </div>
         <input v-bind="getInputProps()" />
     </div>
-    <span v-if="img?.name">
+    <!-- <span v-if="doc?.name">
         <i class="bi bi-check-circle-fill text-success"></i>
-        {{ img.name }}
-    </span>
+        {{ doc.name }}
+    </span> -->
 </template>
 
 <script setup lang="ts">
 
-import helperFunctions from '@/stores/helperFunctions';
 import { ref } from 'vue';
 import { useDropzone } from 'vue3-dropzone';
 
@@ -27,26 +26,25 @@ const props = defineProps({
     text: {
         type: String,
         default: 'Click to replace or drag and drop'
-    }
+    },
+
 })
 
 
 const emit = defineEmits(['fileUploaded']);
 
 // image
-const img = ref<any>(null)
+const doc = ref<any>(null)
 const imgSaving = ref<boolean>(false);
 
 // file input
 const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
+    // maxSize: 1024 * 1024 * 2, // 2MB
+    accept: props.formats.map(format => `.${format}`).join(','),
     onDrop: (acceptFiles: any[], rejectReasons: any) => {
-        if (!helperFunctions.isExtension(acceptFiles[0].name, props.formats)) {
-            helperFunctions.toast('Please upload valid format', 'warning');
-            return;
-        }
-        img.value = acceptFiles[0];
-        emit('fileUploaded', img.value);
+        doc.value = acceptFiles[0];
+        emit('fileUploaded', doc.value);
         imgSaving.value = false;
     },
 });
@@ -72,8 +70,15 @@ const { getRootProps, getInputProps } = useDropzone({
 }
 
 .dropzone:hover {
-    border-color: var(--bs-primary);
+    border-color: var(--bs-success);
+    /* background-color: #f0f8ff; */
+    /* color: var(--bs-primary); */
+}
+
+/* active dropzone */
+.active {
+    border-color: var(--bs-success);
     background-color: #f0f8ff;
-    color: var(--bs-primary);
+    color: var(--bs-success);
 }
 </style>

@@ -87,8 +87,6 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         return State.getStateByCodeAndCountry(StateISO, CountryISO)?.name
     }
 
-    const fakeMethod = () => { }
-
     const resources = reactive<{
         checksTypes: CheckType[],
         documentTypes: any[],
@@ -180,7 +178,6 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
         getClientDetails,
         statesByCountry,
         citiesByState,
-        fakeMethod,
         newCheck
     }
 })
