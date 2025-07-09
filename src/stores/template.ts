@@ -12,6 +12,10 @@ export const useTemplateStore = defineStore('template', () => {
 
   const activateToolTip = ref<number>(0)
 
+  const isShowingOverlayLoading = ref<boolean>(false)
+  function showOverlayLoading(status: boolean = true) {
+    isShowingOverlayLoading.value = status;
+  }
 
   // Data
   const sidebarmenu = reactive<{ heading?: string, menu: { title: string, icon: string, link?: string, children?: any[] }[] }[]>([
@@ -65,5 +69,7 @@ export const useTemplateStore = defineStore('template', () => {
     toggleTheme,
     sidebarmenu,
     activateToolTip,
+    isShowingOverlayLoading,
+    showOverlayLoading
   }
 })

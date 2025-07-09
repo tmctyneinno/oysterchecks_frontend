@@ -43,7 +43,8 @@
         <div class=" col-lg-4 col-md-6">
             <div class="form-label">Postal Code
                 <!-- <RedAsteric /> -->
-                <i data-bs-toggle="tooltip" data-bs-title="Zip or Postal Code" class="bi bi-info-circle small"></i>
+                <i data-bs-toggle="tooltip" data-bs-title="Zip or Postal Code"
+                    class="bi bi-question-circle-fill small"></i>
             </div>
             <CustomTextField v-model="postalCode" :floatLabel="false" />
             <div class="xsmall text-danger">{{ errors?.postalCode }}</div>
@@ -52,7 +53,7 @@
         <div class=" col-lg-4 col-md-6">
             <div class="form-label"> Name of Building
                 <i data-bs-toggle="tooltip" data-bs-title="The building name of the client's address"
-                    class="bi bi-info-circle small"></i>
+                    class="bi bi-question-circle-fill small"></i>
             </div>
             <CustomTextField v-model="buildingName" :floatLabel="false" />
             <div class="xsmall text-danger">{{ errors?.buildingName }}</div>
@@ -60,7 +61,8 @@
 
         <div class=" col-lg-4 col-md-6">
             <div class="form-label">Address Type
-                <i data-bs-toggle="tooltip" data-bs-title="The type of address" class="bi bi-info-circle small"></i>
+                <i data-bs-toggle="tooltip" data-bs-title="The type of address"
+                    class="bi bi-question-circle-fill small"></i>
             </div>
             <CustomSelect v-model="type" :options="addressTypes" placeholder="select type" />
             <div class="xsmall text-danger">{{ errors?.type }}</div>
@@ -69,7 +71,7 @@
         <div class=" col-lg-4 col-md-6">
             <div class="form-label">From Date
                 <i data-bs-toggle="tooltip" data-bs-title="The date the client moved into this address"
-                    class="bi bi-info-circle small"></i>
+                    class="bi bi-question-circle-fill small"></i>
             </div>
             <CustomDatePicker v-model="fromDate" :clearable="true" />
             <div class="xsmall text-danger">{{ errors?.fromDate }}</div>
@@ -78,7 +80,7 @@
         <div class=" col-lg-4 col-md-6">
             <div class="form-label">To Date
                 <i data-bs-toggle="tooltip" data-bs-title="The date the client moved out of this address"
-                    class="bi bi-info-circle small"></i>
+                    class="bi bi-question-circle-fill small"></i>
             </div>
             <CustomDatePicker v-model="toDate" :clearable="true" />
             <div class="xsmall text-danger">{{ errors?.toDate }}</div>
@@ -113,9 +115,12 @@ import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
 import RedAsteric from '@/components/redAsteric.vue';
 import CustomDatePicker from '@/components/Inputs/customDatePicker.vue';
+import { useTemplateStore } from '@/stores/template';
 
 const clientsStore = useClientsStore()
 const { clientDetails } = storeToRefs(clientsStore)
+
+const templateStore = useTemplateStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -196,6 +201,8 @@ const submitForm = handleSubmit(async (values: any) => {
         if (confirm.value) {
 
             try {
+                templateStore.showOverlayLoading()
+
                 const obj = {
                     clientId: clientDetails.value?.client_id,
                     country: countryIsoCode.value,
@@ -222,7 +229,7 @@ const submitForm = handleSubmit(async (values: any) => {
             } catch (error) {
                 helperFunctions.toast('Something went wrong, Pls try again', 'error')
             }
-            // finally { isSaving.value = false }
+            finally { templateStore.showOverlayLoading(false) }
         }
     })
 

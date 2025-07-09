@@ -19,6 +19,7 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     type CheckType = {
         type: string;
         name: string;
+        description: string;
         fields: any[];
     };
 

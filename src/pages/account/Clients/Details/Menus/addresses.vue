@@ -66,11 +66,12 @@
                     <h5 class="modal-title" id="modalTitleId">
                         Address Details
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button ref="closeDetailModal" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-bordered">
+                        <table class="table table-sm small table-bordered">
                             <tbody>
                                 <tr>
                                     <td>Country:</td>
@@ -133,12 +134,12 @@
                     </div>
 
                 </div>
-                <div class="modal-footer border-0">
+                <!-- <div class="modal-footer border-0">
                     <button ref="closeDetailModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
 
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -159,6 +160,7 @@ import { useTemplateStore } from '@/stores/template';
 
 const clientsStore = useClientsStore()
 const { clientDetails } = storeToRefs(clientsStore)
+const templateStore = useTemplateStore()
 
 const headers = ref<Header[]>([
     { text: 'Country', value: 'country', sortable: true },
@@ -193,7 +195,7 @@ async function loadAddresses() {
     finally { isLoadingAddresses.value = false }
 }
 
-const templateStore = useTemplateStore()
+
 function openNewAddressForm() {
     templateStore.activateToolTip++
     isAddingNew.value = true
@@ -216,6 +218,7 @@ function deleteAddress(addressId: any) {
         .then(async (confirm) => {
             if (confirm.value) {
                 try {
+                    templateStore.showOverlayLoading()
                     await api.deleteAddresse(addressId)
                     helperFunctions.toast('Address Deleted', 'success')
                     loadAddresses()
@@ -223,6 +226,7 @@ function deleteAddress(addressId: any) {
                 catch {
                     helperFunctions.toast('Address not deleted Something Went Wrong', 'error')
                 }
+                finally { templateStore.showOverlayLoading(false) }
             }
         })
     console.log(addressId);

@@ -56,30 +56,31 @@
                             <div class="xsmall text-danger">{{ errors?.issuingState }}</div>
                         </div>
 
-                        <div class="col-12" v-if="twoSidedDocument">
+                        <div class="col-12">
                             <ImagesUploadRules />
                         </div>
 
                         <div class="col-lg-5">
                             <div class="form-label">
                                 Upload Document
-                                <span v-if="twoSidedDocument">(front)</span>
                                 <RedAsteric />
                             </div>
-                            <DropzoneComponent :formats="formatToUpload" :text="document?.name"
+                            <DropzoneComponent :formats="['jpg', 'jpeg', 'png', 'pdf']" :text="document?.name"
                                 @fileUploaded="updateDocumentFrontSide" />
                             <div class="xsmall text-danger">{{ errors?.document }}</div>
                         </div>
 
-                        <div v-if="twoSidedDocument" class="col-lg-5">
+                        <div class="col-lg-5">
                             <div class="form-label">
-                                Upload Document
-                                <span>(back)</span>
+                                Upload Live Photo
+                                <i data-bs-toggle="tooltip"
+                                    data-bs-title="Live Photos are images (i.e. selfies) of the client's face."
+                                    class="bi bi-question-circle-fill small"></i>
                                 <RedAsteric />
                             </div>
-                            <DropzoneComponent :formats="formatToUpload" :text="documentBack?.name"
+                            <DropzoneComponent :formats="['jpg', 'jpeg', 'png']" :text="livePhoto?.name"
                                 @fileUploaded="updateDocumentBackSide" />
-                            <div class="xsmall text-danger">{{ errors?.documentBack }}</div>
+                            <div class="xsmall text-danger">{{ errors?.livePhoto }}</div>
                         </div>
                     </div>
                 </div>
@@ -130,14 +131,11 @@ onMounted(async () => {
     if (!route.query?.refId || !route.query?.client) router.back()
     // await clientsStore.getClientResources()
     if (clientDetails.value?.nationality) setFieldValue('issuingCountry', currentClientCountry.value)
-
+    templateStore.activateToolTip++
 })
 
 
-const twoSidedDocument = computed(() => { return documentType.value?.sides_required == 2 })
-const formatToUpload = computed(() => {
-    return !twoSidedDocument.value ? ['jpg', 'jpeg', 'png', 'pdf'] : ['jpg', 'jpeg', 'png']
-})
+
 
 const statesArray = ref<any[]>([])
 
@@ -165,17 +163,14 @@ const { errors, handleSubmit, defineField, isSubmitting, resetForm, setFieldValu
                     return value.size <= 4096 * 1024; // 4096 KB = 4MB
                 }
             ),
-        documentBack: yup.mixed().when('documentType', {
-            is: (val: any) => val?.sides_required == 2,
-            then: (schema) => schema.required('Please upload a valid document')
-                .test('fileSize', 'File must be less than 4MB',
-                    (value: any) => {
-                        if (!value) return true; // Skip if no file
-                        return value.size <= 4096 * 1024; // 4096 KB = 4MB
-                    }
-                ),
-            otherwise: (schema) => schema.optional(),
-        }),
+        livePhoto: yup.mixed().required('Please upload an image of the client\'s face')
+            .test('fileSize', 'File must be less than 4MB',
+                (value: any) => {
+                    if (!value) return true; // Skip if no file
+                    return value.size <= 4096 * 1024; // 4096 KB = 4MB
+                }
+            ),
+
 
     })),
     initialValues: {
@@ -189,7 +184,7 @@ const [documentType, documentTypeAttr] = defineField<any>('documentType');
 const [classification, classificationAttr] = defineField<any>('classification');
 const [documentNumber, documentNumber_Attr] = defineField('documentNumber');
 const [document, document_Attr] = defineField<any>('document');
-const [documentBack, documentBack_Attr] = defineField<any>('documentBack');
+const [livePhoto, livePhoto_Attr] = defineField<any>('livePhoto');
 
 
 watch(() => issuingCountry.value, () => {
@@ -205,7 +200,7 @@ function updateDocumentFrontSide(file: any) {
 }
 
 function updateDocumentBackSide(file: any) {
-    setFieldValue('documentBack', file)
+    setFieldValue('livePhoto', file)
 }
 
 const runCheck = handleSubmit(async (values: any) => {
@@ -215,7 +210,7 @@ const runCheck = handleSubmit(async (values: any) => {
             try {
                 newCheckStore.isSubmittingForm = true
                 templateStore.showOverlayLoading()
-                const checkType: string = newCheck.value.selectedType?.type ?? 'document_check'
+                const checkType: string = newCheck.value.selectedType?.type ?? 'enhanced_identity_check'
 
                 const formData = new FormData()
                 formData.append('clientId', clientDetails.value?.client_id)
@@ -226,8 +221,8 @@ const runCheck = handleSubmit(async (values: any) => {
                 formData.append('type', values.documentType?.value)
                 formData.append('classification', values.classification?.value)
                 formData.append('document', values.document)
-                if (twoSidedDocument.value)
-                    formData.append('documentBack', values?.documentBack)
+
+                formData.append('livePhoto', values?.livePhoto)
 
                 // Iterate over entries and log each one
                 // for (const [key, value] of formData.entries()) {

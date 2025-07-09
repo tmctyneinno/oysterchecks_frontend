@@ -75,11 +75,11 @@
                                 Upload Live Photo
                                 <i data-bs-toggle="tooltip"
                                     data-bs-title="Live Photos are images (i.e. selfies) of the client's face."
-                                    class="bi bi-info-circle-fill small"></i>
+                                    class="bi bi-question-circle-fill small"></i>
                                 <RedAsteric />
                             </div>
                             <DropzoneComponent :formats="['jpg', 'jpeg', 'png']" :text="livePhoto?.name"
-                                @fileUploaded="updateDocumentBackSide" />
+                                @fileUploaded="updateLivePhotoImage" />
                             <div class="xsmall text-danger">{{ errors?.livePhoto }}</div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@ function updateDocumentFrontSide(file: any) {
     setFieldValue('document', file)
 }
 
-function updateDocumentBackSide(file: any) {
+function updateLivePhotoImage(file: any) {
     setFieldValue('livePhoto', file)
 }
 
@@ -209,7 +209,8 @@ const runCheck = handleSubmit(async (values: any) => {
 
             try {
                 newCheckStore.isSubmittingForm = true
-                const checkType: string = newCheck.value.selectedType?.type ?? 'document_check'
+                templateStore.showOverlayLoading()
+                const checkType: string = newCheck.value.selectedType?.type ?? 'identity_check'
 
                 const formData = new FormData()
                 formData.append('clientId', clientDetails.value?.client_id)
@@ -239,7 +240,10 @@ const runCheck = handleSubmit(async (values: any) => {
             } catch (error: any) {
                 helperFunctions.toast(error?.response?.data?.errors?.message ?? 'Could not verify, Pls try again', 'error')
             }
-            finally { newCheckStore.isSubmittingForm = false }
+            finally {
+                newCheckStore.isSubmittingForm = false;
+                templateStore.showOverlayLoading(false)
+            }
         }
     })
 

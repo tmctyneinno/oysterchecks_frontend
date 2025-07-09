@@ -80,12 +80,13 @@ import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
 import RedAsteric from '@/components/redAsteric.vue';
 import { useNewChecksStore } from './useNewChecksStore';
+import { useTemplateStore } from '@/stores/template';
 
 const clientsStore = useClientsStore()
 const { clientDetails, newCheck } = storeToRefs(clientsStore)
 
 const newCheckStore = useNewChecksStore()
-
+const templateStore = useTemplateStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -151,6 +152,7 @@ const runCheck = handleSubmit(async (values: any) => {
         if (confirm.value) {
             try {
                 newCheckStore.isSubmittingForm = true
+                templateStore.showOverlayLoading()
 
                 const formData = new FormData();
                 const checkType: string = newCheck.value.selectedType?.type ?? 'multi_bureau_check'
@@ -174,7 +176,10 @@ const runCheck = handleSubmit(async (values: any) => {
             } catch (error) {
                 helperFunctions.toast('Could not verify, Pls try again', 'error')
             }
-            finally { newCheckStore.isSubmittingForm = false }
+            finally {
+                newCheckStore.isSubmittingForm = false;
+                templateStore.showOverlayLoading(false)
+            }
         }
     })
 

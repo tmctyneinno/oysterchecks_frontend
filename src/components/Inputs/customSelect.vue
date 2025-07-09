@@ -8,9 +8,9 @@
 
     </v-select>
 
-    <select class="form-select d-md-none">
-        <option value="" selected disabled>{{ placeholder }}</option>
-        <option v-for="option in options" :value="option">{{ option[label] }}</option>
+    <select class="form-select d-md-none" v-model="localValue">
+        <option value="" disabled>{{ placeholder }}</option>
+        <option v-for="option in options" :key="option[label]" :value="option">{{ option[label] }}</option>
     </select>
 </template>
 

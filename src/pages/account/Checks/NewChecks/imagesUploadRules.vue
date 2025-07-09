@@ -1,5 +1,5 @@
 <template>
-    <fieldset class="borderr bg-light-subtle rounded-3 pb-3 px-3 mb-4">
+    <fieldset class="borderr bg-light rounded-3 pb-3 px-3 mb-4">
         <legend class="text-muted float-none xsmall p-0 px-2 w-auto">
             IMAGE UPLOAD GUIDELINES
         </legend>
