@@ -18,7 +18,7 @@
                             <div class="form-label">Document Type
                                 <RedAsteric />
                             </div>
-                            <CustomSelect v-model="documentType" :options="clientsStore.resources.documentTypes"
+                            <CustomSelect v-model="documentType" :options="filteredDocumentTypes"
                                 placeholder="select type" label="name" />
                             <div class="xsmall text-danger">{{ errors?.documentType }}</div>
                         </div>
@@ -27,9 +27,8 @@
                             <div class="form-label">Classification
                                 <RedAsteric />
                             </div>
-                            <CustomSelect v-model="classification"
-                                :options="clientsStore.resources.documentClassifications" placeholder="select type"
-                                label="name" />
+                            <CustomSelect v-model="classification" :options="filteredDocumentClassifications"
+                                placeholder="select type" label="name" />
                             <div class="xsmall text-danger">{{ errors?.classification }}</div>
                         </div>
 
@@ -111,7 +110,7 @@ import ImagesUploadRules from './imagesUploadRules.vue';
 import { useTemplateStore } from '@/stores/template';
 
 const clientsStore = useClientsStore()
-const { clientDetails, newCheck } = storeToRefs(clientsStore)
+const { clientDetails, newCheck, resources } = storeToRefs(clientsStore)
 
 const newCheckStore = useNewChecksStore()
 const templateStore = useTemplateStore()
@@ -134,6 +133,15 @@ const statesArray = ref<any[]>([])
 const countryIsoCode = computed(() => { return issuingCountry.value?.isoCode ?? '' })
 const stateIsoCode = computed(() => { return issuingState.value?.isoCode ?? '' })
 
+const filteredDocumentTypes = computed(() => {
+    const allowed = ['driving_license', 'tax_document', 'bank_statement', 'utility_bill']
+    return resources.value.documentTypes.filter((x: { value: string }) => allowed.includes(x.value))
+})
+
+const filteredDocumentClassifications = computed(() => {
+    const allowed = ['proof_of_address']
+    return resources.value.documentClassifications.filter((x: { value: string }) => allowed.includes(x.value))
+})
 
 
 const currentClientCountry = computed(() => {

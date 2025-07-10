@@ -8,10 +8,11 @@
 
     </v-select>
 
-    <select class="form-select d-md-none" v-model="localValue">
+    <select :disabled class="form-select d-md-none" v-model="localValue">
         <option value="" disabled>{{ placeholder }}</option>
         <option v-for="option in options" :key="option[label]" :value="option">{{ option[label] }}</option>
     </select>
+
 </template>
 
 <script setup lang="ts">

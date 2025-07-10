@@ -102,6 +102,7 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
 
     const clientExistingChecks = ref<string[]>([])
     const availableChecks = computed<CheckType[]>(() => {
+        // return resources.checksTypes;
         return resources.checksTypes.filter((x: { type: string }) => !clientExistingChecks.value.includes(x.type))
     })
 

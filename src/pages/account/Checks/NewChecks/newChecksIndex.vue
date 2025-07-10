@@ -4,7 +4,8 @@
             <div class="card-header bg-transparent border-0 pt-3">
                 <div class="col-md-6 col-lg-4">
                     <CustomSelect :loading="loadingResources" v-model="newCheck.selectedType" :options="availableChecks"
-                        placeholder="select type" label="name" />
+                        :noOptionsText="'No more checks available for this client'" placeholder="select type"
+                        label="name" />
                 </div>
             </div>
 

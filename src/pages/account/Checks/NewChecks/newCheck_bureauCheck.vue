@@ -32,7 +32,7 @@
                         <RedAsteric />
                     </div>
                     <CustomSelect v-model="city" :options="citiesArray" :taggable="true" placeholder="select city"
-                        :noOptionsText="'No cities, type a city and press ENTER'" />
+                        :noOptionsText="'No available options, type a city and press ENTER'" />
                     <div class="xsmall text-danger">{{ errors?.city }}</div>
                 </div>
 
@@ -164,7 +164,7 @@ const runCheck = handleSubmit(async (values: any) => {
                 formData.append('city', values.city?.label ?? values.city);
                 formData.append('postalCode', values.postalCode);
                 formData.append('line', values.line);
-                formData.append('propertyNumber', values.propertyNumbe);
+                formData.append('propertyNumber', values.propertyNumber);
 
                 const { data } = await api.verify(formData, checkType)
                 if (data.status == 201) {
@@ -173,8 +173,8 @@ const runCheck = handleSubmit(async (values: any) => {
                     newCheck.value.adding = false
                 }
 
-            } catch (error) {
-                helperFunctions.toast('Could not verify, Pls try again', 'error')
+            } catch (error: any) {
+                helperFunctions.toast(error?.response?.data?.errors?.message ?? 'Could not verify, Pls try again', 'error')
             }
             finally {
                 newCheckStore.isSubmittingForm = false;

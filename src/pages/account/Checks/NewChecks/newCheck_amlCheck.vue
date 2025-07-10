@@ -51,8 +51,8 @@ function runCheck() {
                     newCheck.value.adding = false
                 }
 
-            } catch (error) {
-                helperFunctions.toast('Could not verify, Pls try again', 'error')
+            } catch (error: any) {
+                helperFunctions.toast(error?.response?.data?.errors?.message ?? 'Could not verify, Pls try again', 'error')
             }
             finally { newCheckStore.isSubmittingForm = false }
         }
