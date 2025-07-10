@@ -22,6 +22,10 @@ export default {
         return $instance.get(`checks?${params}`)
     },
 
+    checkDetails(service_reference: string) {
+        return $instance.get(`check/result/${service_reference}`)
+    },
+
     getAddresses(params: string) {
         return $instance.get(`client/addresses?${params}`)
     },

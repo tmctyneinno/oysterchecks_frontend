@@ -46,7 +46,8 @@
 
 
                         <template #item-action="item">
-                            <a @click="showDetails(item)" href="#">Details</a>
+                            <span class="text-theme fw-600 cursor-pointer hover-tiltY"
+                                @click="showDetails(item)">Details</span>
                         </template>
                     </EasyDataTable>
                 </div>
@@ -141,7 +142,8 @@ watch(() => newCheck.value.adding, (newValue) => {
 
 const isSaving = ref<boolean>(false);
 
-function showDetails(item: any) {
+async function showDetails(item: any) {
+    const { data } = await api.checkDetails(item.service_reference)
 }
 
 
