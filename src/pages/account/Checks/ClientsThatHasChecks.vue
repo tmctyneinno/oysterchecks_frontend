@@ -1,5 +1,6 @@
 <template>
     <ClientsChecks v-if="isShowingDetails" />
+
     <div v-else>
         <div class="row g-3">
             <div class="col-12">
@@ -30,23 +31,29 @@
                                 <EmptyDataComponent :text="'No Checks'" />
                             </template>
 
-                            <template #item-name="item">
+                            <template #item-nationality="item">
+                                {{ clientsStore.countryName(item.nationality) }}
+                            </template>
 
+                            <template #item-name="item">
                                 <button @click="viewClient(item.id, item.client_id)"
-                                    class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-decoration-non">{{
+                                    class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-nowrap">{{
                                         item.name
                                     }}</button>
                             </template>
 
-                            <template #item-status="item">
-                                <span class="rounded-2 small d-flex justify-content-center"
-                                    :style="`background-color: ${clientsStore.statusShader(item.status).bg}; color: ${clientsStore.statusShader(item.status).color}`">
-                                    {{ item.status }}
-                                </span>
-                            </template>
 
                             <template #item-created_at="item">
                                 <span>{{ helperFunctions.dateDisplay(item.created_at) }}</span>
+                            </template>
+
+                            <template #item-no_of_checks="item">
+                                <span>
+                                    <span class="badge rounded-pill text-bg-secondary">
+                                        {{ item.no_of_checks }}
+                                    </span>
+
+                                </span>
                             </template>
 
                             <!-- <template #item-action="item">
@@ -82,6 +89,7 @@ import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 const isShowingDetails = ref<boolean>(false)
 const route = useRoute()
 const router = useRouter()
+const clientsStore = useClientsStore()
 
 watchEffect(() => {
     isShowingDetails.value = route.query?.refId ? true : false
@@ -146,7 +154,6 @@ const headers = ref<Header[]>([
 ])
 
 
-const clientsStore = useClientsStore()
 
 function viewClient(id: string, client_id: string) {
     clientsStore.newCheck.adding = false

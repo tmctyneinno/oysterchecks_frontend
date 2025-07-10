@@ -5,7 +5,7 @@
 
         <a class="btn border-0 btn-lg p-2 d-md-none" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
           aria-controls="offcanvasExample">
-          <i class="bi bi-text-left"></i>
+          <i class="bi bi-list"></i>
         </a>
         <img class="d-none d-md-inline" src="/images/logo.png" width="150" alt="">
         <span class="route-name small text-muted">{{ route.meta.name ?? '' }}</span>

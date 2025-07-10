@@ -16,7 +16,7 @@
                 <NewCheck_documentCheck v-if="newCheck.selectedType?.type == 'document_check'" />
                 <NewCheck_indentityCheck v-if="newCheck.selectedType?.type == 'identity_check'" />
                 <NewCheck_enhancedIndentityCheck v-if="newCheck.selectedType?.type == 'enhanced_identity_check'" />
-                <NewCheck_bureauCheck v-if="newCheck.selectedType?.type == 'age_estimation_check'" />
+                <NewCheck_ageEstimationCheck v-if="newCheck.selectedType?.type == 'age_estimation_check'" />
                 <NewCheck_proofOfAddressCheck v-if="newCheck.selectedType?.type == 'proof_of_address_check'" />
             </div>
         </div>
@@ -39,6 +39,7 @@ import NewCheck_documentCheck from './newCheck_documentCheck.vue';
 import NewCheck_indentityCheck from './newCheck_indentityCheck.vue';
 import NewCheck_enhancedIndentityCheck from './newCheck_enhancedIndentityCheck.vue';
 import NewCheck_proofOfAddressCheck from './newCheck_proofOfAddressCheck.vue';
+import NewCheck_ageEstimationCheck from './newCheck_ageEstimationCheck.vue';
 
 const clientsStore = useClientsStore()
 const { availableChecks, newCheck } = storeToRefs(clientsStore)

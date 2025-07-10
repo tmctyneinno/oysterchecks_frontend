@@ -3,7 +3,7 @@
     <div v-else>
         <div class="row g-3">
             <div class="col-12">
-                <div class="row g-2">
+                <div class="row g-2 justify-content-center align-items-center">
                     <div class="col-md-9">
                         <div class="fs-4">Create Clients</div>
                         <div class="small text-muted">Instantly generate a complete candidate profile ready for review
@@ -38,7 +38,7 @@
 
                             <template #item-name="item">
                                 <button @click="goToClientsDetails(item.id, item.client_id)"
-                                    class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-decoration-non text-capitalize">
+                                    class="text-theme btn btn-link cursor-pointer hover-tiltY p-0 border-0 text-nowrap text-capitalize">
                                     {{ item.name }}
                                 </button>
                             </template>

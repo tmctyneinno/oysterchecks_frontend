@@ -46,14 +46,14 @@
                             <div class="xsmall text-danger">{{ errors?.telephone }}</div>
                         </div>
 
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-label">
                                 Mobile
                                 <redAsteric />
                             </div>
                             <CustomPhoneField :size="'normal'" placeholder="" v-model="mobile" />
                             <div class="xsmall text-danger">{{ errors?.mobile }}</div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-6">
                             <div class="form-label">
@@ -75,7 +75,7 @@
                         </div>
 
 
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <div class="form-label">
                                 Email
                                 <redAsteric />
@@ -143,11 +143,11 @@ const validationRules = {
         'Invalid format (e.g., +1234567890)',
         (value) => { return helperFunctions.validatePhoneNo(value) }
     ),
-    mobile: yup.string().required('Phone Number is required').test(
-        'phone-format',
-        'Invalid format (e.g., +1234567890)',
-        (value) => { return helperFunctions.validatePhoneNo(value) }
-    ),
+    // mobile: yup.string().required('Phone Number is required').test(
+    //     'phone-format',
+    //     'Invalid format (e.g., +1234567890)',
+    //     (value) => { return helperFunctions.validatePhoneNo(value) }
+    // ),
 
 };
 
@@ -159,27 +159,26 @@ const [email, emailAttr] = defineField('email');
 const [first_name, first_nameAttr] = defineField('first_name');
 const [last_name, last_nameAttr] = defineField('last_name');
 const [telephone, telephone_Attr] = defineField('telephone');
-const [mobile, mobileAttr] = defineField('mobile');
+// const [mobile, mobileAttr] = defineField('mobile');
 const [dob, dobAttr] = defineField('dob');
 const [country, countryAttr] = defineField('country');
 
 
 
 
-const addClient = handleSubmit(async (values) => {
+const addClient = handleSubmit(async (values: any) => {
 
     try {
         const newClient = {
             type: "person",
             email: values.email.trim().toLowerCase(),
-            mobile: values.mobile.replace(/\s+/g, ''),
             telephone: values.telephone.replace(/\s+/g, ''),
+            mobile: values.telephone.replace(/\s+/g, ''),
             joinedDate: helperFunctions.dateDisplay(new Date(), 'YYYY-MM-DD'),
             personDetails: {
                 firstName: values.first_name.trim(),
                 lastName: values.last_name.trim(),
                 dob: helperFunctions.dateDisplay(new Date(values.dob), 'YYYY-MM-DD'),
-                // @ts-ignore
                 nationality: values.country?.isoCode
 
             }
@@ -196,7 +195,6 @@ const addClient = handleSubmit(async (values) => {
         helperFunctions.toast(err.response?.message ?? 'Could not create Client, Something went wrong', 'error')
     }
 })
-
 
 
 const openModal = ref<any>(null)

@@ -6,10 +6,10 @@
                 <i @click="isAddingNew = false" class="bi bi-arrow-left cursor-pointer"></i>
                 Add New Address
             </span>
-            <span v-if="isLoadingAddresses" class="text-warning ms-3">
+            <!-- <span v-if="isLoadingAddresses" class="text-warning ms-3">
                 <span class="spinner-border spinner-border-sm" role="status"> </span> please Wait..
 
-            </span>
+            </span> -->
             <button v-if="!isAddingNew" @click="openNewAddressForm"
                 class="btn btn-sm btn-outline-dark float-end rounded-4 ">
                 <i class="bi bi-plus"></i> Add New Address
