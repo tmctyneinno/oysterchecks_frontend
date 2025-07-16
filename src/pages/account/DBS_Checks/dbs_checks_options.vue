@@ -9,7 +9,7 @@
                 <li v-for="({ value, title, desc }, index) in DBSCheckTypes" :key="index" class="list-group-item">
                     <div @click="selectedDBSType = value" class="d-flex cursor-pointer hover-tiltX">
                         <div class="col-  me-3">
-                            <i v-if="selectedDBSType == value" class="bi bi-circle-fill text-theme fs-5"></i>
+                            <i v-if="selectedDBSType == value" class="bi bi-check-circle-fill text-theme fs-5"></i>
                             <i v-else class="bi bi-circle fs-5"></i>
                         </div>
                         <div class="col">
