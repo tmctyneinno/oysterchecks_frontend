@@ -27,13 +27,14 @@
                         </button>
                     </li>
 
-                    <li class="nav-item" role="presentation">
+                    <!-- <li class="nav-item" role="presentation">
                         <button class="nav-link" id="tab4-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button"
                             role="tab" aria-controls="tab4" aria-selected="false">
                             Team
                         </button>
-                    </li>
+                    </li> -->
                 </ul>
+
 
                 <!-- Tab panes -->
                 <div class="tab-content pt-4">
@@ -41,12 +42,10 @@
                         <Profile />
                     </div>
                     <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-                        <!-- <Notifications /> -->
-                        <Profile />
+                        <Notifications />
                     </div>
                     <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                        <!-- <Password_security /> -->
-                        <Profile />
+                        <Password_security />
                     </div>
 
                     <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">

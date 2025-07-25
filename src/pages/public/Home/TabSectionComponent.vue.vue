@@ -41,9 +41,9 @@
                             public-facing roles or who hold positions of authority.
                         </p>
                         <div class="my-3">
-                            <button class="btn btn-theme p-2 px-3 rounded-4 hover-tiltX">
+                            <router-link class="btn btn-theme p-2 px-3 rounded-4 hover-tiltX" to="/login">
                                 Get Started Now <i class="bi bi-arrow-right"></i>
-                            </button>
+                            </router-link>
                         </div>
                     </div>
 
@@ -73,9 +73,9 @@
                             public-facing roles or who hold positions of authority.
                         </p>
                         <div class="my-3">
-                            <button class="btn btn-theme p-2 px-3 rounded-4 hover-tiltX">
+                            <router-link class="btn btn-theme p-2 px-3 rounded-4 hover-tiltX" to="/login">
                                 Get Started Now <i class="bi bi-arrow-right"></i>
-                            </button>
+                            </router-link>
                         </div>
                     </div>
 
@@ -100,9 +100,9 @@
                             public-facing roles or who hold positions of authority.
                         </p>
                         <div class="my-3">
-                            <button class="btn btn-theme p-2 px-3 rounded-4 hover-tiltX">
+                            <router-link class="btn btn-theme p-2 px-3 rounded-4 hover-tiltX" to="/login">
                                 Get Started Now <i class="bi bi-arrow-right"></i>
-                            </button>
+                            </router-link>
                         </div>
                     </div>
 

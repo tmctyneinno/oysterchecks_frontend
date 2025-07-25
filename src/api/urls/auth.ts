@@ -25,11 +25,12 @@ export default {
         return $instance.post(`auth/login-google`, JSON.stringify(data))
     },
 
-    updateProfile(data: any) {
-        return $instance.post(`profile/update`, JSON.stringify(data))
+    profileUpdate(data: any) {
+        return $instance.post(`auth/profile/update`, JSON.stringify(data))
     },
 
-    resetPassword(obj: FormData) {
-        return $instanceForm.post(`reset/password`, obj)
+
+    changePassword(obj: FormData) {
+        return $instanceForm.post(`auth/change/password`, obj)
     },
 }

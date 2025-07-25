@@ -111,18 +111,15 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
 import helperFunctions from '@/stores/helperFunctions';
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import CustomTextField from '@/components/Inputs/customTextField.vue';
 import CustomPhoneField from '@/components/Inputs/customPhoneField.vue';
 import CustomPasswordField from '@/components/Inputs/customPasswordField.vue';
 import { useStorage } from '@vueuse/core';
 
-
 const router = useRouter()
 
 const tempRegisterStorage = useStorage<any>('oysterTempRegData', null, localStorage);
-
 
 // form and validation
 const validationRules = {

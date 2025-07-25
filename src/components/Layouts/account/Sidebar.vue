@@ -8,7 +8,7 @@
             class="bi bi-box-arrow-left me-1"></i> Logout</div>
         <div class="dropdown-menu dropdown-menu-end border-0" aria-labelledby="triggerId">
           <a @click="authStore.logout()" class="dropdown-item text-danger bg-transparent" href="#">
-            Logout
+            Logout ?
           </a>
         </div>
       </div>

@@ -10,9 +10,9 @@
                             <div class="text-white">
                                 {{ info }}
                             </div>
-                            <button class="btn btn-light mt-3 rounded-4 py-2 text-theme hover-tiltX">
+                            <router-link class="btn btn-light mt-3 rounded-4 py-2 text-theme hover-tiltX" to="/login">
                                 Get Started now!
-                            </button>
+                            </router-link>
                         </div>
                         <div class="col-lg-6">
                             <img class="side-img animate__animated animate__slideInUp" :src="image" alt="">
