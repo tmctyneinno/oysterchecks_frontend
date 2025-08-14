@@ -8,53 +8,74 @@
 
         <ClientHeadComponent />
 
-        <div v-if="!newCheck.adding" class="col-12">
-            <div class="card min-vh-50 border-0 rounded-4">
-                <div class="card-header bg-transparent border-0">
-                    <span class="fw-500"> Checks </span>
+        <div class="col-12 transition" :class="{ 'col-lg-8': showCheckDetails }">
+            <div v-if="!newCheck.adding">
+                <div class="card min-vh-50 border-0 rounded-4">
+                    <div class="card-header bg-transparent border-0">
+                        <span class="fw-500"> Checks </span>
 
-                    <button @click="newCheck.adding = true" class="btn btn-sm btn-dark float-end rounded-4 ">
-                        <i class="bi bi-plus-lg"></i> New Check
-                    </button>
+                        <button @click="newCheck.adding = true" class="btn btn-sm btn-dark float-end rounded-4 ">
+                            <i class="bi bi-plus-lg"></i> New Check
+                        </button>
 
-                </div>
-                <div class="card-body">
-                    <EasyDataTable show-index alternating :headers="headers" :items="items" buttons-pagination
-                        :loading="itemsLoading" v-model:server-options="serverOptions"
-                        :server-items-length="serverItemsLength">
-                        <template #header="header">
-                            <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
-                        </template>
+                    </div>
+                    <div class="card-body">
+                        <EasyDataTable show-index alternating :headers="headers" :items="items" buttons-pagination
+                            :loading="itemsLoading" v-model:server-options="serverOptions"
+                            :server-items-length="serverItemsLength">
+                            <template #header="header">
+                                <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
+                            </template>
 
-                        <template #empty-message>
-                            <EmptyDataComponent :text="'No Checks'" />
-                        </template>
-
-
-                        <template #item-status="item">
-                            <span class="p-1 px-2 rounded-3" :style="{
-                                backgroundColor: clientsStore.statusShader(item.status).bg,
-                                color: clientsStore.statusShader(item.status).color
-                            }">
-                                {{ item.status }}
-                            </span>
-                        </template>
-
-                        <template #item-created_at="item">
-                            <span> {{ helperFunctions.dateTimeDisplay(item.created_at) }} </span>
-                        </template>
+                            <template #empty-message>
+                                <EmptyDataComponent :text="'No Checks'" />
+                            </template>
 
 
-                        <template #item-action="item">
-                            <span class="text-theme fw-600 cursor-pointer hover-tiltY"
-                                @click="showDetails(item)">Details</span>
-                        </template>
-                    </EasyDataTable>
+                            <template #item-status="item">
+                                <span class="p-1 px-2 rounded-3" :style="{
+                                    backgroundColor: clientsStore.statusShader(item.status).bg,
+                                    color: clientsStore.statusShader(item.status).color
+                                }">
+                                    {{ item.status }}
+                                </span>
+                            </template>
+
+                            <template #item-created_at="item">
+                                <span> {{ helperFunctions.dateTimeDisplay(item.created_at) }} </span>
+                            </template>
+
+
+                            <template #item-action="item">
+                                <span class="text-theme fw-600 cursor-pointer hover-tiltY" @click="showDetails(item)">
+                                    Status</span>
+                            </template>
+                        </EasyDataTable>
+                    </div>
                 </div>
             </div>
+
+            <NewChecksIndex v-else />
         </div>
 
-        <NewChecksIndex v-else />
+        <section id="details-section" class="col-lg-4 animate__animated animate__slideInUp animate__fast">
+            <div v-if="showCheckDetails" class="card border-0 h-100 rounded-4">
+                <div class="card-header border-0 bg-transparent">
+                    Check's Details
+                    <div @click="closeDetails" class="float-end">
+                        <i class="bi bi-x-lg cursor-pointer"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div v-if="isFetchingDetails">
+                        <ComponentLoading />
+                    </div>
+                    <div v-else>
+                        <CheckDetailsDisplay :data="checkDetails" />
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
 </template>
@@ -70,6 +91,11 @@ import EmptyDataComponent from '@/components/emptyDataComponent.vue';
 import ClientsSkeleton from '@/components/skeletonLoaders/clientsSkeleton.vue';
 import ClientHeadComponent from '../Clients/clientHeadComponent.vue';
 import NewChecksIndex from './NewChecks/newChecksIndex.vue';
+import ComponentLoading from '@/components/componentLoading.vue';
+import CheckDetailsDisplay from './checkDetailsDisplay.vue';
+import { useWindowSize } from '@vueuse/core'
+
+const windowSize = useWindowSize()
 
 const clientsStore = useClientsStore()
 const { clientExistingChecks, newCheck } = storeToRefs(clientsStore)
@@ -140,11 +166,37 @@ watch(() => newCheck.value.adding, (newValue) => {
 })
 
 
-const isSaving = ref<boolean>(false);
 
+// showing Check Details
+const showCheckDetails = ref<boolean>(false)
+const isFetchingDetails = ref<boolean>(false)
+const checkDetails = ref<any>({})
+const detailsCardTop = ref<any>(null)
 async function showDetails(item: any) {
-    const { data } = await api.checkDetails(item.service_reference)
+    try {
+        showCheckDetails.value = true
+        const el = document.getElementById('details-section');
+        if (el && windowSize.width.value <= 576) {
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+        isFetchingDetails.value = true
+        const { data } = await api.checkDetails(item.service_reference)
+        checkDetails.value = data
+        getChecks()
+
+    }
+    catch (error: any) { }
+    finally { isFetchingDetails.value = false }
 }
 
+
+function closeDetails() {
+    showCheckDetails.value = false
+    checkDetails.value = {}
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
 
 </script>

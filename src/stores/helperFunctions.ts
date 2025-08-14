@@ -325,5 +325,22 @@ export default {
             t: Date.now(),
             v: 1,
         };
-    }
+    },
+
+    resolveCamelCaseLabel(str: any) {
+        return !str ? '' :
+            str.replace(/([a-z])([A-Z])/g, '$1 $2')      // between lowercase and uppercase
+                .replace(/([A-Z])([A-Z][a-z])/g, '$1 $2') // between capital letter groups like 'XMLHttp' → 'XML Http'
+                .replace(/([a-zA-Z])(\d+)/g, '$1 $2');   // between letters and numbers
+    },
+
+    resolveSnakeCaseLabel(str: any) {
+        return !str ? '' :
+            str.replace(/[_\-]+/g, ' ')                     // Replace underscores/hyphens with spaces
+                .replace(/([a-z])([A-Z])/g, '$1 $2')         // camelCase or PascalCase spacing
+                .replace(/([a-zA-Z])(\d+)/g, '$1 $2')        // Letter followed by digit
+                .replace(/\s+/g, ' ')                        // Collapse multiple spaces
+                .trim()                                      // Trim ends
+                .replace(/\b\w/g, (c: string) => c.toUpperCase());     // Capitalize each word
+    },
 }

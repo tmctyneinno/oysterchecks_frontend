@@ -1,5 +1,5 @@
 <template>
-    <div class=" d-none d-md-block small ps-1 pt-2">
+    <div class=" d-none d-md-block ps-1 pt-2">
         <section v-for="({ title, group }) in sections" :key="group" class="mb-3">
             <div class="text-muted">{{ title }}</div>
             <ul class="list-group list-group-flush">

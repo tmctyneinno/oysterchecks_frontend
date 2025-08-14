@@ -135,6 +135,10 @@ button:focus,
 }
 
 
+.transition{
+  transition: all ease-in-out 0.4s;
+}
+
 .hover-tiltX:hover {
   transform: translateX(5px);
 }

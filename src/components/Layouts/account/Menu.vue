@@ -60,7 +60,7 @@ const toggleMenu = (index: any) => {
 .nav-link {
     transition: all ease-in-out 0.4s;
     color: var(--vt-c-white);
-    font-size: small;
+    /* font-size: small; */
 }
 
 .nav-link:not(.submenu) {

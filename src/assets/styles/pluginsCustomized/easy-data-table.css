@@ -21,6 +21,7 @@
     background: transparent !important;
     color: var(--dynamic-color) !important;
     border-color: var(--bs-border-color) !important;
+    font-size: medium;
   }
   
   .vue3-easy-data-table__main.fixed-header th {
