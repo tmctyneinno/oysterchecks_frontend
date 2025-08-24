@@ -143,8 +143,8 @@ const servicesLinks: { name: string, link: string }[] = [
 }
 
 .nav-item a {
-    font-size: 13px;
-    font-weight: 600;
+    /* font-size: 13px; */
+    /* font-weight: 600; */
     transition: all 0.3s ease-in-out 0s;
     color: #cecbcb !important;
     text-decoration: none;
@@ -194,9 +194,15 @@ const servicesLinks: { name: string, link: string }[] = [
 }
 
 
+
+
 @media (min-width: 767px) {
     .dropdown:hover .dropdown-menu {
         display: block;
+    }
+
+    .dropdown-toggle::after {
+        display: none;
     }
 }
 

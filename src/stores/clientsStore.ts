@@ -81,11 +81,11 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     }
 
     const countryName = (isoCode: string): string | undefined => {
-        return Country.getCountryByCode(isoCode)?.name
+        return Country.getCountryByCode(isoCode)?.name ?? '-'
     }
 
     const stateName = (StateISO: string, CountryISO: string): string | undefined => {
-        return State.getStateByCodeAndCountry(StateISO, CountryISO)?.name
+        return State.getStateByCodeAndCountry(StateISO, CountryISO)?.name ?? '-'
     }
 
     const resources = reactive<{
@@ -118,11 +118,11 @@ export const useClientsStore = defineStore('adminClientsStore', () => {
     }
 
     async function getClientDetails(client_id: string) {
-        if (!clientDetails.value)
-            try {
-                const { data } = await api.getClient(client_id)
-                clientDetails.value = data
-            } catch (error) { }
+        // if (!clientDetails.value)
+        try {
+            const { data } = await api.getClient(client_id)
+            clientDetails.value = data
+        } catch (error) { }
     }
 
 

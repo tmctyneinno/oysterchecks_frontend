@@ -37,6 +37,22 @@
             </div>
         </li>
 
+        <li class="list-group-item d-none">
+            <fieldset v-if="data?.input?.address" class="border bg-light rounded-3 pb-3 px-3 mb-4">
+                <legend class="text-muted float-none xsmall p-0 px-2 w-auto">
+                    ADDRESS
+                </legend>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent small"
+                        v-for="([key, value], index) in displayValues(data.input.address)">
+                        <strong class="text-capitalize">{{ key }}</strong>
+                        <div>{{ value }}</div>
+                    </li>
+                </ul>
+            </fieldset>
+        </li>
+
+
     </ul>
 
 </template>
@@ -57,6 +73,11 @@ const prop = defineProps({
     }
 })
 
+
+const displayValues = (object: any) => {
+    const propertiesNotToDisplay = ['id', 'createdAt', 'updatedAt', 'clientId']
+    return Object.entries(object).filter(([key]) => !propertiesNotToDisplay.includes(key))
+}
 
 </script>
 

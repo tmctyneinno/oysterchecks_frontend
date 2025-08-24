@@ -10,6 +10,10 @@ export default {
         return $instance.post(`clients`, JSON.stringify(data))
     },
 
+    updateClient(data: any, id: string) {
+        return $instance.patch(`clients/${id}`, JSON.stringify(data))
+    },
+
     getClient(id: string) {
         return $instance.get(`clients/${id}`)
     },

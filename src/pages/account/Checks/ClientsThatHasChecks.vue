@@ -49,7 +49,7 @@
 
                             <template #item-no_of_checks="item">
                                 <span>
-                                    <span class="badge rounded-pill text-bg-secondary">
+                                    <span class="badge rounded-pill text-bg-light fw-light">
                                         {{ item.no_of_checks }}
                                     </span>
 

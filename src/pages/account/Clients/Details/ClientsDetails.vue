@@ -46,13 +46,11 @@ onMounted(() => {
 
 const isLoadingDetails = ref<boolean>(false)
 async function getClientDetails() {
-    try {
-        isLoadingDetails.value = true
-        const client_id = route.query?.refId as string
-        const { data } = await api.getClient(client_id)
-        clientsStore.clientDetails = data
-    } catch (error) { }
-    finally { isLoadingDetails.value = false }
+    isLoadingDetails.value = true
+    const client_id = route.query?.refId as string
+    await clientsStore.getClientDetails(client_id)
+    isLoadingDetails.value = false
+
 }
 </script>
 
