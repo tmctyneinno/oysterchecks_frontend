@@ -88,6 +88,12 @@
                     <div class="small text-muted">Created On</div>
                     <span>{{ helperFunctions.dateTimeDisplay(clientDetails?.created_at ?? '') }}</span>
                 </div>
+
+
+                <div v-if="!isEditing" class="col-md-4">
+                    <div class="small text-muted">Last Updated</div>
+                    <span>{{ helperFunctions.dateTimeDisplay(clientDetails?.updated_at ?? '') }}</span>
+                </div>
                 <!-- <div class="col-md-4">
                     <div class="small text-muted">SSN Number (US Only)</div>
                     <span v-if="!isEditing">Nil</span>
