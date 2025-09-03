@@ -55,7 +55,10 @@
                                 <!-- <button class="btn-sm border-0 bg-transparent text-info-emphasis hover-tiltY">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button> -->
-                                <button @click="deleteClient(item.id)"
+                                <span v-if="item.isDeleteing" class="spinner-border spinner-border-sm text-danger"
+                                    role="status" aria-hidden="true"></span>
+
+                                <button v-else @click="deleteClient(item.id)"
                                     class="btn-sm border-0 bg-transparent text-danger-emphasis hover-tiltY">
                                     <i class="bi bi-trash3"></i>
                                 </button>
@@ -166,11 +169,33 @@ function goToClientsDetails(id: string, client_id: string) {
 
 }
 
-function deleteClient(id: any) {
-    helperFunctions.confirmDelete('Entire Record will be deleted?', '', 'Yes, Delete')
-        .then((confirm) => {
-            if (confirm.value) {
 
+
+function deleteClient(id: any) {
+
+    helperFunctions.confirmDelete('Entire Record will be deleted?', '', 'Yes, Delete')
+        .then(async (confirm) => {
+            if (confirm.value) {
+                try {
+
+                    // Set loading state
+                    items.value = items.value.map(item =>
+                        item.id === id ? { ...item, isDeleteing: true } : item
+                    );
+
+                    await api.deleteClient(id)
+                    helperFunctions.toast('Client Deleted Successfully', 'success')
+
+                    getClients()
+                } catch (error) {
+                    helperFunctions.toast('Could not delete Client', 'error')
+                }
+                finally {
+                    // Reset loading state
+                    items.value = items.value.map(item =>
+                        item.id === id ? { ...item, isDeleteing: false } : item
+                    );
+                }
             }
         })
 }

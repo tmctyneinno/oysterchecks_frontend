@@ -14,6 +14,10 @@ export default {
         return $instance.patch(`clients/${id}`, JSON.stringify(data))
     },
 
+    deleteClient(id: string) {
+        return $instance.delete(`clients/${id}`)
+    },
+
     getClient(id: string) {
         return $instance.get(`clients/${id}`)
     },

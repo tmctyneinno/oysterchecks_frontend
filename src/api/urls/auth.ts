@@ -17,6 +17,10 @@ export default {
         return $instance.post(`auth/login`, JSON.stringify(data))
     },
 
+    logout() {
+        return $instance.get(`auth/logout`)
+    },
+
     profile() {
         return $instance.get(`auth/profile`)
     },

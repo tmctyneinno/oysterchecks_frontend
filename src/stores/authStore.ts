@@ -22,9 +22,12 @@ export const useAuthStore = defineStore('authStore', () => {
         window.location.reload();
     }
 
-    function logout() {
+    async function logout() {
+        try { await api.logout() } catch (error) { }
+
         Cookies.remove(cookieValues.tokenName);
         token.value = '';
+
         window.location.reload()
     }
 
