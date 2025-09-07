@@ -3,10 +3,9 @@
         <div class="card-header bg-transparent border-0">
             <span class="fw-500">Audit Log</span>
 
-
         </div>
         <div class="card-body">
-            <EasyDataTable show-index alternating :headers="headers" :items="sampleData.ClientsAuditLog"
+            <EasyDataTable :loading="isLoadingData" show-index alternating :headers="headers" :items="items"
                 buttons-pagination>
                 <template #header="header">
                     <span>{{ header.text == '#' ? 'S/N' : header.text }}</span>
@@ -19,14 +18,15 @@
                     </div>
                 </template>
 
-                <template #item-event="item">
-                    <div>Address was updated</div>
-                    <div>ID: {{ item.id_no }}</div>
+                <template #item-created_at="item">
+                    {{ helperFunctions.dateTimeDisplay(item.created_at) }}
+
                 </template>
 
-                <template #item-action="item">
+                <!-- <template #item-action="item">
                     <a @click="showDetails(item)" href="#">Details</a>
-                </template>
+                </template> -->
+
             </EasyDataTable>
         </div>
     </div>
@@ -36,23 +36,41 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useClientsStore } from '@/stores/clientsStore';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import sampleData from '@/stores/sample_data.json'
 import type { Header, Item } from 'vue3-easy-data-table';
 import ImageCircle from '@/components/ImageCircle.vue';
+import api from '@/api';
+import helperFunctions from '@/stores/helperFunctions';
+import ComponentLoading from '@/components/componentLoading.vue';
 
 const clientsStore = useClientsStore()
 const { clientDetails } = storeToRefs(clientsStore)
 
 const headers = ref<Header[]>([
-    { text: 'User', value: 'user', sortable: true },
-    { text: 'Action', value: 'event', sortable: true },
-    { text: 'Date', value: 'date', sortable: true },
-    { text: 'Action', value: 'action' },
+    { text: 'Action', value: 'tags', sortable: true },
+    { text: 'Date', value: 'created_at', sortable: true },
+    // { text: 'Action', value: 'action' },
 ])
 
+onMounted(() => {
+    getAudits()
+})
 
-const isAddingNew = ref<boolean>(false)
+const isLoadingData = ref<boolean>(false)
+const items = ref<any[]>([])
+async function getAudits() {
+    try {
+        isLoadingData.value = true
+        const { data } = await api.getClientAudits(clientDetails.value.id)
+        items.value = data
+
+    } catch (error) { }
+    finally { isLoadingData.value = false }
+}
+
+
+
 
 function showDetails(item: any) {
 }

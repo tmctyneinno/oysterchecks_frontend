@@ -37,4 +37,8 @@ export default {
     changePassword(obj: FormData) {
         return $instanceForm.post(`auth/change/password`, obj)
     },
+
+    getClientAudits(id: string) {
+        return $instanceForm.get(`auth/client-audits/${id}`)
+    },
 }
